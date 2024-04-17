@@ -1,4 +1,4 @@
-package ImmortalBilly.GameExceptions;
+package GameExceptions;
 
 public class GameException {
 }
