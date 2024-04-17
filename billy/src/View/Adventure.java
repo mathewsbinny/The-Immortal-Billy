@@ -1,4 +1,4 @@
-package ImmortalBilly.View;
+package View;
 
 public class Adventure {
 }

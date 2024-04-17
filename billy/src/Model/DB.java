@@ -1,4 +1,4 @@
-package ImmortalBilly.Model;
+package Model;
 
 public abstract class DB {
 }

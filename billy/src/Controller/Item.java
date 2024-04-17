@@ -1,4 +1,4 @@
-package ImmortalBilly.Controller;
+package Controller;
 
 public class Item {
 }
