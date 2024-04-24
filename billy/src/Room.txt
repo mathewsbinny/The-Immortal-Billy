@@ -9,48 +9,70 @@ CREATE TABLE Room (
     roomVisited       INTEGER NOT NULL
 );
 
-INSERT INTO Room (
-	roomID, 
-	roomRegion, 
-	roomRandomization,
-	roomType, 
-	roomName, 
-	roomDescription, 
-	roomVisited
-)
+INSERT INTO Room (roomID, roomRegion, roomRandomization,roomType, roomName, roomDescription, roomVisited) VALUES ('1', 'Center', 'NULL', 'normal', 'Central Hub', 'In front of you are four archways, each a distinct color: red to the North, tan to the West, green to the South, and blue to the East. There is also a sealed-heavy door with four dimly glowing gemstones embedded into it, each matching one of the archways. Which direction would you like to go?', 0);
 
-VALUES
-('1', 'Center', 'NULL', 'normal', 'Central Hub', 'In front of you are four archways, each a distinct color: red to the North, tan to the West, green to the South, and blue to the East. There is also a sealed-heavy door with four dimly glowing gemstones embedded into it, each matching one of the archways. Which direction would you like to go?', '0'),
-('2', 'Earth', 'NULL', 'special', 'Earth District Gate', 'In front of you looms the entrance to a massive cave. It smells damp. Glowing moss hangs down, threatening to brush against your head and face.', '0'),
-('3', 'Water', 'NULL', 'special', 'Water District Gate', 'Drops of water fall from the gray clouds looming above. Your shoes are wet and puddled. You are surrounded by enormous rock formations. A small, luminous pearl is encrusted in a clam in front of you. Behind you, there is a small opening.', '0'), 
-('4', 'Air', 'NULL', 'normal', 'Air District Gate', 'As you step through the tan passageway, you are filled with the sensation of becoming lighter. Before you can fully understand what is happening, you are violently lifted high into the clouds until being placed upon a small floating piece of land.', '0'),
-('5', 'Fire', 'NULL', 'special', 'Fire District Gate', 'As you step through the red archway, you start to feel warmth. In front of you stands a glowing altar with a red-hot hand coaxing you to grab it.', '0'),
-('6', 'Earth', 'Earth1', 'puzzle', 'Soil Room', 'You stand on freshly turned earth, damp and rich. It is warm beneath your feet. Three burlap bags sit in the center of the room.', '0'), 
-('7', 'Earth', 'E1', 'battle', 'Mountain Heights', 'Suddenly, you feel lightheaded, and when you look around, you have been transported to the top of a mountain. Before you stalks a great beast made of clay and iron.', '0'),
-('8', 'Earth', 'E2', 'battle', 'Stone Room', 'Gravel crunches as you creep between boulders. Suddenly there is a noise—you've been found by stone goblins! ', '0'),
-('9', 'Earth', 'E2', 'battle', 'The Mushroom', 'In a damp and narrow room, you find the walls suspiciously yielding. White mycelium creeps across your feet, keeping you locked in place. Can you really fight a monster whose body engulfs you? ', '0'), 
-('10', 'Earth', 'E1', 'normal', 'Craggy Cliffs', 'While nimbly climbing up a steep cliff, rocks crumble under your feet. You expect the worst, but instead land in a small hollow atop a chest. Its rusted lock opens easily, and you discover a long-lost item. ', '0'),
-('11', 'Earth', 'Earth2', 'puzzle', 'Creepy Cavern', 'You can’t see. All around you is black air. When you stretch your arms out you feel nothing except bumpy wet rock. And it seems to be growing closer.', '0'),
-('12', 'Earth', 'NULL', 'battle', 'Eternal Sepulcher', 'Walking between stone pillars, you enter a crypt where human remains lie scattered, bones ground to shards by a vast unknown force. When you turn you notice one of the statues has moved...', '0'), 
-('13', 'Water', 'Water1', 'puzzle', 'Waterfall Cave', 'You have entered a cave with a waterfall cascading from the center. The walls are ridden with stalactite. The formations seem particularly sharp and threatening. Bioluminescent fungi bathe the cave in an eerie blue light. Iridescent sap drips from the tops of the fungi. It looks poisonous.  ', '0'),
-('14', 'Water', 'Water2', 'puzzle', 'Mermaid Lagoon', 'The sweet fragrance of blooming flowers permeates the air. The wind whispers a wistful song. There is a crystalline lagoon here. Green scales seem to shimmer beneath the surface. An old board of wood has the words “Make a wish’ engraved on it.', '0'),
-('15', 'Water', 'W1', 'battle', 'Coral Reef', 'You are submerged underwater. Light still filters through the surface. Bright, colorful corals adorn the sea floor. Sea anemones charge the water with electric energy. Vicious snapping clams are visible among the sprays of sea creatures and marine plants.  ', '0'), 
-('16', 'Water', 'W2', 'special', 'Hot Spring', 'You discover a peaceful hot spring. Mineral-rich steam escapes from the body of water. The steam is inviting and warm. You feel therapeutic waves radiating from the spring.  ', '0'),
-('17', 'Water', 'W1', 'special', 'Frozen Tundra', 'Shimmering ice and snow extend as far as the eye can see. Jagged mountains cast black shadows in your direction. Glacial streams wind through the icy terrain.  ', '0'),
-('18', 'Water', 'W2', 'battle', 'Seaweed Cove', 'A swamp-green color clouds your vision. The thick scent of fish and green sludge fills your nostrils. Strong rope-like clusters of seaweed sway with the ocean tide. These strands seem indestructible. Something tells you they are alive and sentient. ', '0'), 
-('19', 'Water', 'NULL', 'battle', 'Deep Sea', 'You are suspended in the depths of a cruel ocean. It is dark and the cold is numbing. You hear a violent swishing noise erupting somewhere below you. A blinding fluorescent purple light emerges. When your eyes adjust to the change, you see the almighty jellyfish medusa charging towards you.  ', '0'),
-('20', 'Air', 'A1', 'battle', 'Dust Bowl', 'As you approach this bowl-shaped island, the sounds of wind violently rushing around you grow louder and louder. As the current flops you onto the dusty baren ground, you see tornado billows in the distance. One of these catches your eye as it’s approaching you, this one is alive and unfriendly. ', '0'),
-('21', 'Air', 'A1', 'battle', 'Treetop Village', 'The current did not treat you gently when it flung you into this thick tree. As you fall from branch to branch, your foot is grabbed by rope, and you hang upside down. Only after managing to wiggle your foot free and land on a hard, wooden platform do you hear a shrill voice say, “You trespass in the land of Neith, prepare to pay for your desecration of her temple.”  ', '0'), 
-('22', 'Air', 'A2', 'battle', 'Flying Ship', 'This current feels a lot gentler than the ones before. It takes you high above the clouds and you glide through the air. Right as your guard falls, you start to nosedive into dark, ominous clouds. You're welcomed by heavy rain and the crash of thunder. You can make up from down, left from right and your ha- WHAM! You crash into the wet wooden floor of a moving ship. As you get to your feet you here a grizzled voice say, “Aye boys, we caught a live one here!” ', '0'),
-('23', 'Air', 'Air1', 'puzzle', 'Metallic Dome', 'After flying for a short time, the current dumps you into a dome shaped metallic structure. This seems like the remains of a futuristic ship. In front of you stands a panel containing 7 buttons, each a distinct color. ', '0'),
-('24', 'Air', 'Air2', 'puzzle', 'Island of Reeds', 'This current is different, you’re flowing up and down in a rhythmic fashion. This gradual rhythm increases until it crescendos and you are launched onto this peaceful island. On this island, you are surrounded by a field of reeds that are gently humming with breeze. ', '0'), 
-('25', 'Air', 'A2', 'special', 'Harmonious Plateau', 'This current is a like a lullaby, cradling you gently before placing you onto this Island, in front of you sits a chest with holes bored into it. The wind is flowing through them and creating a harmonious tune. ', '0'),
-('26', 'Air', 'NULL', 'battle', 'Elemental Plane', 'While flying through this current, you hear a crashing voice, “Your time playing in my domain is over”. A shadowy portal opens to intercept you in the current. Upon falling through the portal, you land on hard ground. In front of you stands a great lightning elemental with a golden crown on his head. ', '0'),
-('27', 'Fire', 'Fire1', 'puzzle', 'The Scraggly Bush', 'Inside this dark room, you see an old bush that has been ripped up from the ground and left to parish ', '0'), 
-('28', 'Fire', 'F1', 'battle', 'Elemental Dome', 'Inside the dome, light and color dance around faster and faster until joining together to because animate. The new creature that stands in front of you does not like you intruding in his domain ', '0'),
-('29', 'Fire', 'F2', 'battle', 'Goblin Burrow', 'As you crawl through the small hole in the wall, you begin to hear two shrill voices enthralled in argument get closer and closer. As you reach the end of the tunnel you peer into a small burrow where two luminescent goblins are squabbling over a caught mouse. ', '0'),
-('30', 'Fire', 'F2', 'battle', 'Candle Room', 'A room with hundreds of small, lit candles. As you approach then center, the candles slowly collect into a sentient mass and charge at you ', '0'), 
-('31', 'Fire', 'Fire2', 'puzzle', 'Forge Room', 'Inside the dim stone room, you see the old, abandoned tools of a blacksmith and forge that has long lain cold. ', '0'),
-('32', 'Fire', 'F1', 'special', 'Chest Room', 'Upon opening the gilded door, you are met by an appreciative deep gnome who shows his appreciation for his saviors by leading you to a lavishly decorated chest. ', '0'),
-('33', 'Fire', 'NULL', 'battle', 'Dragon's Lair', 'Once you manage to open the heavy door, the smell of ash and sulfur fills your nostrils. As you slink inside the vault, you are greeted by a booming voice, “Who dares enter the lair of the Forger of Chains”. In front of you stands the great dragon Kraige with smoke billowing out her nostrils.  ', '0'), 
-('34', 'Throne', 'NULL', 'battle', 'Throne Room of the Elementals', 'You step into the murky darkness with caution...', '0');
+INSERT INTO Room (roomID, roomRegion, roomRandomization,roomType, roomName, roomDescription, roomVisited) VALUES ('2', 'Earth', 'NULL', 'special', 'Earth District Gate', 'In front of you looms the entrance to a massive cave. It smells damp. Glowing moss hangs down, threatening to brush against your head and face.', 0);
+
+INSERT INTO Room (roomID, roomRegion, roomRandomization,roomType, roomName, roomDescription, roomVisited) VALUES ('3', 'Water', 'NULL', 'special', 'Water District Gate', 'Drops of water fall from the gray clouds looming above. Your shoes are wet and puddled. You are surrounded by enormous rock formations. A small, luminous pearl is encrusted in a clam in front of you. Behind you, there is a small opening.', 0);
+
+INSERT INTO Room (roomID, roomRegion, roomRandomization,roomType, roomName, roomDescription, roomVisited) VALUES ('4', 'Air', 'NULL', 'normal', 'Air District Gate', 'As you step through the tan passageway, you are filled with the sensation of becoming lighter. Before you can fully understand what is happening, you are violently lifted high into the clouds until being placed upon a small floating piece of land.', 0);
+
+INSERT INTO Room (roomID, roomRegion, roomRandomization,roomType, roomName, roomDescription, roomVisited) VALUES ('5', 'Fire', 'NULL', 'special', 'Fire District Gate', 'As you step through the red archway, you start to feel warmth. In front of you stands a glowing altar with a red-hot hand coaxing you to grab it.', 0);
+
+INSERT INTO Room (roomID, roomRegion, roomRandomization,roomType, roomName, roomDescription, roomVisited) VALUES ('6', 'Earth', 'Earth1', 'puzzle', 'Soil Room', 'You stand on freshly turned earth, damp and rich. It is warm beneath your feet. Three burlap bags sit in the center of the room.', 0);
+
+INSERT INTO Room (roomID, roomRegion, roomRandomization,roomType, roomName, roomDescription, roomVisited) VALUES ('7', 'Earth', 'E1', 'battle', 'Mountain Heights', 'Suddenly, you feel lightheaded, and when you look around, you have been transported to the top of a mountain. Before you stalks a great beast made of clay and iron.', 0);
+
+INSERT INTO Room (roomID, roomRegion, roomRandomization,roomType, roomName, roomDescription, roomVisited) VALUES ('8', 'Earth', 'E2', 'battle', 'Stone Room', 'Gravel crunches as you creep between boulders. Suddenly there is a noise—you've been found by stone goblins! ', 0);
+
+INSERT INTO Room (roomID, roomRegion, roomRandomization,roomType, roomName, roomDescription, roomVisited) VALUES ('9', 'Earth', 'E2', 'battle', 'The Mushroom', 'In a damp and narrow room, you find the walls suspiciously yielding. White mycelium creeps across your feet, keeping you locked in place. Can you really fight a monster whose body engulfs you? ', 0);
+
+INSERT INTO Room (roomID, roomRegion, roomRandomization,roomType, roomName, roomDescription, roomVisited) VALUES ('10', 'Earth', 'E1', 'normal', 'Craggy Cliffs', 'While nimbly climbing up a steep cliff, rocks crumble under your feet. You expect the worst, but instead land in a small hollow atop a chest. Its rusted lock opens easily, and you discover a long-lost item. ', 0);
+
+INSERT INTO Room (roomID, roomRegion, roomRandomization,roomType, roomName, roomDescription, roomVisited) VALUES ('11', 'Earth', 'Earth2', 'puzzle', 'Creepy Cavern', 'You can’t see. All around you is black air. When you stretch your arms out you feel nothing except bumpy wet rock. And it seems to be growing closer.', 0);
+
+INSERT INTO Room (roomID, roomRegion, roomRandomization,roomType, roomName, roomDescription, roomVisited) VALUES ('12', 'Earth', 'NULL', 'battle', 'Eternal Sepulcher', 'Walking between stone pillars, you enter a crypt where human remains lie scattered, bones ground to shards by a vast unknown force. When you turn you notice one of the statues has moved...', 0);
+
+INSERT INTO Room (roomID, roomRegion, roomRandomization,roomType, roomName, roomDescription, roomVisited) VALUES ('13', 'Water', 'Water1', 'puzzle', 'Waterfall Cave', 'You have entered a cave with a waterfall cascading from the center. The walls are ridden with stalactite. The formations seem particularly sharp and threatening. Bioluminescent fungi bathe the cave in an eerie blue light. Iridescent sap drips from the tops of the fungi. It looks poisonous.  ', 0);
+
+INSERT INTO Room (roomID, roomRegion, roomRandomization,roomType, roomName, roomDescription, roomVisited) VALUES ('14', 'Water', 'Water2', 'puzzle', 'Mermaid Lagoon', 'The sweet fragrance of blooming flowers permeates the air. The wind whispers a wistful song. There is a crystalline lagoon here. Green scales seem to shimmer beneath the surface. An old board of wood has the words “Make a wish’ engraved on it.', 0);
+
+INSERT INTO Room (roomID, roomRegion, roomRandomization,roomType, roomName, roomDescription, roomVisited) VALUES ('15', 'Water', 'W1', 'battle', 'Coral Reef', 'You are submerged underwater. Light still filters through the surface. Bright, colorful corals adorn the sea floor. Sea anemones charge the water with electric energy. Vicious snapping clams are visible among the sprays of sea creatures and marine plants.  ', 0);
+
+INSERT INTO Room (roomID, roomRegion, roomRandomization,roomType, roomName, roomDescription, roomVisited) VALUES ('16', 'Water', 'W2', 'special', 'Hot Spring', 'You discover a peaceful hot spring. Mineral-rich steam escapes from the body of water. The steam is inviting and warm. You feel therapeutic waves radiating from the spring.  ', 0);
+
+INSERT INTO Room (roomID, roomRegion, roomRandomization,roomType, roomName, roomDescription, roomVisited) VALUES ('17', 'Water', 'W1', 'special', 'Frozen Tundra', 'Shimmering ice and snow extend as far as the eye can see. Jagged mountains cast black shadows in your direction. Glacial streams wind through the icy terrain.  ', 0);
+
+INSERT INTO Room (roomID, roomRegion, roomRandomization,roomType, roomName, roomDescription, roomVisited) VALUES ('18', 'Water', 'W2', 'battle', 'Seaweed Cove', 'A swamp-green color clouds your vision. The thick scent of fish and green sludge fills your nostrils. Strong rope-like clusters of seaweed sway with the ocean tide. These strands seem indestructible. Something tells you they are alive and sentient. ', 0);
+
+INSERT INTO Room (roomID, roomRegion, roomRandomization,roomType, roomName, roomDescription, roomVisited) VALUES ('19', 'Water', 'NULL', 'battle', 'Deep Sea', 'You are suspended in the depths of a cruel ocean. It is dark and the cold is numbing. You hear a violent swishing noise erupting somewhere below you. A blinding fluorescent purple light emerges. When your eyes adjust to the change, you see the almighty jellyfish medusa charging towards you.  ', 0);
+
+INSERT INTO Room (roomID, roomRegion, roomRandomization,roomType, roomName, roomDescription, roomVisited) VALUES ('20', 'Air', 'A1', 'battle', 'Dust Bowl', 'As you approach this bowl-shaped island, the sounds of wind violently rushing around you grow louder and louder. As the current flops you onto the dusty baren ground, you see tornado billows in the distance. One of these catches your eye as it’s approaching you, this one is alive and unfriendly. ', 0);
+
+INSERT INTO Room (roomID, roomRegion, roomRandomization,roomType, roomName, roomDescription, roomVisited) VALUES ('21', 'Air', 'A1', 'battle', 'Treetop Village', 'The current did not treat you gently when it flung you into this thick tree. As you fall from branch to branch, your foot is grabbed by rope, and you hang upside down. Only after managing to wiggle your foot free and land on a hard, wooden platform do you hear a shrill voice say, “You trespass in the land of Neith, prepare to pay for your desecration of her temple.”  ', 0);
+
+INSERT INTO Room (roomID, roomRegion, roomRandomization,roomType, roomName, roomDescription, roomVisited) VALUES ('22', 'Air', 'A2', 'battle', 'Flying Ship', 'This current feels a lot gentler than the ones before. It takes you high above the clouds and you glide through the air. Right as your guard falls, you start to nosedive into dark, ominous clouds. You're welcomed by heavy rain and the crash of thunder. You can make up from down, left from right and your ha- WHAM! You crash into the wet wooden floor of a moving ship. As you get to your feet you here a grizzled voice say, “Aye boys, we caught a live one here!” ', 0);
+
+INSERT INTO Room (roomID, roomRegion, roomRandomization,roomType, roomName, roomDescription, roomVisited) VALUES ('23', 'Air', 'Air1', 'puzzle', 'Metallic Dome', 'After flying for a short time, the current dumps you into a dome shaped metallic structure. This seems like the remains of a futuristic ship. In front of you stands a panel containing 7 buttons, each a distinct color. ', 0);
+
+INSERT INTO Room (roomID, roomRegion, roomRandomization,roomType, roomName, roomDescription, roomVisited) VALUES ('24', 'Air', 'Air2', 'puzzle', 'Island of Reeds', 'This current is different, you’re flowing up and down in a rhythmic fashion. This gradual rhythm increases until it crescendos and you are launched onto this peaceful island. On this island, you are surrounded by a field of reeds that are gently humming with breeze. ', 0);
+
+INSERT INTO Room (roomID, roomRegion, roomRandomization,roomType, roomName, roomDescription, roomVisited) VALUES ('25', 'Air', 'A2', 'special', 'Harmonious Plateau', 'This current is a like a lullaby, cradling you gently before placing you onto this Island, in front of you sits a chest with holes bored into it. The wind is flowing through them and creating a harmonious tune. ', 0);
+
+INSERT INTO Room (roomID, roomRegion, roomRandomization,roomType, roomName, roomDescription, roomVisited) VALUES ('26', 'Air', 'NULL', 'battle', 'Elemental Plane', 'While flying through this current, you hear a crashing voice, “Your time playing in my domain is over”. A shadowy portal opens to intercept you in the current. Upon falling through the portal, you land on hard ground. In front of you stands a great lightning elemental with a golden crown on his head. ', 0);
+
+INSERT INTO Room (roomID, roomRegion, roomRandomization,roomType, roomName, roomDescription, roomVisited) VALUES ('27', 'Fire', 'Fire1', 'puzzle', 'The Scraggly Bush', 'Inside this dark room, you see an old bush that has been ripped up from the ground and left to parish ', 0);
+
+INSERT INTO Room (roomID, roomRegion, roomRandomization,roomType, roomName, roomDescription, roomVisited) VALUES ('28', 'Fire', 'F1', 'battle', 'Elemental Dome', 'Inside the dome, light and color dance around faster and faster until joining together to because animate. The new creature that stands in front of you does not like you intruding in his domain ', 0);
+
+INSERT INTO Room (roomID, roomRegion, roomRandomization,roomType, roomName, roomDescription, roomVisited) VALUES ('29', 'Fire', 'F2', 'battle', 'Goblin Burrow', 'As you crawl through the small hole in the wall, you begin to hear two shrill voices enthralled in argument get closer and closer. As you reach the end of the tunnel you peer into a small burrow where two luminescent goblins are squabbling over a caught mouse. ', 0);
+
+INSERT INTO Room (roomID, roomRegion, roomRandomization,roomType, roomName, roomDescription, roomVisited) VALUES ('30', 'Fire', 'F2', 'battle', 'Candle Room', 'A room with hundreds of small, lit candles. As you approach then center, the candles slowly collect into a sentient mass and charge at you ', 0);
+
+INSERT INTO Room (roomID, roomRegion, roomRandomization,roomType, roomName, roomDescription, roomVisited) VALUES ('31', 'Fire', 'Fire2', 'puzzle', 'Forge Room', 'Inside the dim stone room, you see the old, abandoned tools of a blacksmith and forge that has long lain cold. ', 0);
+
+INSERT INTO Room (roomID, roomRegion, roomRandomization,roomType, roomName, roomDescription, roomVisited) VALUES ('32', 'Fire', 'F1', 'special', 'Chest Room', 'Upon opening the gilded door, you are met by an appreciative deep gnome who shows his appreciation for his saviors by leading you to a lavishly decorated chest. ', 0);
+
+INSERT INTO Room (roomID, roomRegion, roomRandomization,roomType, roomName, roomDescription, roomVisited) VALUES ('33', 'Fire', 'NULL', 'battle', 'Dragon's Lair', 'Once you manage to open the heavy door, the smell of ash and sulfur fills your nostrils. As you slink inside the vault, you are greeted by a booming voice, “Who dares enter the lair of the Forger of Chains”. In front of you stands the great dragon Kraige with smoke billowing out her nostrils.  ', 0);
+
+INSERT INTO Room (roomID, roomRegion, roomRandomization,roomType, roomName, roomDescription, roomVisited) VALUES ('34', 'Throne', 'NULL', 'battle', 'Throne Room of the Elementals', 'You step into the murky darkness with caution...', 0);
