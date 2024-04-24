@@ -1,4 +1,25 @@
 package Model;
 
-public class SQLiteDB {
+import java.sql.DriverManager;
+
+public class SQLiteDB extends DB{
+
+    public SQLiteDB() throws java.sql.SQLException, ClassNotFoundException {
+        sJdbc = "jdbc:sqlite";
+        sDriverName = "org.sqlite.JDBC";
+        Class.forName(sDriverName);
+        sDbUrl = sJdbc + ":" + dbName;
+        conn = DriverManager.getConnection(sDbUrl);
+    }
+
+    public SQLiteDB(String dbName) throws java.sql.SQLException, ClassNotFoundException {
+        sJdbc = "jdbc:sqlite";
+        sDriverName = "org.sqlite.JDBC";
+        Class.forName(sDriverName);
+        sDbUrl = sJdbc + ":" + dbName;
+        this.dbName = dbName;
+        conn = DriverManager.getConnection(sDbUrl);
+    }
+
+
 }
