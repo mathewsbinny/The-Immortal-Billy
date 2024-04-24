@@ -37,6 +37,10 @@ public class Account {
         this.accountPassword = accountPassword;
     } // End setAccountPassword Method
 
+    public String buildPasswordCombination(){
+        return  accountUserName + " - " + accountPassword;
+    }
+
 
 
 
