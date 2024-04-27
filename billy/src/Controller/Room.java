@@ -7,19 +7,13 @@ import java.util.ArrayList;
 public class Room {
 
     private int roomID;
-
     private String roomRegion;
-
+    private String roomRandomization;
     private String roomType;
-
     private String roomName;
-
-    private String roomDesc;
-
+    private String roomDescription;
     private ArrayList<Exit> exitList;
-
     private int roomIsVisited;
-
     private RoomDB rdb;
 
 
@@ -43,6 +37,14 @@ public class Room {
         this.roomRegion = roomRegion;
     }
 
+    public String getRoomRandomization() {
+        return roomRandomization;
+    }
+
+    public void setRoomRandomization(String roomRandomization) {
+        this.roomRandomization = roomRandomization;
+    }
+
     public String getRoomType() {
         return roomType;
     }
@@ -59,12 +61,12 @@ public class Room {
         this.roomName = roomName;
     }
 
-    public String getRoomDesc() {
-        return roomDesc;
+    public String getRoomDescription() {
+        return roomDescription;
     }
 
-    public void setRoomDesc(String roomDesc) {
-        this.roomDesc = roomDesc;
+    public void setRoomDescription(String roomDescription) {
+        this.roomDescription = roomDescription;
     }
 
     public ArrayList<Exit> getExitList() {
@@ -81,5 +83,19 @@ public class Room {
 
     public void setRoomIsVisited(int roomIsVisited) {
         this.roomIsVisited = roomIsVisited;
+    }
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "roomID=" + roomID +
+                ", roomRegion='" + roomRegion + '\'' +
+                ", roomType='" + roomType + '\'' +
+                ", roomName='" + roomName + '\'' +
+                ", roomDesc='" + roomDescription + '\'' +
+                ", exitList=" + exitList +
+                ", roomIsVisited=" + roomIsVisited +
+                ", rdb=" + rdb +
+                '}';
     }
 }
