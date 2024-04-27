@@ -1,0 +1,10 @@
+CREATE TABLE Tracking (
+    trackCharacterID     INTEGER PRIMARY KEY,
+    trackCharacterLevel  INTEGER,
+    trackRoomsVisited    INTEGER,
+    trackPlayTime        INTEGER,
+    trackMonstersKilled  INTEGER,
+    trackCharacterDeaths INTEGER
+);
+
+INSERT INTO Tracking (trackCharacterID, trackCharacterLevel, trackRoomsVisited, trackPlayTime, trackMonstersKilled, trackCharacterDeaths) INSERT ('1', '0', '0', '0', '0', '0');

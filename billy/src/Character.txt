@@ -1,0 +1,16 @@
+CREATE TABLE Character (
+    accountID            INTEGER REFERENCES Account (accountID) 
+                                 NOT NULL,
+    characterCurrentRoom INTEGER NOT NULL,
+    characterID          INTEGER NOT NULL,
+    characterName        TEXT    NOT NULL,
+    characterCurrentHP   REAL    NOT NULL,
+    characterMaxHP       REAL    NOT NULL,
+    characterMPLevel     INTEGER NOT NULL,
+    characterDP          REAL    NOT NULL,
+    characterAP          REAL    NOT NULL,
+    characterXP          INTEGER NOT NULL,
+    characterLevel       INTEGER NOT NULL
+);
+
+INSERT INTO Character (accountID, characterCurrentRoom, characterID, characterName, characterCurrentHP, characterMaxHP, characterMPLevel, characterDP, characterAP, characterXP, characterLevel) VALUES ('1', '1', '1', 'Billy', '100', '100', '1', '10', '25', '0', '1',);

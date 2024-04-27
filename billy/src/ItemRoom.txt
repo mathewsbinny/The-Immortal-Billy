@@ -1,0 +1,62 @@
+CREATE TABLE ItemRoom (
+    itemID INTEGER NOT NULL,
+    roomID INTEGER NOT NULL
+);
+
+INSERT INTO ItemRoom (itemID, roomID) VALUES ('1', '2');
+
+INSERT INTO ItemRoom (itemID, roomID) VALUES ('2', '10');
+
+INSERT INTO ItemRoom (itemID, roomID) VALUES ('3', '6');
+
+INSERT INTO ItemRoom (itemID, roomID) VALUES ('4', '7');
+
+INSERT INTO ItemRoom (itemID, roomID) VALUES ('5', '7');
+
+INSERT INTO ItemRoom (itemID, roomID) VALUES ('6', '8');
+
+INSERT INTO ItemRoom (itemID, roomID) VALUES ('7', '3');
+
+INSERT INTO ItemRoom (itemID, roomID) VALUES ('8', '17');
+
+INSERT INTO ItemRoom (itemID, roomID) VALUES ('9', '13');
+
+INSERT INTO ItemRoom (itemID, roomID) VALUES ('10', '15');
+
+INSERT INTO ItemRoom (itemID, roomID) VALUES ('11', '15');
+
+INSERT INTO ItemRoom (itemID, roomID) VALUES ('12', '18');
+
+INSERT INTO ItemRoom (itemID, roomID) VALUES ('13', '19');
+
+INSERT INTO ItemRoom (itemID, roomID) VALUES ('14', '23');
+
+INSERT INTO ItemRoom (itemID, roomID) VALUES ('15', '20');
+
+INSERT INTO ItemRoom (itemID, roomID) VALUES ('16', '25');
+
+INSERT INTO ItemRoom (itemID, roomID) VALUES ('17', '21');
+
+INSERT INTO ItemRoom (itemID, roomID) VALUES ('18', '22');
+
+INSERT INTO ItemRoom (itemID, roomID) VALUES ('19', '26');
+
+INSERT INTO ItemRoom (itemID, roomID) VALUES ('20', '25');
+
+INSERT INTO ItemRoom (itemID, roomID) VALUES ('21', '28');
+
+INSERT INTO ItemRoom (itemID, roomID) VALUES ('22', '29');
+
+INSERT INTO ItemRoom (itemID, roomID) VALUES ('23', '30');
+
+INSERT INTO ItemRoom (itemID, roomID) VALUES ('24', '33');
+
+INSERT INTO ItemRoom (itemID, roomID) VALUES ('25', '32');
+
+INSERT INTO ItemRoom (itemID, roomID) VALUES ('26', '12');
+
+INSERT INTO ItemRoom (itemID, roomID) VALUES ('27', '19');
+
+INSERT INTO ItemRoom (itemID, roomID) VALUES ('28', '26');
+
+INSERT INTO ItemRoom (itemID, roomID) VALUES ('29', '33');

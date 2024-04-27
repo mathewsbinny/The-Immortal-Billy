@@ -1,0 +1,36 @@
+CREATE TABLE AttackCharacter (
+    attackID          INTEGER PRIMARY KEY
+                              NOT NULL,
+    attackName        TEXT    NOT NULL,
+    attackUIType      TEXT    NOT NULL,
+    attackMonsterID   INTEGER,
+    attackMPLevel     INTEGER NOT NULL,
+    attackAddHP       REAL    NOT NULL,
+    attackAddAP       REAL    NOT NULL,
+    attackDescription TEXT    NOT NULL,
+    attackLearned     INTEGER NOT NULL
+);
+
+INSERT INTO AttackCharacter (attackID, attackName, attackUIType, attackMonsterID, attackMPLevel, attackAddHP, attackAddAP, attackDescription, attackLearned) VALUES ('1', 'Punch', 'Battle', NULL, '1', '0', '20', 'You throw a punch.', '0');
+
+INSERT INTO AttackCharacter (attackID, attackName, attackUIType, attackMonsterID, attackMPLevel, attackAddHP, attackAddAP, attackDescription, attackLearned) VALUES ('2', 'Quick Heal', 'Battle', '3', '1', '75', '0', 'You cast an emergency healing spell.', '0');
+
+INSERT INTO AttackCharacter (attackID, attackName, attackUIType, attackMonsterID, attackMPLevel, attackAddHP, attackAddAP, attackDescription, attackLearned) VALUES ('3', 'Heal', 'Nonbattle', '3', '2', '100', '0', 'You calmly perform a full healing spell suite to restore your health.', '0');
+
+INSERT INTO AttackCharacter (attackID, attackName, attackUIType, attackMonsterID, attackMPLevel, attackAddHP, attackAddAP, attackDescription, attackLearned) VALUES ('4', 'Aeon Threnody', 'Battle', '12', '3', '5', '100', 'You cast the spell of Aeon Threnody.', '0');
+
+INSERT INTO AttackCharacter (attackID, attackName, attackUIType, attackMonsterID, attackMPLevel, attackAddHP, attackAddAP, attackDescription, attackLearned) VALUES ('5', 'Tranquility', 'Battle', NULL, '5', '300', '0', 'You cast the expert healing spell of Tranquility.', '0');
+
+INSERT INTO AttackCharacter (attackID, attackName, attackUIType, attackMonsterID, attackMPLevel, attackAddHP, attackAddAP, attackDescription, attackLearned) VALUES ('6', 'Battle Meditate', 'Nonbattle', '5', '7', '400', '0', 'You feel magicka coursing through your veins as you enter Battle Meditation.', '0');
+
+INSERT INTO AttackCharacter (attackID, attackName, attackUIType, attackMonsterID, attackMPLevel, attackAddHP, attackAddAP, attackDescription, attackLearned) VALUES ('7', 'Gust', 'Battle', '7', '2', '45', '50', 'You cast a magical gust of wind.', '0');
+
+INSERT INTO AttackCharacter (attackID, attackName, attackUIType, attackMonsterID, attackMPLevel, attackAddHP, attackAddAP, attackDescription, attackLearned) VALUES ('8', 'Relentless Thunder', 'Battle', '14', '4', '0', '150', 'You cast a storm cloud over the opponent. It looks comical but it seems to be effective!', '0');
+
+INSERT INTO AttackCharacter (attackID, attackName, attackUIType, attackMonsterID, attackMPLevel, attackAddHP, attackAddAP, attackDescription, attackLearned) VALUES ('9', 'Fireball', 'Battle', '9', '4', '0', '175', 'You cast a fireball from your fingertips and watch it bounce aimlessly into your opponent's path.', '0');
+
+INSERT INTO AttackCharacter (attackID, attackName, attackUIType, attackMonsterID, attackMPLevel, attackAddHP, attackAddAP, attackDescription, attackLearned) VALUES ('10', 'Goblin Aura', 'Battle', '10', '1', '0', '40', 'You summon the ghost of a goblin. He doesn't look too pleased...', '0');
+
+INSERT INTO AttackCharacter (attackID, attackName, attackUIType, attackMonsterID, attackMPLevel, attackAddHP, attackAddAP, attackDescription, attackLearned) VALUES ('11', 'Wax Shot', 'Battle', '11', '3', '0', '75', 'You flare out your palm and a blast of countless melted wax beads shoot towards your opponent.', '0');
+
+INSERT INTO AttackCharacter (attackID, attackName, attackUIType, attackMonsterID, attackMPLevel, attackAddHP, attackAddAP, attackDescription, attackLearned) VALUES ('12', 'Firebreath', 'Battle', '15', '10', '0', '500', 'You summon a dragon familiar who envelopes you. You are with the dragon for a brief second as you breathe out a pulsating jet of fire towards your enemy...', '0');

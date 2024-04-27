@@ -1,0 +1,8 @@
+CREATE TABLE Account (
+    accountID       INTEGER PRIMARY KEY
+                            NOT NULL,
+    accountUsername TEXT    NOT NULL,
+    accountPassword TEXT    NOT NULL
+);
+
+INSERT INTO Account (accountID, accountUsername, accountPassword) VALUES ('1', 'admin', 'admin');
