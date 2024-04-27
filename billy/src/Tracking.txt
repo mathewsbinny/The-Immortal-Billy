@@ -1,10 +1,3 @@
-CREATE TABLE Tracking (
-    trackCharacterID     INTEGER PRIMARY KEY,
-    trackCharacterLevel  INTEGER,
-    trackRoomsVisited    INTEGER,
-    trackPlayTime        INTEGER,
-    trackMonstersKilled  INTEGER,
-    trackCharacterDeaths INTEGER
-);
+CREATE TABLE Tracking (trackCharacterID INTEGER PRIMARY KEY NOT NULL, trackCharacterLevel INTEGER NOT NULL, trackRoomsVisited INTEGER NOT NULL, trackPlayTime REAL NOT NULL, trackMonstersKilled INTEGER NOT NULL, trackCharacterDeaths INTEGER NOT NULL);
 
-INSERT INTO Tracking (trackCharacterID, trackCharacterLevel, trackRoomsVisited, trackPlayTime, trackMonstersKilled, trackCharacterDeaths) INSERT ('1', '0', '0', '0', '0', '0');
+INSERT INTO Tracking (trackCharacterID, trackCharacterLevel, trackRoomsVisited, trackPlayTime, trackMonstersKilled, trackCharacterDeaths) INSERT (1, 0, 0, '0', 0, 0);
