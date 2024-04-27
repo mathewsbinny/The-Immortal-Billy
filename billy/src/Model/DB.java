@@ -11,13 +11,20 @@ import java.sql.Statement;
 public abstract class DB {
     Account account = new Account();
 
-    protected String dbName = account.buildPasswordCombination(); //Change to make account create DB name
+    protected String dbName = "billy.db";  //account.buildPasswordCombination(); //Change to make account create DB name
     protected String sJdbc;
     protected String sDriverName;
     protected Connection conn;
     protected String sDbUrl;
     protected int timeout = 5;
 
+    /**
+     * Method: queryDB
+     * Purpose: read from the database
+     * @param sql
+     * @return ResultSet
+     * @throws SQLException
+     */
     public ResultSet queryDB(String sql) throws SQLException {
         ResultSet rs = null;
         Statement stmt = conn.createStatement();
@@ -26,12 +33,25 @@ public abstract class DB {
         return rs;
     }
 
+    /**
+     * Method: updateDB
+     * Purpose: Updates the database
+     * @param SQL
+     * @return boolean
+     * @throws SQLException
+     */
     public boolean updateDB(String SQL) throws SQLException {
         Statement stmt = conn.createStatement();
         boolean success = stmt.execute(SQL);
         return success;
     }
 
+    /**
+     * Method: count
+     * Purpose: Gets the count of records in the specified table
+     * @param table
+     * @return int
+     */
     public int count(String table){
         int cnt = 0;
         try{
@@ -45,6 +65,13 @@ public abstract class DB {
         return cnt;
     }
 
+    /**
+     * Method: getMaxValue
+     * Purpose: Gets max value for a particular field in a particular table
+     * @param columnName
+     * @param table
+     * @return int
+     */
     public int getMaxValue(String columnName, String table){
         int max = 0;
         try{
@@ -56,5 +83,13 @@ public abstract class DB {
             System.out.println(sqe.getMessage());
         }
         return max;
+    }
+
+    /**
+     * Method: close
+     * Purpose: Close the database connection
+     */
+    public void close() throws java.sql.SQLException {
+        conn.close();
     }
 }

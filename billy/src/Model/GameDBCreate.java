@@ -38,7 +38,7 @@ public class GameDBCreate {
             sDB = new SQLiteDB(dbName);
             FileReader fr;
             try{
-                fr = new FileReader("Character.txt");
+                fr = new FileReader("src/Character.txt");
                 Scanner inFile = new Scanner(fr);
                 while(inFile.hasNextLine()){
                     String sql = inFile.nextLine();
@@ -59,7 +59,7 @@ public class GameDBCreate {
             sDB = new SQLiteDB(dbName);
             FileReader fr;
             try{
-                fr = new FileReader("Room.txt");
+                fr = new FileReader("src/Room.txt");
                 Scanner inFile = new Scanner(fr);
                 while(inFile.hasNextLine()){
                     String sql = inFile.nextLine();
@@ -81,7 +81,7 @@ public class GameDBCreate {
             sDB = new SQLiteDB(dbName);
             FileReader fr;
             try{
-                fr = new FileReader("Exit.txt");
+                fr = new FileReader("src/Exit.txt");
                 Scanner inFile = new Scanner(fr);
                 while(inFile.hasNextLine()){
                     String sql = inFile.nextLine();
@@ -102,7 +102,7 @@ public class GameDBCreate {
             sDB = new SQLiteDB(dbName);
             FileReader fr;
             try{
-                fr = new FileReader("Monster.txt");
+                fr = new FileReader("src/Monster.txt");
                 Scanner inFile = new Scanner(fr);
                 while(inFile.hasNextLine()){
                     String sql = inFile.nextLine();
@@ -123,7 +123,7 @@ public class GameDBCreate {
             sDB = new SQLiteDB(dbName);
             FileReader fr;
             try{
-                fr = new FileReader("Item.txt");
+                fr = new FileReader("src/Item.txt");
                 Scanner inFile = new Scanner(fr);
                 while(inFile.hasNextLine()){
                     String sql = inFile.nextLine();
@@ -144,7 +144,7 @@ public class GameDBCreate {
             sDB = new SQLiteDB(dbName);
             FileReader fr;
             try{
-                fr = new FileReader("HelpMenu.txt");
+                fr = new FileReader("src/HelpMenu.txt");
                 Scanner inFile = new Scanner(fr);
                 while(inFile.hasNextLine()){
                     String sql = inFile.nextLine();
@@ -165,7 +165,7 @@ public class GameDBCreate {
             sDB = new SQLiteDB(dbName);
             FileReader fr;
             try{
-                fr = new FileReader("Tracking.txt");
+                fr = new FileReader("src/Tracking.txt");
                 Scanner inFile = new Scanner(fr);
                 while(inFile.hasNextLine()){
                     String sql = inFile.nextLine();
@@ -187,7 +187,7 @@ public class GameDBCreate {
             sDB = new SQLiteDB(dbName);
             FileReader fr;
             try{
-                fr = new FileReader("CharacterAttack.txt");
+                fr = new FileReader("src/CharacterAttack.txt");
                 Scanner inFile = new Scanner(fr);
                 while(inFile.hasNextLine()){
                     String sql = inFile.nextLine();
@@ -208,7 +208,7 @@ public class GameDBCreate {
             sDB = new SQLiteDB(dbName);
             FileReader fr;
             try{
-                fr = new FileReader("MonsterAttack.txt");
+                fr = new FileReader("src/MonsterAttack.txt");
                 Scanner inFile = new Scanner(fr);
                 while(inFile.hasNextLine()){
                     String sql = inFile.nextLine();
@@ -229,7 +229,7 @@ public class GameDBCreate {
             sDB = new SQLiteDB(dbName);
             FileReader fr;
             try{
-                fr = new FileReader("CharacterItem.txt");
+                fr = new FileReader("src/CharacterItem.txt");
                 Scanner inFile = new Scanner(fr);
                 while(inFile.hasNextLine()){
                     String sql = inFile.nextLine();
@@ -251,7 +251,7 @@ public class GameDBCreate {
             sDB = new SQLiteDB(dbName);
             FileReader fr;
             try{
-                fr = new FileReader("ItemRoom.txt");
+                fr = new FileReader("src/ItemRoom.txt");
                 Scanner inFile = new Scanner(fr);
                 while(inFile.hasNextLine()){
                     String sql = inFile.nextLine();
