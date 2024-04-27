@@ -1,0 +1,44 @@
+CREATE TABLE AttackMonster (
+    attackID          INTEGER PRIMARY KEY
+                              NOT NULL,
+    attackName        TEXT    NOT NULL,
+    attackMonsterID   INTEGER REFERENCES Monster (monsterID),
+    attackAddHP       REAL,
+    attackAddAP       REAL,
+    attackProbability REAL,
+    attackDescription TEXT
+);
+
+INSERT INTO AttackMonster (attackID, attackName, attackMonsterID, attackAddHP, attackAddAP, attackProbability, attackDescription) VALUES ('1', 'Attack', NULL, '0', '10', '0.5', 'The enemy slashes at you and knocks you to the ground.');
+
+INSERT INTO AttackMonster (attackID, attackName, attackMonsterID, attackAddHP, attackAddAP, attackProbability, attackDescription) VALUES ('2', 'Curse of the Clam', '4', '0', '25', '0.5', 'The clam snaps open and closed and you feel your life force being sucked away.');
+
+INSERT INTO AttackMonster (attackID, attackName, attackMonsterID, attackAddHP, attackAddAP, attackProbability, attackDescription) VALUES ('3', 'Ignite', '9', '0', '25', '0.5', 'You are set on fire.');
+
+INSERT INTO AttackMonster (attackID, attackName, attackMonsterID, attackAddHP, attackAddAP, attackProbability, attackDescription) VALUES ('4', 'Rockjab', '1', '0', '25', '0.5', 'Some pointed stones tear through the ground and jab you.');
+
+INSERT INTO AttackMonster (attackID, attackName, attackMonsterID, attackAddHP, attackAddAP, attackProbability, attackDescription) VALUES ('5', 'Zap', '13', '0', '30', '0.25', 'You feel electricity course through you as you are burnt to a near crisp.');
+
+INSERT INTO AttackMonster (attackID, attackName, attackMonsterID, attackAddHP, attackAddAP, attackProbability, attackDescription) VALUES ('6', 'Sunburst', '13', '0', '30', '0.25', 'The Jellyfish Medusa opens out its tentacles in a sunburst and a blinding light sears your eyes.');
+
+INSERT INTO AttackMonster (attackID, attackName, attackMonsterID, attackAddHP, attackAddAP, attackProbability, attackDescription) VALUES ('7', 'Angel's Eclipse', '12', '0', '45', '0.25', 'The Angel opens its wings and blocks out the sun as a swarms of stone flies burrow into you.');
+
+INSERT INTO AttackMonster (attackID, attackName, attackMonsterID, attackAddHP, attackAddAP, attackProbability, attackDescription) VALUES ('8', 'Avalanche', '12', '0', '35', '0.25', 'The Angel summons stones to pelt you.');
+
+INSERT INTO AttackMonster (attackID, attackName, attackMonsterID, attackAddHP, attackAddAP, attackProbability, attackDescription) VALUES ('9', 'Blue Jet', '15', '0', '20', '0.25', 'A hot blue jet of flame erupts from the jaws of the enemy, burning you.');
+
+INSERT INTO AttackMonster (attackID, attackName, attackMonsterID, attackAddHP, attackAddAP, attackProbability, attackDescription) VALUES ('10', 'Cauterize', '15', '100', '0', '0.1', 'The dragon lets out a soft pink jet of flame to cauterize its wounds.');
+
+INSERT INTO AttackMonster (attackID, attackName, attackMonsterID, attackAddHP, attackAddAP, attackProbability, attackDescription) VALUES ('11', 'Billowing Roar', '15', '0', '50', '0.1', 'The dragon roars a ear piearcing shriek, nearly rupturing your eardrums.');
+
+INSERT INTO AttackMonster (attackID, attackName, attackMonsterID, attackAddHP, attackAddAP, attackProbability, attackDescription) VALUES ('12', 'Static Shock', '14', '0', '30', '0.5', 'The Tempest Prince pokes you, sending a heartstopping shock coursing through your body.');
+
+INSERT INTO AttackMonster (attackID, attackName, attackMonsterID, attackAddHP, attackAddAP, attackProbability, attackDescription) VALUES ('13', 'Lightning Spear', '14', '0', '30', '0.25', 'A Zeusian spear of lighting arcs down from the sky towards you.');
+
+INSERT INTO AttackMonster (attackID, attackName, attackMonsterID, attackAddHP, attackAddAP, attackProbability, attackDescription) VALUES ('14', 'Fire Blast', '19', '0', '25', '0.25', 'The Demon Lord holds out a flame in his hand and blows it out at you.');
+
+INSERT INTO AttackMonster (attackID, attackName, attackMonsterID, attackAddHP, attackAddAP, attackProbability, attackDescription) VALUES ('15', 'Siren Scream', '17', '0', '50', '0.25', 'The Demon Lord lets out a heart rending screech.');
+
+INSERT INTO AttackMonster (attackID, attackName, attackMonsterID, attackAddHP, attackAddAP, attackProbability, attackDescription) VALUES ('16', 'Ice Spear', '17', '0', '50', '0.25', 'The Demon Lord raises his hands to the heavens and a spear of ice shoots down at you.');
+
+INSERT INTO AttackMonster (attackID, attackName, attackMonsterID, attackAddHP, attackAddAP, attackProbability, attackDescription) VALUES ('17', 'Stone Skin', '16', '100', '50', '0.1', 'The Demon Lord summons the very earth to join to his skin and be his armor.');

@@ -1,0 +1,26 @@
+CREATE TABLE HelpMenu (
+    hintID          INTEGER PRIMARY KEY
+                            NOT NULL,
+    hintName        TEXT    NOT NULL,
+    hintDescription TEXT    NOT NULL
+);
+
+INSERT INTO HelpMenu (hintID, hintName, hintDescription) VALUES ('1', 'Move Forward', 'The player moves ahead in the direction they are facing.');
+
+INSERT INTO HelpMenu (hintID, hintName, hintDescription) VALUES ('2', 'Move Backward', 'The player moves backwards towards the central hub room where they started.');
+
+INSERT INTO HelpMenu (hintID, hintName, hintDescription) VALUES ('3', 'Cast Spell', 'Opens a list of all the spells available to the player.');
+
+INSERT INTO HelpMenu (hintID, hintName, hintDescription) VALUES ('4', 'Open Inventory', 'Opens submenu where character can view, equip, or use items they collected.');
+
+INSERT INTO HelpMenu (hintID, hintName, hintDescription) VALUES ('5', 'Display Statistics', 'Open submenu where character statistics can be viewed, as well as how many keys they have collected.');
+
+INSERT INTO HelpMenu (hintID, hintName, hintDescription) VALUES ('6', 'Search for Items', 'Searches current room for items that can be added to inventory.');
+
+INSERT INTO HelpMenu (hintID, hintName, hintDescription) VALUES ('7', 'Help Menu', 'Opens submenu where player can view hints and command descriptions.');
+
+INSERT INTO HelpMenu (hintID, hintName, hintDescription) VALUES ('8', 'Level Up', 'Allows the player to level up depending on their XP total. They can choose what stat they want to increase: Max Health, Magic Proficiency, Attack Power, Defense');
+
+INSERT INTO HelpMenu (hintID, hintName, hintDescription) VALUES ('9', 'Attack', 'Used during battle for the character to perform a basic melee attack.');
+
+INSERT INTO HelpMenu (hintID, hintName, hintDescription) VALUES ('10', 'Use Item', 'Allows character to use a consumable item.');

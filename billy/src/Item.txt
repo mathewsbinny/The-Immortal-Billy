@@ -1,0 +1,14 @@
+CREATE TABLE Item (
+    itemRoomID       INTEGER REFERENCES Room (roomID),
+    itemID           INTEGER PRIMARY KEY
+                             NOT NULL,
+    itemName         TEXT    NOT NULL,
+    itemType         TEXT    NOT NULL,
+    itemElementType  TEXT,
+    itemHP           INTEGER,
+    itemMP           INTEGER,
+    itemDP           INTEGER,
+    itemAP           INTEGER,
+    itemSP           INTEGER,
+    itemIsConsumable INTEGER
+);
