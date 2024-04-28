@@ -5,17 +5,30 @@ import java.sql.SQLException;
 
 public class SQLiteDB extends DB{
 
-    public SQLiteDB() throws java.sql.SQLException, ClassNotFoundException {
+    /** Constructor: SQLiteDB
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+    public SQLiteDB() throws SQLException, ClassNotFoundException {
+        //Build the connection String
         sJdbc = "jdbc:sqlite";
         sDriverName = "org.sqlite.JDBC";
+        // register the driver
         Class.forName(sDriverName);
         sDbUrl = sJdbc + ":" + dbName;
         conn = DriverManager.getConnection(sDbUrl);
     }
 
-    public SQLiteDB(String dbName) throws java.sql.SQLException, ClassNotFoundException {
+    /** Constructor: SQLiteDB
+     * @param dbName
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+    public SQLiteDB(String dbName) throws SQLException, ClassNotFoundException {
+        //Build the connection String
         sJdbc = "jdbc:sqlite";
         sDriverName = "org.sqlite.JDBC";
+        // register the driver
         Class.forName(sDriverName);
         sDbUrl = sJdbc + ":" + dbName;
         this.dbName = dbName;
