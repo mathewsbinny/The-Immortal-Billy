@@ -1,142 +1,71 @@
 CREATE TABLE Exit (exitID INTEGER PRIMARY KEY NOT NULL, exitRoomID INTEGER NOT NULL, exitDirection TEXT NOT NULL, exitDestinationID INTEGER NOT NULL);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (1, 1, 'NORTH', 5);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (2, 1, 'WEST', 4);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (3, 1, 'SOUTH', 2);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (4, 1, 'EAST', 3);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (5, 1, 'UP', 34);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (6, 2, 'BACK', 1);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (7, 2, 'FORWARD', 0);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (8, 3, 'BACK', 1);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (9, 3, 'FORWARD', 0);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (10, 4, 'BACK', 1);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (11, 4, 'FORWARD', 0);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (12, 5, 'BACK', 1);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (13, 5, 'FORWARD', 0);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (14, 6, 'BACK', 2);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (15, 6, 'FORWARD', 7);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (16, 7, 'BACK', 6);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (17, 7, 'FORWARD', 10);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (18, 8, 'BACK', 11);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (19, 8, 'FORWARD', 9);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (20, 9, 'BACK', 8);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (21, 9, 'FORWARD', 12);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (22, 10, 'BACK', 7);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (23, 10, 'FORWARD', 12);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (24, 11, 'BACK', 2);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (25, 11, 'FORWARD', 8);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (26, 12, 'BACK', 0);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (27, 12, 'FORWARD', 1);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (28, 13, 'BACK', 3);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (29, 13, 'FORWARD', 15);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (30, 14, 'BACK', 3);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (31, 14, 'FORWARD', 18);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (32, 15, 'BACK', 13);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (33, 15, 'FORWARD', 17);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (34, 16, 'BACK', 18);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (35, 16, 'FORWARD', 19);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (36, 17, 'BACK', 15);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (37, 17, 'FORWARD', 19);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (38, 18, 'BACK', 14);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (39, 18, 'FORWARD', 16);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (40, 19, 'BACK', 0);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (41, 19, 'FORWARD', 1);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (42, 20, 'BACK', 23);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (43, 20, 'FORWARD', 21);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (44, 21, 'BACK', 20);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (45, 21, 'FORWARD', 26);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (46, 22, 'BACK', 25);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (47, 22, 'FORWARD', 26);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (48, 23, 'BACK', 4);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (49, 23, 'FORWARD', 20);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (50, 24, 'BACK', 4);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (51, 24, 'FORWARD', 25);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (52, 25, 'BACK', 24);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (53, 25, 'FORWARD', 22);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (54, 26, 'BACK', 0);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (55, 26, 'FORWARD', 1);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (56, 27, 'BACK', 5);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (57, 27, 'FORWARD', 28);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (58, 28, 'BACK', 27);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (59, 28, 'FORWARD', 32);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (60, 29, 'BACK', 30);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (61, 29, 'FORWARD', 33);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (62, 30, 'BACK', 31);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (63, 30, 'FORWARD', 29);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (64, 31, 'BACK', 0);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (65, 31, 'FORWARD', 30);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (66, 32, FORWARD', 33);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (67, 32, 'BACK', 28);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (68, 33, 'BACK', 0);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (69, 33, 'FORWARD', 1);
-
-INSERT INTO Exit (exitRoomID, exitDirection, exitDestinationID) VALUES (70, 34, 'BACK', 1);
-
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (1, 1, 'NORTH', 5);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (2, 1, 'WEST', 4);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (3, 1, 'SOUTH', 2);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (4, 1, 'EAST', 3);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (5, 1, 'UP', 34);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (6, 2, 'BACK', 1);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (7, 2, 'FORWARD', 0);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (8, 3, 'BACK', 1);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (9, 3, 'FORWARD', 0);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (10, 4, 'BACK', 1);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (11, 4, 'FORWARD', 0);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (12, 5, 'BACK', 1);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (13, 5, 'FORWARD', 0);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (14, 6, 'BACK', 2);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (15, 6, 'FORWARD', 7);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (16, 7, 'BACK', 6);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (17, 7, 'FORWARD', 10);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (18, 8, 'BACK', 11);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (19, 8, 'FORWARD', 9);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (20, 9, 'BACK', 8);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (21, 9, 'FORWARD', 12);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (22, 10, 'BACK', 7);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (23, 10, 'FORWARD', 12);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (24, 11, 'BACK', 2);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (25, 11, 'FORWARD', 8);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (26, 12, 'BACK', 0);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (27, 12, 'FORWARD', 1);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (28, 13, 'BACK', 3);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (29, 13, 'FORWARD', 15);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (30, 14, 'BACK', 3);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (31, 14, 'FORWARD', 18);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (32, 15, 'BACK', 13);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (33, 15, 'FORWARD', 17);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (34, 16, 'BACK', 18);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (35, 16, 'FORWARD', 19);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (36, 17, 'BACK', 15);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (37, 17, 'FORWARD', 19);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (38, 18, 'BACK', 14);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (39, 18, 'FORWARD', 16);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (40, 19, 'BACK', 0);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (41, 19, 'FORWARD', 1);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (42, 20, 'BACK', 23);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (43, 20, 'FORWARD', 21);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (44, 21, 'BACK', 20);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (45, 21, 'FORWARD', 26);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (46, 22, 'BACK', 25);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (47, 22, 'FORWARD', 26);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (48, 23, 'BACK', 4);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (49, 23, 'FORWARD', 20);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (50, 24, 'BACK', 4);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (51, 24, 'FORWARD', 25);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (52, 25, 'BACK', 24);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (53, 25, 'FORWARD', 22);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (54, 26, 'BACK', 0);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (55, 26, 'FORWARD', 1);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (56, 27, 'BACK', 5);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (57, 27, 'FORWARD', 28);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (58, 28, 'BACK', 27);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (59, 28, 'FORWARD', 32);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (60, 29, 'BACK', 30);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (61, 29, 'FORWARD', 33);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (62, 30, 'BACK', 31);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (63, 30, 'FORWARD', 29);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (64, 31, 'BACK', 0);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (65, 31, 'FORWARD', 30);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (66, 32, 'FORWARD', 33);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (67, 32, 'BACK', 28);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (68, 33, 'BACK', 0);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (69, 33, 'FORWARD', 1);
+INSERT INTO Exit (exitID, exitRoomID, exitDirection, exitDestinationID) VALUES (70, 34, 'BACK', 1);

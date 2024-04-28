@@ -13,8 +13,6 @@ public class Adventure {
          valid = false;
          System.out.println(ge.getMessage());
          }
-        gc.startDB();
-
 
         if (valid) {
 
