@@ -1,41 +1,21 @@
-CREATE TABLE Monster (monsterRoomID INTEGER REFERENCES Room (roomID) NOT NULL, monsterID         INTEGER PRIMARY KEY NOT NULL, monsterName TEXT NOT NULL, monsterCategory TEXT, monsterCurrentHP INTEGER NOT NULL, monsterMaxHP INTEGER NOT NULL, monsterDP INTEGER NOT NULL, monsterAP INTEGER NOT NULL, monsterBossPhase INTEGER, monsterIsDefeated INTEGER NOT NULL);
-
+CREATE TABLE Monster (monsterRoomID INTEGER REFERENCES Room (roomID) NOT NULL, monsterID INTEGER PRIMARY KEY NOT NULL, monsterName TEXT NOT NULL, monsterCategory TEXT, monsterCurrentHP INTEGER NOT NULL, monsterMaxHP INTEGER NOT NULL, monsterDP INTEGER NOT NULL, monsterAP INTEGER NOT NULL, monsterBossPhase INTEGER, monsterIsDefeated INTEGER NOT NULL);
 INSERT INTO Monster (monsterRoomID, monsterID, monsterName, monsterCategory, monsterCurrentHP, monsterMaxHP, monsterDP, monsterAP, monsterBossPhase, monsterIsDefeated) VALUES (7, 1, 'Earth Elemental', 'monster', 100, 100, 0, 25, NULL, 0);
-
 INSERT INTO Monster (monsterRoomID, monsterID, monsterName, monsterCategory, monsterCurrentHP, monsterMaxHP, monsterDP, monsterAP, monsterBossPhase, monsterIsDefeated) VALUES (8, 2, 'Stone Goblin', 'monster', 100, 100, 0, 25, NULL, 0);
-
 INSERT INTO Monster (monsterRoomID, monsterID, monsterName, monsterCategory, monsterCurrentHP, monsterMaxHP, monsterDP, monsterAP, monsterBossPhase, monsterIsDefeated) VALUES (9, 3, 'Sentient Fungus', 'monster', 100, 100, '0', 25, NULL, 0);
-
 INSERT INTO Monster (monsterRoomID, monsterID, monsterName, monsterCategory, monsterCurrentHP, monsterMaxHP, monsterDP, monsterAP, monsterBossPhase, monsterIsDefeated) VALUES (15, 4, 'Snapping Clam', 'monster', 100, 100, 0, 25, NULL, 0);
-
 INSERT INTO Monster (monsterRoomID, monsterID, monsterName, monsterCategory, monsterCurrentHP, monsterMaxHP, monsterDP, monsterAP, monsterBossPhase, monsterIsDefeated) VALUES (18, 5, 'Seaweed Goblin', 'monster', 100, 100, 0, 25, NULL, 0);
-
 INSERT INTO Monster (monsterRoomID, monsterID, monsterName, monsterCategory, monsterCurrentHP, monsterMaxHP, monsterDP, monsterAP, monsterBossPhase, monsterIsDefeated) VALUES (20, 6, 'Tornado Devil', 'monster', 100, 100, 0, 25, NULL, 0);
-
 INSERT INTO Monster (monsterRoomID, monsterID, monsterName, monsterCategory, monsterCurrentHP, monsterMaxHP, monsterDP, monsterAP, monsterBossPhase, monsterIsDefeated) VALUES (21, 7, 'Birdman', 'monster', 100, 100, 0, 25, NULL, 0);
-
 INSERT INTO Monster (monsterRoomID, monsterID, monsterName, monsterCategory, monsterCurrentHP, monsterMaxHP, monsterDP, monsterAP, monsterBossPhase, monsterIsDefeated) VALUES (22, 8, 'Storm Chaser', 'monster', 100, 100, 0, 25, NULL, 0);
-
 INSERT INTO Monster (monsterRoomID, monsterID, monsterName, monsterCategory, monsterCurrentHP, monsterMaxHP, monsterDP, monsterAP, monsterBossPhase, monsterIsDefeated) VALUES (28, 9, 'Fire Elemental', 'monster', 100, 100, 0, 25, NULL, 0);
-
 INSERT INTO Monster (monsterRoomID, monsterID, monsterName, monsterCategory, monsterCurrentHP, monsterMaxHP, monsterDP, monsterAP, monsterBossPhase, monsterIsDefeated) VALUES (29, 10, 'Fire Goblin', 'monster', 100, 100, 0, 25, NULL, 0);
-
 INSERT INTO Monster (monsterRoomID, monsterID, monsterName, monsterCategory, monsterCurrentHP, monsterMaxHP, monsterDP, monsterAP, monsterBossPhase, monsterIsDefeated) VALUES (30, 11, 'Wax Demon', 'monster', 100, 100, 0, 25, NULL, 0);
-
 INSERT INTO Monster (monsterRoomID, monsterID, monsterName, monsterCategory, monsterCurrentHP, monsterMaxHP, monsterDP, monsterAP, monsterBossPhase, monsterIsDefeated) VALUES (12, 12, 'The Stone Angel', 'miniboss', 1000, 1000, 30, 75, NULL, 0);
-
 INSERT INTO Monster (monsterRoomID, monsterID, monsterName, monsterCategory, monsterCurrentHP, monsterMaxHP, monsterDP, monsterAP, monsterBossPhase, monsterIsDefeated) VALUES (19, 13, 'Jellyfish Medusa', 'miniboss', 1000, 1000, 30, 75, NULL, 0);
-
 INSERT INTO Monster (monsterRoomID, monsterID, monsterName, monsterCategory, monsterCurrentHP, monsterMaxHP, monsterDP, monsterAP, monsterBossPhase, monsterIsDefeated) VALUES (26, 14, 'Tempest Prince Thallzar', 'miniboss', 1000, 1000, 30, 75, NULL, 0);
-
 INSERT INTO Monster (monsterRoomID, monsterID, monsterName, monsterCategory, monsterCurrentHP, monsterMaxHP, monsterDP, monsterAP, monsterBossPhase, monsterIsDefeated) VALUES (33, 15, 'Great Dragon Kraige', 'miniboss', 1000, 1000, 30, 75, NULL, 0);
-
 INSERT INTO Monster (monsterRoomID, monsterID, monsterName, monsterCategory, monsterCurrentHP, monsterMaxHP, monsterDP, monsterAP, monsterBossPhase, monsterIsDefeated) VALUES (34, 16, 'Demon Lord of Earth', 'boss', 500, 500, 50, 100, 1, 0);
-
 INSERT INTO Monster (monsterRoomID, monsterID, monsterName, monsterCategory, monsterCurrentHP, monsterMaxHP, monsterDP, monsterAP, monsterBossPhase, monsterIsDefeated) VALUES (34, 17, 'Demon Lord of Water', 'boss', 500, 500, 50, 100, 2, 0);
-
 INSERT INTO Monster (monsterRoomID, monsterID, monsterName, monsterCategory, monsterCurrentHP, monsterMaxHP, monsterDP, monsterAP, monsterBossPhase, monsterIsDefeated) VALUES (34, 18, 'Demon Lord of Air', 'boss', 500, 500, 50, 100, 3, 0);
-
 INSERT INTO Monster (monsterRoomID, monsterID, monsterName, monsterCategory, monsterCurrentHP, monsterMaxHP, monsterDP, monsterAP, monsterBossPhase, monsterIsDefeated) VALUES (34, 19, 'Demon Lord of Fire', 'boss', 500, 500, 50, 100, 4, 0);
-
 INSERT INTO Monster (monsterRoomID, monsterID, monsterName, monsterCategory, monsterCurrentHP, monsterMaxHP, monsterDP, monsterAP, monsterBossPhase, monsterIsDefeated) VALUES (34, 20, 'Demon King of All Elements', 'boss', 1000, 1000, 75, 150, 5, 0);

@@ -1,0 +1,2 @@
+CREATE TABLE PlayerInput(characterID int not null, input text not null);
+INSERT INTO PlayerInput(characterID, input) Values(1, '');

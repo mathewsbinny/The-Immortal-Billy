@@ -32,6 +32,11 @@ public class GameDBCreate {
         buildItemRoom();
         buildCharacterAttack();
         buildMonsterAttack();
+        buildPlayerInput();
+        buildPuzzle();
+        buildPuzzleReward();
+        buildPuzzleCollider();
+        buildPuzzleChoice();
     }
 
     public void buildCharacter() throws GameException {
@@ -42,6 +47,7 @@ public class GameDBCreate {
                 fr = new FileReader("src/Character.txt");
                 Scanner inFile = new Scanner(fr);
                 while(inFile.hasNextLine()){
+
                     String sql = inFile.nextLine();
                     sDB.updateDB(sql);
                 }
@@ -51,7 +57,7 @@ public class GameDBCreate {
             }
             sDB.close();
         }catch(SQLException | ClassNotFoundException e){
-            throw new GameException("Error reading db");
+            throw new GameException("Error reading db " + e.getMessage());
         }
     }
 
@@ -72,7 +78,7 @@ public class GameDBCreate {
             }
             sDB.close();
         }catch(SQLException | ClassNotFoundException e){
-            throw new GameException("Error reading db");
+            throw new GameException("Error reading db " + e.getMessage());
         }
     }
 
@@ -94,7 +100,7 @@ public class GameDBCreate {
             }
             sDB.close();
         }catch(SQLException | ClassNotFoundException e){
-            throw new GameException("Error reading db");
+            throw new GameException("Error reading db " + e.getMessage());
         }
     }
 
@@ -200,7 +206,7 @@ public class GameDBCreate {
             }
             sDB.close();
         }catch(SQLException | ClassNotFoundException e){
-            throw new GameException("Error reading db");
+            throw new GameException("Error reading db " + e.getMessage());
         }
     }
 
@@ -268,4 +274,110 @@ public class GameDBCreate {
         }
 
     }
+
+    public void buildPuzzle() throws GameException {
+        try{
+            sDB = new SQLiteDB(dbName);
+            FileReader fr;
+            try{
+                fr = new FileReader("src/Puzzle.txt");
+                Scanner inFile = new Scanner(fr);
+                while(inFile.hasNextLine()){
+                    String sql = inFile.nextLine();
+                    sDB.updateDB(sql);
+                }
+                inFile.close();
+            }catch(FileNotFoundException e){
+                throw new GameException("Puzzle.txt was not found");
+            }
+            sDB.close();
+        }catch(SQLException | ClassNotFoundException e){
+            throw new GameException("Error reading db");
+        }
+    }
+
+    public void buildPlayerInput() throws GameException {
+        try{
+            sDB = new SQLiteDB(dbName);
+            FileReader fr;
+            try{
+                fr = new FileReader("src/PlayerInput.txt");
+                Scanner inFile = new Scanner(fr);
+                while(inFile.hasNextLine()){
+                    String sql = inFile.nextLine();
+                    sDB.updateDB(sql);
+                }
+                inFile.close();
+            }catch(FileNotFoundException e){
+                throw new GameException("PlayerInput.txt was not found");
+            }
+            sDB.close();
+        }catch(SQLException | ClassNotFoundException e) {
+            throw new GameException("Error reading db");
+        }
+    }
+
+    public void buildPuzzleCollider() throws GameException {
+        try{
+            sDB = new SQLiteDB(dbName);
+            FileReader fr;
+            try{
+                fr = new FileReader("src/PuzzleCollider.txt");
+                Scanner inFile = new Scanner(fr);
+                while(inFile.hasNextLine()){
+                    String sql = inFile.nextLine();
+                    sDB.updateDB(sql);
+                }
+                inFile.close();
+            }catch(FileNotFoundException e){
+                throw new GameException("PuzzleCollider.txt was not found");
+            }
+            sDB.close();
+        }catch(SQLException | ClassNotFoundException e){
+            throw new GameException("Error reading db");
+        }
+    }
+
+    public void buildPuzzleReward() throws GameException {
+        try{
+            sDB = new SQLiteDB(dbName);
+            FileReader fr;
+            try{
+                fr = new FileReader("src/PuzzleReward.txt");
+                Scanner inFile = new Scanner(fr);
+                while(inFile.hasNextLine()){
+                    String sql = inFile.nextLine();
+                    sDB.updateDB(sql);
+                }
+                inFile.close();
+            }catch(FileNotFoundException e){
+                throw new GameException("PuzzleReward.txt was not found");
+            }
+            sDB.close();
+        }catch(SQLException | ClassNotFoundException e){
+            throw new GameException("Error reading db");
+        }
+    }
+
+    public void buildPuzzleChoice() throws GameException {
+        try{
+            sDB = new SQLiteDB(dbName);
+            FileReader fr;
+            try{
+                fr = new FileReader("src/PuzzleChoice.txt");
+                Scanner inFile = new Scanner(fr);
+                while(inFile.hasNextLine()){
+                    String sql = inFile.nextLine();
+                    sDB.updateDB(sql);
+                }
+                inFile.close();
+            }catch(FileNotFoundException e){
+                throw new GameException("PuzzleChoice.txt was not found");
+            }
+            sDB.close();
+        }catch(SQLException | ClassNotFoundException e){
+            throw new GameException("Error reading db");
+        }
+    }
+
 }

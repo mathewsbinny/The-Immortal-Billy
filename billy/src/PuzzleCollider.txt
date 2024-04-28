@@ -1,0 +1,12 @@
+CREATE TABLE PuzzleCollider(puzzleRoomID int not null, usedName text not null, isPuzzleValid boolean not null, isPhaseOver boolean not null, characterID int not null);
+INSERT INTO PuzzleCollider(puzzleRoomID, usedName, isPuzzleValid, isPhaseOver, characterID) Values(2, 'Investigate Bags', true, false, 0);
+INSERT INTO PuzzleCollider(puzzleRoomID, usedName, isPuzzleValid, isPhaseOver, characterID) Values(7, 'Feel Walls', true, false, 0);
+INSERT INTO PuzzleCollider(puzzleRoomID, usedName, isPuzzleValid, isPhaseOver, characterID) Values(10, 'Break Stalactite', true, false, 0);
+INSERT INTO PuzzleCollider(puzzleRoomID, usedName, isPuzzleValid, isPhaseOver, characterID) Values(11, 'Luminous Pearl', true, false, 0);
+INSERT INTO PuzzleCollider(puzzleRoomID, usedName, isPuzzleValid, isPhaseOver, characterID) Values(21, 'Inspect Panel', true, false, 0);
+INSERT INTO PuzzleCollider(puzzleRoomID, usedName, isPuzzleValid, isPhaseOver, characterID) Values(22, 'Gust', true, false, 0);
+INSERT INTO PuzzleCollider(puzzleRoomID, usedName, isPuzzleValid, isPhaseOver, characterID) Values(26, 'Stone Pot', true, false, 0);
+INSERT INTO PuzzleCollider(puzzleRoomID, usedName, isPuzzleValid, isPhaseOver, characterID) Values(30, 'Start Bickering', true, false, 0);
+INSERT INTO PuzzleCollider(puzzleRoomID, usedName, isPuzzleValid, isPhaseOver, characterID) Values(30, 'Fireball', true, false, 0);
+INSERT INTO PuzzleCollider(puzzleRoomID, usedName, isPuzzleValid, isPhaseOver, characterID) Values(30, 'Cover In Wax', true, false, 0);
+INSERT INTO PuzzleCollider(puzzleRoomID, usedName, isPuzzleValid, isPhaseOver, characterID) Values(30, 'Breathe Fire', true, false, 0);

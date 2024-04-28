@@ -16,7 +16,7 @@ public abstract class DB {
     protected String sDriverName;
     protected Connection conn;
     protected String sDbUrl;
-    protected int timeout = 5;
+    protected int timeout = 30;
 
     /**
      * Method: queryDB
