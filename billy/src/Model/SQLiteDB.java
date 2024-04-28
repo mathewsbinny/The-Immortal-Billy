@@ -3,6 +3,15 @@ package Model;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * Class: SQLiteDB
+ * @author Mathews Binny
+ * @version 1.0
+ * Course: ITEC 3860
+ * Written: April 28 2024
+ * This class creates the wrapper around SQLite specific initializations
+ */
+
 public class SQLiteDB extends DB{
 
     /** Constructor: SQLiteDB
@@ -35,6 +44,10 @@ public class SQLiteDB extends DB{
         conn = DriverManager.getConnection(sDbUrl);
     }
 
+    /**
+     * Method: close
+     * Purpose: Close the database connection
+     */
     public void close() throws SQLException {
         conn.close();
     }
