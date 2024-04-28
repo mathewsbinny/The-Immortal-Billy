@@ -1,9 +1,18 @@
 package Controller;
 
 public class Exit {
+    private int exitID;
     private int exitRoomID;
     private String direction;
     private int exitDestinationID;
+
+    public int getExitID() {
+        return exitID;
+    }
+
+    public void setExitID(int exitID) {
+        this.exitID = exitID;
+    }
 
     public int getExitRoomID() {
         return exitRoomID;
