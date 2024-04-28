@@ -20,6 +20,7 @@ public class GameDBCreate {
     }
 
     public void buildTables() throws GameException {
+        //buildAccount();
         buildCharacter();
         buildRoom();
         buildExit();
@@ -38,7 +39,7 @@ public class GameDBCreate {
             sDB = new SQLiteDB(dbName);
             FileReader fr;
             try{
-                fr = new FileReader("src/Character.txt");
+                fr = new FileReader("billy/src/Character.txt");
                 Scanner inFile = new Scanner(fr);
                 while(inFile.hasNextLine()){
                     String sql = inFile.nextLine();
