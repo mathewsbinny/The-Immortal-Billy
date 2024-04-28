@@ -39,7 +39,7 @@ public class GameDBCreate {
             sDB = new SQLiteDB(dbName);
             FileReader fr;
             try{
-                fr = new FileReader("billy/src/Character.txt");
+                fr = new FileReader("src/Character.txt");
                 Scanner inFile = new Scanner(fr);
                 while(inFile.hasNextLine()){
                     String sql = inFile.nextLine();
