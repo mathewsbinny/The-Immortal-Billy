@@ -121,7 +121,7 @@ public class GameDBCreate {
             }
             sDB.close();
         }catch(SQLException | ClassNotFoundException e){
-            throw new GameException("Error reading db");
+            throw new GameException("Error reading db " + e.getMessage());
         }
     }
 
@@ -142,7 +142,7 @@ public class GameDBCreate {
             }
             sDB.close();
         }catch(SQLException | ClassNotFoundException e){
-            throw new GameException("Error reading db");
+            throw new GameException("Error reading db " + e.getMessage());
         }
     }
 
@@ -163,7 +163,7 @@ public class GameDBCreate {
             }
             sDB.close();
         }catch(SQLException | ClassNotFoundException e){
-            throw new GameException("Error reading db");
+            throw new GameException("Error reading db " + e.getMessage());
         }
     }
 
@@ -184,7 +184,7 @@ public class GameDBCreate {
             }
             sDB.close();
         }catch(SQLException | ClassNotFoundException e){
-            throw new GameException("Error reading db");
+            throw new GameException("Error reading db " + e.getMessage());
         }
 
     }
@@ -227,7 +227,7 @@ public class GameDBCreate {
             }
             sDB.close();
         }catch(SQLException | ClassNotFoundException e){
-            throw new GameException("Error reading db");
+            throw new GameException("Error reading db " + e.getMessage());
         }
     }
 
@@ -248,7 +248,7 @@ public class GameDBCreate {
             }
             sDB.close();
         }catch(SQLException | ClassNotFoundException e){
-            throw new GameException("Error reading db");
+            throw new GameException("Error reading db " + e.getMessage());
         }
 
     }
@@ -270,7 +270,7 @@ public class GameDBCreate {
             }
             sDB.close();
         }catch(SQLException | ClassNotFoundException e){
-            throw new GameException("Error reading db");
+            throw new GameException("Error reading db " + e.getMessage());
         }
 
     }
@@ -292,7 +292,7 @@ public class GameDBCreate {
             }
             sDB.close();
         }catch(SQLException | ClassNotFoundException e){
-            throw new GameException("Error reading db");
+            throw new GameException("Error reading db " + e.getMessage());
         }
     }
 
@@ -313,7 +313,7 @@ public class GameDBCreate {
             }
             sDB.close();
         }catch(SQLException | ClassNotFoundException e) {
-            throw new GameException("Error reading db");
+            throw new GameException("Error reading db " + e.getMessage());
         }
     }
 
@@ -334,7 +334,7 @@ public class GameDBCreate {
             }
             sDB.close();
         }catch(SQLException | ClassNotFoundException e){
-            throw new GameException("Error reading db");
+            throw new GameException("Error reading db " + e.getMessage());
         }
     }
 
@@ -355,7 +355,7 @@ public class GameDBCreate {
             }
             sDB.close();
         }catch(SQLException | ClassNotFoundException e){
-            throw new GameException("Error reading db");
+            throw new GameException("Error reading db " + e.getMessage());
         }
     }
 
@@ -376,7 +376,7 @@ public class GameDBCreate {
             }
             sDB.close();
         }catch(SQLException | ClassNotFoundException e){
-            throw new GameException("Error reading db");
+            throw new GameException("Error reading db " + e.getMessage());
         }
     }
 
