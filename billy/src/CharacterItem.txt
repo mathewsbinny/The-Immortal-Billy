@@ -1,6 +1,2 @@
-CREATE TABLE CharacterItem (
-    characterID INTEGER,
-    itemID      INTEGER,
-    equipped    INTEGER
-);
+CREATE TABLE CharacterItem (characterID INTEGER, itemID INTEGER, equipped INTEGER);
 
