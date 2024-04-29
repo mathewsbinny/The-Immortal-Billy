@@ -1,5 +1,7 @@
 package Controller;
 
+import GameExceptions.GameException;
+
 public class Account {
 
     //Variables
@@ -33,13 +35,20 @@ public class Account {
         this.accountUserName = accountUserName;
     } // End setAccountUserName Method
 
-    public void setAccountPassword(String accountPassword){
-        this.accountPassword = accountPassword;
+    public void setAccountPassword(String accountPassword) throws GameException {
+        if(accountPassword.length() < 4){
+            throw new GameException("Password must be at least four characters");
+        }
+        else{
+            this.accountPassword = accountPassword;
+        }
+
     } // End setAccountPassword Method
 
-    public String buildPasswordCombination(){
-        return  accountUserName + " - " + accountPassword;
+    public String createDBName(){
+        return accountUserName + "-" + accountPassword + ".db";
     }
+
 
 
 

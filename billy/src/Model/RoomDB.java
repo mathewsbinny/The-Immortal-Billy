@@ -100,7 +100,6 @@ public class RoomDB {
                 rm.setRoomName(rs.getString("roomName"));
                 rm.setRoomDescription(rs.getString("roomDescription"));
                 rm.setRoomIsVisited(rs.getInt("roomVisited"));
-                //rm.setExits(rs.getString("exits"));
             } else {
                 throw new SQLException("Room " + regionID + randomizationValue + " not found");
             }

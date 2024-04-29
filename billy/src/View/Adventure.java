@@ -1,21 +1,18 @@
 package View;
 
+import Controller.Account;
 import Controller.GameController;
 import GameExceptions.GameException;
 
+import java.util.Scanner;
+
 public class Adventure {
-    public static void main(String[] args) throws GameException {
-        boolean valid = true;
-        GameController gc = new GameController();
-         try {
-         gc.startDB();
-         } catch (GameException ge) {
-         valid = false;
-         System.out.println(ge.getMessage());
-         }
 
-        if (valid) {
+    Scanner sc = new Scanner(System.in);
 
-        }
+    public static void main(String[] args) {
+
+    }
+    public void playGame(GameController gc) {
     }
 }
