@@ -197,10 +197,24 @@ public class PuzzleDB {
 
     /**
      * Method: updateInput
+     * Purpose: create a new player input use characterID. (only for puzzle "rainbow button")
+     */
+    public void createInput(int characterID) throws SQLException, ClassNotFoundException {
+        SQLiteDB sqLiteDB = new SQLiteDB();
+        try {
+            sqLiteDB.updateDB("INSERT INTO PlayerInput VALUES('" + characterID + "', '')");
+        }
+        catch (SQLException e){
+            throw new SQLException("Cant create in the database.");
+        }
+        sqLiteDB.close();
+    }
+
+    /**
+     * Method: updateInput
      * Purpose: update to stored player input or player choice. (only for puzzle "rainbow button")
      */
     public void updateInput(String input, int characterID) throws GameException {
-        String createSQL = "";
         String sql = "UPDATE PlayerInput SET input = '" + input + "' WHERE characterID = '" + characterID + "'";
         try {
             SQLiteDB sqLiteDB = new SQLiteDB();
