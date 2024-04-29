@@ -6,7 +6,7 @@ public class Tracking {
     private int trackRoomsVisited;
     private double trackPlayTime;
     private int trackMonstersKilled;
-    private int trackPlayerDeaths;
+    private int trackCharacterDeaths;
 
     public int getTrackCharacterID() {
         return trackCharacterID;
@@ -48,12 +48,12 @@ public class Tracking {
         this.trackMonstersKilled = trackMonstersKilled;
     }
 
-    public int getTrackPlayerDeaths() {
-        return trackPlayerDeaths;
+    public int getTrackCharacterDeaths() {
+        return trackCharacterDeaths;
     }
 
-    public void setTrackPlayerDeaths(int trackPlayerDeaths) {
-        this.trackPlayerDeaths = trackPlayerDeaths;
+    public void setTrackCharacterDeaths(int trackCharacterDeaths) {
+        this.trackCharacterDeaths = trackCharacterDeaths;
     }
 
     @Override
@@ -64,7 +64,7 @@ public class Tracking {
                 ", trackRoomsVisited=" + trackRoomsVisited +
                 ", trackPlayTime=" + trackPlayTime +
                 ", trackMonstersKilled=" + trackMonstersKilled +
-                ", trackPlayerDeaths=" + trackPlayerDeaths +
+                ", trackCharacterDeaths=" + trackCharacterDeaths +
                 '}';
     }
 }
