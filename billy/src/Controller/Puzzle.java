@@ -23,6 +23,28 @@ public class Puzzle {
         return puzzleDB.getPlayerInput(characterID);
     }
 
+    public void clearInput(int characterID) throws GameException {
+        PuzzleDB puzzleDB = new PuzzleDB();
+        puzzleDB.clearInput(characterID);
+    }
+
+    public void updateInput(String input, int characterID) throws GameException {
+        PuzzleDB puzzleDB = new PuzzleDB();
+        puzzleDB.updateInput(input, characterID);
+    }
+
+    public void createInput(int characterID) throws GameException {
+        PuzzleDB puzzleDB = new PuzzleDB();
+        puzzleDB.createInput(characterID);
+    }
+
+    public int getPuzzleRoomID() {
+        return puzzleRoomID;
+    }
+
+    public void setPuzzleRoomID(int puzzleRoomID) {
+        this.puzzleRoomID = puzzleRoomID;
+    }
 
     public String getPuzzleRegion() {
         return puzzleRegion;
@@ -54,14 +76,6 @@ public class Puzzle {
 
     public void setPuzzleSolution(String puzzleSolution) {
         this.puzzleSolution = puzzleSolution;
-    }
-
-    public int getPuzzleRoomID() {
-        return puzzleRoomID;
-    }
-
-    public void setPuzzleRoomID(int puzzleRoomID) {
-        this.puzzleRoomID = puzzleRoomID;
     }
 
     public String getPuzzleType() {

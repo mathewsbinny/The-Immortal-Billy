@@ -86,6 +86,10 @@ public class Room {
         this.roomIsVisited = roomIsVisited;
     }
 
+    public Room getRoom(int roomID) throws GameException {
+        RoomDB roomDB = new RoomDB();
+        return roomDB.getRoomByRoomID(roomID);
+    }
 
     public int validateDirection(String command) throws GameException {
         int newRoomID = 0;
