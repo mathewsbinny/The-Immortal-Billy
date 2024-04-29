@@ -21,7 +21,7 @@ public class Monster {
      */
     public Monster() throws GameException {
         MonsterDB mdb = new MonsterDB();
-        //monsterID = mdb.getNextMonsterID();
+        monsterID = mdb.getNextMonsterID();
     }
 
     /**
