@@ -10,6 +10,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * Class: PuzzleDB
+ * @author Jinyi Zhen
+ * @version 1.0
+ * Course: ITEC 3860
+ * Written: April 28, 2024
+ * This class handles all the DB queries for Puzzle table
+ */
+
 public class PuzzleDB {
     /**
      * Method: getPuzzle

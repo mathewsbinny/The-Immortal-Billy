@@ -7,6 +7,15 @@ import GameExceptions.GameException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Class: PuzzleRewardDB
+ * @author Jinyi Zhen
+ * @version 1.0
+ * Course: ITEC 3860
+ * Written: April 28, 2024
+ * This class handles all the DB queries for PuzzleReward table
+ */
+
 public class PuzzleRewardDB {
     /**
      * Method: getRewardValue

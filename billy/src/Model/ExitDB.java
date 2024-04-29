@@ -13,7 +13,7 @@ import java.util.List;
  * @author Mathews Binny
  * @version 1.0
  * Course: ITEC 3860
- * Written: April 28 2024
+ * Written: April 28, 2024
  * This class handles the Exit interaction with the DB.
  */
 
@@ -39,7 +39,7 @@ public class ExitDB {
                 System.out.println(rs.getInt("exitID"));
                 exi.setExitID(rs.getInt("exitID"));
                 exi.setExitRoomID(rs.getInt("exitRoomID"));
-                exi.setDirection(rs.getString("direction"));
+                exi.setDirection(rs.getString("exitDirection"));
                 exi.setExitDestinationID(rs.getInt("exitDestinationID"));
                 exits.add(exi);
             }
@@ -50,5 +50,19 @@ public class ExitDB {
             throw new GameException("Room ID " + roomID + "was not found.");
         }
         return (ArrayList<Exit>) exits;
+    }
+
+    /** Method: updateRandomizedExit
+     * This method updates exits to reflect room randomization
+     */
+    public void updateRandomizedExit(int nextRoomID) throws GameException {
+        String sql = "UPDATE Exit SET exitDestinationID = " + nextRoomID + " WHERE exitDestinationID = 0" ;
+        try {
+            SQLiteDB sdb = new SQLiteDB();
+            sdb.updateDB(sql);
+        }
+        catch (SQLException | ClassNotFoundException e) {
+            throw new GameException("Update encountered a problem.\n" + e.getMessage());
+        }
     }
 }

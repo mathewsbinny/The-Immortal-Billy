@@ -12,8 +12,8 @@ import java.util.ArrayList;
  * @author Mathews Binny
  * @version 1.0
  * Course: ITEC 3860
- * Written: April 28 2024
- * This class handles all of the DB queries for Room objects
+ * Written: April 28, 2024
+ * This class handles all the DB queries for Room objects
  */
 
 public class RoomDB {
@@ -36,7 +36,7 @@ public class RoomDB {
             sdb.close();
         }
         catch (SQLException sqe) {
-            throw new GameException("Could not get next room id");
+            throw new GameException("Could not get next roomID");
         }
 
         return next;
@@ -45,15 +45,15 @@ public class RoomDB {
     /**
      * Method: getRoomByRoomID
      * Purpose: Gets a room based upon the supplied room ID
-     * @param id
+     * @param roomID
      * @return Room
      * @throws SQLException
      */
-    public Room getRoomByRoomID(int id) throws GameException {
+    public Room getRoomByRoomID(int roomID) throws GameException {
         Room rm = new Room();
         try {
             SQLiteDB sdb = new SQLiteDB();
-            String sql = "Select * from Room WHERE roomID = " + id;
+            String sql = "Select * from Room WHERE roomID = " + roomID;
             ResultSet rs = sdb.queryDB(sql);
             if (rs.next()) {
                 System.out.println(rs.getInt("roomID"));
@@ -64,15 +64,14 @@ public class RoomDB {
                 rm.setRoomName(rs.getString("roomName"));
                 rm.setRoomDescription(rs.getString("roomDescription"));
                 rm.setRoomIsVisited(rs.getInt("roomVisited"));
-                //rm.setExits(rs.getString("exits"));
             } else {
-                throw new SQLException("Room " + id + " not found");
+                throw new SQLException("Room " + roomID + " not found");
             }
             //Close the SQLiteDB connection since SQLite only allows one updater
             sdb.close();
         }
         catch (SQLException | ClassNotFoundException ex) {
-            throw new GameException("Room id " + id + "was not found.");
+            throw new GameException("RoomID " + roomID + " was not found.");
         }
         return rm;
     }
@@ -107,7 +106,7 @@ public class RoomDB {
             sdb.close();
         }
         catch (SQLException | ClassNotFoundException ex) {
-            throw new GameException("Room id " + regionID + randomizationValue + "was not found.");
+            throw new GameException("RoomID for Randomization code " + regionID + randomizationValue + " was not found.");
         }
         return rm;
     }
@@ -123,9 +122,7 @@ public class RoomDB {
         try {
             SQLiteDB sdb = new SQLiteDB();
             String sql = "Select * from Room";
-
             ResultSet rs = sdb.queryDB(sql);
-
             while (rs.next()) {
                 Room rm = new Room();
                 rm.setRoomID(rs.getInt("roomID"));
@@ -135,10 +132,8 @@ public class RoomDB {
                 rm.setRoomName(rs.getString("roomName"));
                 rm.setRoomDescription(rs.getString("roomDescription"));
                 rm.setRoomIsVisited(rs.getInt("roomVisited"));
-                //rm.setExits(rs.getString("Exits"));
                 rooms.add(rm);
             }
-
             //Close the SQLiteDB connection since SQLite only allows one updater
             sdb.close();
         }
@@ -148,19 +143,37 @@ public class RoomDB {
         return rooms;
     }
 
-
     /** Method: updateRoomVisited
+     * @param room
      * This method updates Room table in DB to mark it as visited.
      */
     public void updateRoomVisited(Room room) throws GameException {
-        String sql = "UPDATE Room SET roomVisited = '" + room.getRoomIsVisited() + "' WHERE roomID = " + room.getRoomID() ;
+        String sql = "UPDATE Room SET roomVisited = " + room.getRoomIsVisited() + " WHERE roomID = " + room.getRoomID();
+        /**
+         * Alternative SQL Query
+         * String sql = "UPDATE Room SET roomVisited = 1 WHERE roomID = " + room.getRoomID();
+         */
         try {
             SQLiteDB sdb = new SQLiteDB();
             sdb.updateDB(sql);
         }
         catch (SQLException | ClassNotFoundException e) {
-            throw new GameException("Update encountered a problem.\n" + e.getMessage());
+            throw new GameException("Update for roomVisited encountered a problem.\n" + e.getMessage());
         }
     }
 
+    /** Method: updateRoomType
+     * @param room
+     * This method updates Room table in DB to change room type to normal after monster/puzzle completed.
+     */
+    public void updateRoomType(Room room) throws GameException {
+        String sql = "UPDATE Room SET roomVisited = 'normal' WHERE roomID = " + room.getRoomID();
+        try {
+            SQLiteDB sdb = new SQLiteDB();
+            sdb.updateDB(sql);
+        }
+        catch (SQLException | ClassNotFoundException e) {
+            throw new GameException("Update for roomType encountered a problem.\n" + e.getMessage());
+        }
+    }
 }

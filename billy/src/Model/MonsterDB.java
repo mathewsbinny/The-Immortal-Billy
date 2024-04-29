@@ -14,37 +14,11 @@ import java.sql.SQLException;
  * @author Mathews Binny
  * @version 1.0
  * Course: ITEC 3860
- * Written: April 28 2024
- * This class handles all of the DB queries for Monster objects
+ * Written: April 28, 2024
+ * This class handles all the DB queries for Monster objects
  */
 
 public class MonsterDB {
-
-    /**
-     * //DEPRECATED
-     * Method: getNextMonsterID
-     * Purpose: Gets the id for the next monster.
-     * @return int
-     *
-    public int getNextMonsterID() throws GameException {
-        int next = 0;
-        try {
-            SQLiteDB sdb = null;
-            try {
-                sdb = new SQLiteDB();
-                next = sdb.getMaxValue("monsterID", "Monster") + 1;
-            } catch (ClassNotFoundException | SQLException e) {
-                throw new GameException("Unable to get next monsterID.");
-            }
-            //Close the SQLiteDB connection since SQLite only allows one updater
-            sdb.close();
-        }
-        catch (SQLException ex) {
-            throw new GameException("Next monsterID not found.");
-        }
-        return next;
-    }
-    */
 
     /**
      * Method: getMonster
@@ -71,14 +45,13 @@ public class MonsterDB {
                 mon.setMonsterBossPhase(rs.getInt("monsterBossPhase"));
                 mon.setMonsterIsDefeated(rs.getInt("monsterIsDefeated"));
             } else {
-                throw new SQLException("Monster " + roomID + " not found.");
+                throw new SQLException("Monster for roomID " + roomID + " not found.");
             }
-
             //Close the SQLiteDB connection since SQLite only allows one updater
             sdb.close();
         }
         catch (SQLException | ClassNotFoundException ex) {
-            throw new GameException("Monster with monster number " + roomID + " not found");
+            throw new GameException("Monster with monsterRoomID " + roomID + " not found");
         }
         return mon;
     }
@@ -110,7 +83,6 @@ public class MonsterDB {
             } else {
                 throw new SQLException("Monster " + phase + " not found.");
             }
-
             //Close the SQLiteDB connection since SQLite only allows one updater
             sdb.close();
         }
@@ -147,7 +119,6 @@ public class MonsterDB {
                 mon.setMonsterIsDefeated(rs.getInt("monsterIsDefeated"));
                 monsters.add(mon);
             }
-
             //Close the SQLiteDB connection since SQLite only allows one updater
             sdb.close();
         }
@@ -161,7 +132,7 @@ public class MonsterDB {
      * This method updates Monster table in DB to mark a monster a defeated
      */
     public void updateMonsterIsDefeated(Monster monster) throws GameException {
-        String sql = "UPDATE Monster SET monsterIsDefeated = '" + 1 + "' WHERE monsterID = " + monster.getMonsterID() ;
+        String sql = "UPDATE Monster SET monsterIsDefeated = " + 1 + " WHERE monsterID = " + monster.getMonsterID() ;
         try {
             SQLiteDB sdb = new SQLiteDB();
             sdb.updateDB(sql);
@@ -172,10 +143,10 @@ public class MonsterDB {
     }
 
     /** Method: updateMonsterCurrentHP
-     * This method updates Monster table in DB to track monster's current HP
+     * This method updates Monster table in DB to track monster's currentHP
      */
     public void updateMonsterCurrentHP(Monster monster) throws GameException {
-        String sql = "UPDATE Monster SET monsterCurrentHP = '" + 1 + "' WHERE monsterID = " + monster.getMonsterID() ;
+        String sql = "UPDATE Monster SET monsterCurrentHP = " + monster.getMonsterCurrentHP() + " WHERE monsterID = " + monster.getMonsterID();
         try {
             SQLiteDB sdb = new SQLiteDB();
             sdb.updateDB(sql);
@@ -185,4 +156,17 @@ public class MonsterDB {
         }
     }
 
+    /** Method: removeMonsterFromRoom
+     * This method updates Monster table in DB to remove Monster from room after defeat
+     */
+    public void removeMonsterFromRoom(Monster monster) throws GameException {
+        String sql = "UPDATE Monster SET monsterRoomID = 0 WHERE monsterID = " + monster.getMonsterID();
+        try {
+            SQLiteDB sdb = new SQLiteDB();
+            sdb.updateDB(sql);
+        }
+        catch (SQLException | ClassNotFoundException e) {
+            throw new GameException("Update encountered a problem.\n" + e.getMessage());
+        }
+    }
 }
