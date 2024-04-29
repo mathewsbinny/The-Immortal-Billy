@@ -1,5 +1,6 @@
 package Model;
 
+import Controller.Combat;
 import Controller.Monster;
 import GameExceptions.GameException;
 
@@ -11,8 +12,8 @@ import java.sql.SQLException;
  * @author Mathews Binny
  * @version 1.0
  * Course: ITEC 3860
- * Written: April 28 2024
- * This class handles all of the DB queries for MonsterAttacks
+ * Written: April 28, 2024
+ * This class handles all the DB queries for MonsterAttacks
  */
 
 public class MonsterAttackDB {
@@ -22,7 +23,7 @@ public class MonsterAttackDB {
      * Method: getMonsterSpecialAttack
      * Purpose: handles db interactions to retrieve a special Monster attack
      * @param monsterID
-     * @return Monster
+     * @return Combat
      * @throws GameException
      *
     public Combat getMonsterSpecialAttack(int monsterID) throws GameException {
@@ -39,15 +40,16 @@ public class MonsterAttackDB {
                 attack.setAttackAddHP(rs.getInt("attackAddHP"));
                 attack.setAttackAddAP(rs.getInt("attackAddAP"));
                 attack.setAttackProbability(rs.getDouble("attackProbability"));
-                attack.setAttackDescription(rs.getInt("attackDescription"));
+                attack.setAttackDescription(rs.getString("attackDescription"));
             } else {
+                return null;
                 throw new SQLException("MonsterAttack for " + monsterID + " not found.");
             }
-
             //Close the SQLiteDB connection since SQLite only allows one updater
             sdb.close();
         }
         catch (SQLException | ClassNotFoundException ex) {
+            return null;
             throw new GameException("Monster attack with monsterID " + monsterID + " not found");
         }
         return attack;
@@ -56,7 +58,7 @@ public class MonsterAttackDB {
     /**
      * Method: getMonsterGlobalAttack
      * Purpose: handles db interactions to retrieve generic Monster attack
-     * @return Monster
+     * @return Combat
      * @throws GameException
      *
     public Combat getMonsterGlobalAttack() throws GameException {
@@ -73,7 +75,7 @@ public class MonsterAttackDB {
                 attack.setAttackAddHP(rs.getInt("attackAddHP"));
                 attack.setAttackAddAP(rs.getInt("attackAddAP"));
                 attack.setAttackProbability(rs.getDouble("attackProbability"));
-                attack.setAttackDescription(rs.getInt("attackDescription"));
+                attack.setAttackDescription(rs.getString("attackDescription"));
             } else {
                 throw new SQLException("GlobalMonsterAttack not found.");
             }

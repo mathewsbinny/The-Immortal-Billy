@@ -12,9 +12,8 @@ import java.util.Scanner;
  * @author: Mathews Binny, Jinyi Zhen
  * @version: 1.0
  * Course: ITEC 3860
- * Written: April 28 2024
- * This class creates the billy.db if it doesn't exist already
- * Purpose: Creates the DB for Immortal Billy
+ * Written: April 28, 2024
+ * Purpose: This class creates the billy.db if it doesn't exist already
  */
 
 public class GameDBCreate {
@@ -26,7 +25,7 @@ public class GameDBCreate {
     }
 
     public GameDBCreate(String dbName) {
-        this.dbName = "billy.db";
+        this.dbName = "billy.db"; // might have to be the account method
     }
 
     /**
@@ -36,7 +35,7 @@ public class GameDBCreate {
      * @throws SQLException
      */
     public void buildTables() throws GameException {
-        //buildAccount();
+        buildAccount();
         buildCharacter();
         buildRoom();
         buildExit();
@@ -56,6 +55,33 @@ public class GameDBCreate {
     }
 
     /**
+     * Method: buildAccount
+     * Purpose: Build the Account table and load data
+     * @return void
+     * @throws SQLException
+     */
+    public void buildAccount() throws GameException {
+        try{
+            sDB = new SQLiteDB(dbName);
+            FileReader fr;
+            try{
+                fr = new FileReader("src/Account.txt");
+                Scanner inFile = new Scanner(fr);
+                while(inFile.hasNextLine()){
+                    String sql = inFile.nextLine();
+                    sDB.updateDB(sql);
+                }
+                inFile.close();
+            }catch(FileNotFoundException e){
+                throw new GameException("Account.txt was not found");
+            }
+            sDB.close();
+        }catch(SQLException | ClassNotFoundException e){
+            throw new GameException("Error reading db " + e.getMessage());
+        }
+    }
+
+    /**
      * Method: buildCharacter
      * Purpose: Build the Character table and load data
      * @return void
@@ -69,7 +95,6 @@ public class GameDBCreate {
                 fr = new FileReader("src/Character.txt");
                 Scanner inFile = new Scanner(fr);
                 while(inFile.hasNextLine()){
-
                     String sql = inFile.nextLine();
                     sDB.updateDB(sql);
                 }
@@ -490,5 +515,4 @@ public class GameDBCreate {
             throw new GameException("Error reading db " + e.getMessage());
         }
     }
-
 }

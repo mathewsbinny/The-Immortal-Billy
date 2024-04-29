@@ -13,8 +13,8 @@ import java.util.ArrayList;
  * @author Mathews Binny
  * @version 1.0
  * Course: ITEC 3860
- * Written: April 28 2024
- * This class handles all of the DB queries for Items in Rooms objects
+ * Written: April 28, 2024
+ * This class handles all the DB queries for Items in Rooms objects
  */
 
 public class ItemRoomDB {
@@ -29,7 +29,7 @@ public class ItemRoomDB {
         try {
             String sql = "Select * from Item WHERE ItemID = " + itemID;
             ResultSet rs = sdb.queryDB(sql);
-            sdb.updateDB("DELETE FROM ItemRoom WHERE itemID LIKE ('" + itemID + "')");
+            sdb.updateDB("DELETE FROM ItemRoom WHERE itemID LIKE (" + itemID + ")");
         } catch (SQLException e) {
             throw new SQLException("Can't find DB");
         }
@@ -39,7 +39,7 @@ public class ItemRoomDB {
 
     /**
      * Method: addItemToRoom
-     * This item removes an item from the room.
+     * This adds an item to the room, for example if character drops item
      * @param itemID
      */
     public Item addItemToRoom(int itemID, int roomID) throws SQLException, GameException, ClassNotFoundException {
@@ -47,7 +47,7 @@ public class ItemRoomDB {
         try {
             String sql = "Select * from Item WHERE ItemID = " + itemID;
             ResultSet rs = sdb.queryDB(sql);
-            sdb.updateDB("INSERT INTO ItemRoom VALUES ('" + itemID + "','" + roomID + "')");
+            sdb.updateDB("INSERT INTO ItemRoom VALUES (" + itemID + "," + roomID + ")");
         } catch (SQLException e) {
             throw new SQLException("Can't find DB");
         }
@@ -57,7 +57,7 @@ public class ItemRoomDB {
 
     /**
      * Method: updateItemLocation
-     * This item removes an item from the room by updating its current location
+     * This updating an item's current location
      * @param itemID
      */
     public Item updateItemLocation(int itemID, int roomID) throws SQLException, GameException, ClassNotFoundException {
@@ -65,7 +65,7 @@ public class ItemRoomDB {
         try {
             String sql = "Select * from Item WHERE ItemID = " + itemID;
             ResultSet rs = sdb.queryDB(sql);
-            sdb.updateDB("UPDATE ItemRoom SET itemID = '" + itemID + "' WHERE roomID = '" + roomID + "')");
+            sdb.updateDB("UPDATE ItemRoom SET itemID = " + itemID + " WHERE roomID = " + roomID + ")");
         } catch (SQLException e) {
             throw new SQLException("Can't find DB");
         }
@@ -80,35 +80,33 @@ public class ItemRoomDB {
      * @param roomID
      * @return ArrayList<Room>
      * @throws SQLException
-     *
-    public ArrayList<Room> getAllItemsInRoom(int roomID) throws GameException {
-        ArrayList<Room> items = new ArrayList<Room>();
+     */
+    public ArrayList<Item> getAllItemsInRoom(int roomID) throws GameException {
+        ArrayList<Item> items = new ArrayList<Item>();
         try {
             SQLiteDB sdb = new SQLiteDB();
-            String sql = "Select * from ItemRoom WHERE roomID = '" + roomID + "')";
+            String sql = "Select * from Item WHERE itemRoomID = " + roomID + ")";
             ResultSet rs = sdb.queryDB(sql);
-
-
             while (rs.next()) {
-                Room itemRoom = new Room();
-                itemRoom.setRoomID(rs.getInt("itemID"));
-                itemRoom.setRoomRegion(rs.getString("roomRegion"));
-                itemRoom.setRoomRandomization(rs.getString("roomRandomization"));
-                itemRoom.setRoomType(rs.getString("roomType"));
-                itemRoom.setRoomName(rs.getString("roomName"));
-                itemRoom.setRoomDescription(rs.getString("roomDescription"));
-                itemRoom.setRoomIsVisited(rs.getInt("roomVisited"));
-                //rm.setExits(rs.getString("Exits"));
+                Item itemRoom = new Item();
+                itemRoom.setItemRoomID(rs.getInt("itemRoomID"));
+                itemRoom.setItemID(rs.getInt("itemID"));
+                itemRoom.setItemName(rs.getString("itemName"));
+                itemRoom.setItemType(rs.getString("itemType"));
+                itemRoom.setItemAddHP(rs.getInt("itemAddHP"));
+                itemRoom.setItemAddMaxHP(rs.getInt("itemAddMaxHP"));
+                itemRoom.setItemAddMP(rs.getInt("itemAddMP"));
+                itemRoom.setItemAddDP(rs.getInt("itemAddDP"));
+                itemRoom.setItemAddAP(rs.getInt("itemAddAP"));
+                itemRoom.setItemIsConsumable(rs.getInt("itemIsConsumable"));
                 items.add(itemRoom);
             }
-
             //Close the SQLiteDB connection since SQLite only allows one updater
             sdb.close();
         }
         catch(SQLException | ClassNotFoundException ex) {
             throw new GameException("Problem reading database");
         }
-        return rooms;
+        return items;
     }
-    */
 }
