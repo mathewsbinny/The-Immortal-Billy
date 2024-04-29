@@ -8,6 +8,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class PuzzleRewardDB {
+    /**
+     * Method: getRewardValue
+     * Purpose: get the puzzle solved after reward information or value.
+     */
     public PuzzleReward getRewardValue (int roomID) throws GameException {
         PuzzleReward puzzleReward;
         try {
@@ -31,36 +35,18 @@ public class PuzzleRewardDB {
         return puzzleReward;
     }
 
+    /**
+     * Method: updateCharacter
+     * Purpose: update character value.
+     */
     public void updateCharacter (Character character) throws GameException {
-        String sql = "UPDATE Character SET maxHP = " + character.getCharacterMaxHP() + " WHERE characterID = " + character.getCharacterID();
-        String sql2 = "UPDATE Character SET AP = " + character.getCharacterAP() + " WHERE characterID = " + character.getCharacterID();
-        String sql3 = "UPDATE Character SET HP = " + character.getCharacterCurrentHP() + " WHERE characterID = " + character.getCharacterID();
+        String sql = "UPDATE Character SET characterMaxHP = " + character.getCharacterMaxHP() + " WHERE characterID = " + character.getCharacterID();
+        String sql2 = "UPDATE Character SET characterAP = " + character.getCharacterAP() + " WHERE characterID = " + character.getCharacterID();
+        String sql3 = "UPDATE Character SET characterHP = " + character.getCharacterCurrentHP() + " WHERE characterID = " + character.getCharacterID();
         try {
             SQLiteDB sqLiteDB = new SQLiteDB();
             sqLiteDB.updateDB(sql);
             sqLiteDB.updateDB(sql2);
-        }
-        catch (SQLException | ClassNotFoundException e) {
-            throw new GameException("Update encountered a problem.\n" + e.getMessage());
-        }
-    }
-
-    public void updateWeapon (int newAP, String target) throws GameException {
-        String sql = "UPDATE Weapon SET AP += " + newAP + " WHERE weaponName = " + target;
-        try {
-            SQLiteDB sqLiteDB = new SQLiteDB();
-            sqLiteDB.updateDB(sql);
-        }
-        catch (SQLException | ClassNotFoundException e) {
-            throw new GameException("Update encountered a problem.\n" + e.getMessage());
-        }
-    }
-
-    public void updateArmor (int newDP, String target) throws GameException {
-        String sql = "UPDATE Armor SET DP += " + newDP + " WHERE armorName = " + target;
-        try {
-            SQLiteDB sqLiteDB = new SQLiteDB();
-            sqLiteDB.updateDB(sql);
         }
         catch (SQLException | ClassNotFoundException e) {
             throw new GameException("Update encountered a problem.\n" + e.getMessage());

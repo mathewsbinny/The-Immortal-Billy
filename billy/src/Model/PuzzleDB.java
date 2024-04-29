@@ -11,6 +11,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class PuzzleDB {
+    /**
+     * Method: getPuzzle
+     * Purpose: Gets puzzle information based upon the supplied character current roomID.
+     */
     public Puzzle getPuzzle(int puzzleRoomID) throws GameException {
         Puzzle puzzle;
         try {
@@ -32,7 +36,11 @@ public class PuzzleDB {
         return puzzle;
     }
 
-    public PuzzleChoice getChoiceContext(String playerChoice, int roomID) throws GameException {
+    /**
+     * Method: getChoiceContent
+     * Purpose: Gets a choice content based upon the supplied player input and which room puzzle.
+     */
+    public PuzzleChoice getChoiceContent(String playerChoice, int roomID) throws GameException {
         PuzzleChoice puzzleChoice;
         try {
             SQLiteDB sqLiteDB = new SQLiteDB();
@@ -51,6 +59,10 @@ public class PuzzleDB {
         return puzzleChoice;
     }
 
+    /**
+     * Method: getPlayerInput
+     * Purpose: Gets a string stored in database what player choice before and return a string.(only for puzzle "rainbow button")
+     */
     public Puzzle getPlayerInput(int characterID) throws GameException {
         Puzzle puzzle;
         try {
@@ -70,7 +82,10 @@ public class PuzzleDB {
         return puzzle;
     }
 
-    //return all player valid choice
+    /**
+     * Method: getAllPlayerChoice
+     * Purpose: Gets all player valid input to choice puzzle.
+     */
     public ArrayList<PuzzleChoice> getAllPlayerChoice(int roomID) throws GameException {
         ArrayList<PuzzleChoice> allchoice = new ArrayList<>();
         try {
@@ -89,6 +104,10 @@ public class PuzzleDB {
         return allchoice;
     }
 
+    /**
+     * Method: getPuzzleCollider
+     * Purpose: Gets puzzle state and play puzzle state.
+     */
     public PuzzleCollider getPuzzleCollider (Character character) throws GameException {
         PuzzleCollider puzzleCollider;
         try {
@@ -109,6 +128,10 @@ public class PuzzleDB {
         return puzzleCollider;
     }
 
+    /**
+     * Method: getpuzzleState
+     * Purpose: Gets a puzzle state.
+     */
     public PuzzleCollider getPuzzleState (int roomID, String usedName) throws GameException {
         PuzzleCollider puzzleCollider;
         try {
@@ -124,7 +147,10 @@ public class PuzzleDB {
         return puzzleCollider;
     }
 
-
+    /**
+     * Method: resetPhase
+     * Purpose: Update phase state mean play puzzle not over
+     */
     public void resetPhase(int roomID) throws GameException {
         String sql = "UPDATE PuzzleCollider SET isPhaseOver = 0 WHERE puzzleRoomID = " + roomID;
         try {
@@ -137,6 +163,10 @@ public class PuzzleDB {
         }
     }
 
+    /**
+     * Method: updatePhase
+     * Purpose: update phase state mean play puzzle over
+     */
     public void updatePhase(Character character) throws GameException {
         String sql = "UPDATE PuzzleCollider SET isPhaseOver = 1 WHERE puzzleRoomID = " + character.getCharacterCurrentRoomID();
         try {
@@ -149,6 +179,10 @@ public class PuzzleDB {
         }
     }
 
+    /**
+     * Method: updatePuzzle
+     * Purpose: update puzzle state mean the puzzle solve or cant play again.
+     */
     public void updatePuzzle(Character character) throws GameException {
         String sql = "UPDATE PuzzleCollider SET isPuzzleValid = 0 WHERE puzzleRoomID = " + character.getCharacterCurrentRoomID();
         try {
@@ -161,6 +195,10 @@ public class PuzzleDB {
         }
     }
 
+    /**
+     * Method: updateInput
+     * Purpose: update to stored player input or player choice. (only for puzzle "rainbow button")
+     */
     public void updateInput(String input, int characterID) throws GameException {
         String createSQL = "";
         String sql = "UPDATE PlayerInput SET input = '" + input + "' WHERE characterID = '" + characterID + "'";
@@ -174,6 +212,10 @@ public class PuzzleDB {
         }
     }
 
+    /**
+     * Method: clearInput
+     * Purpose: update to clear player input or player choice when incorrect choice.(only for puzzle "rainbow button")
+     */
     public void clearInput(int characterID) throws GameException {
         String sql = "UPDATE PlayerInput SET input = '' WHERE characterID = '" + characterID + "'";
         try {
