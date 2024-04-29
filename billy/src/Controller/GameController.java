@@ -20,4 +20,11 @@ public class GameController {
         }
     }
 
+
+    public String executeCommand(String cmd) throws GameException {
+        Commands commands = new Commands();
+       return commands.executeCommand(cmd);
+    }
+
+
 }

@@ -16,6 +16,18 @@ public class Character {
     private int characterXP;
     private int characterLevel;
 
+    public Room getCurrentRoom() {
+        return currentRoom;
+    }
+
+    public void setCurrentRoom(Room currentRoom) {
+        this.currentRoom = currentRoom;
+    }
+
+    private Room currentRoom;
+
+    CharacterDB cdb;
+
     /**
      * Constructor: Character
      *
@@ -112,6 +124,13 @@ public class Character {
     public void setCharacterLevel(int characterLevel) {
         this.characterLevel = characterLevel;
     }
+
+
+    public void updateCharacterCurrentRoom() throws GameException {
+        cdb = new CharacterDB();
+        cdb.updateCharacterCurrentRoom(this);
+    }
+
 
     /**
      * Method: toString

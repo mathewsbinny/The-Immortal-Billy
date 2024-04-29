@@ -1,5 +1,6 @@
 package Controller;
 
+import GameExceptions.GameException;
 import Model.RoomDB;
 
 import java.util.ArrayList;
@@ -84,6 +85,43 @@ public class Room {
     public void setRoomIsVisited(int roomIsVisited) {
         this.roomIsVisited = roomIsVisited;
     }
+
+
+    public int validateDirection(String command) throws GameException {
+        int newRoomID = 0;
+        boolean found = false;
+
+        for (int i = 0; !found && i < getExitList().size(); i++) {
+            if (getExitList().get(i).getDirection().charAt(0) == command.charAt(0)) {
+                found = true;
+                newRoomID = getExitList().get(i).getExitDestinationID();
+            }
+        }
+        if (!found) {
+            throw new GameException("Invalid Direction Entered");
+        }
+
+        return newRoomID;
+    }
+
+    public String display(){
+    return "This method is working";
+
+    }
+
+    public void updateRoom(){
+        rdb = new RoomDB();
+       // rdb.u
+    }
+
+    public Room retrieveByID(int roomID) throws GameException {
+        rdb = new RoomDB();
+       return rdb.getRoomByRoomID(roomID);
+
+
+    }
+
+
 
     @Override
     public String toString() {
