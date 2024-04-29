@@ -36,7 +36,6 @@ public class ExitDB {
             ResultSet rs = sdb.queryDB(sql);
             while (rs.next()) {
                 Exit exi = new Exit();
-                System.out.println(rs.getInt("exitID"));
                 exi.setExitID(rs.getInt("exitID"));
                 exi.setExitRoomID(rs.getInt("exitRoomID"));
                 exi.setDirection(rs.getString("exitDirection"));

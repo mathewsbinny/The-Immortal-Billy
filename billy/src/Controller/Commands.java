@@ -1,6 +1,7 @@
 package Controller;
 
 import GameExceptions.GameException;
+import Model.RoomDB;
 
 import java.util.Arrays;
 
@@ -61,9 +62,9 @@ public class Commands {
 
     public String move(String cmd) throws GameException {
         String displayedRoom;
-       character.setCurrentRoom(room.retrieveByID(room.validateDirection(cmd)));
-       character.updateCharacterCurrentRoom();
-
+        RoomDB rdb = new RoomDB();
+       character.setCharacterCurrentRoomID(room.validateDirection(cmd));
+       character.setCurrentRoom(rdb.getRoomByRoomID(character.getCharacterCurrentRoomID()));
 
        return character.getCurrentRoom().display();
 

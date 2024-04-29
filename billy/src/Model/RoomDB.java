@@ -1,5 +1,6 @@
 package Model;
 
+import Controller.Exit;
 import Controller.Room;
 import GameExceptions.GameException;
 
@@ -52,11 +53,11 @@ public class RoomDB {
     public Room getRoomByRoomID(int roomID) throws GameException {
         Room rm = new Room();
         try {
+            ExitDB exit = new ExitDB();
             SQLiteDB sdb = new SQLiteDB();
             String sql = "Select * from Room WHERE roomID = " + roomID;
             ResultSet rs = sdb.queryDB(sql);
             if (rs.next()) {
-                System.out.println(rs.getInt("roomID"));
                 rm.setRoomID(rs.getInt("roomID"));
                 rm.setRoomRegion(rs.getString("roomRegion"));
                 rm.setRoomRandomization(rs.getString("roomRandomization"));
@@ -64,6 +65,7 @@ public class RoomDB {
                 rm.setRoomName(rs.getString("roomName"));
                 rm.setRoomDescription(rs.getString("roomDescription"));
                 rm.setRoomIsVisited(rs.getInt("roomVisited"));
+                rm.setExitList(exit.getExits(roomID));
             } else {
                 throw new SQLException("Room " + roomID + " not found");
             }
@@ -91,7 +93,6 @@ public class RoomDB {
             String sql = "Select * from Room WHERE roomRandomization = " + regionID + randomizationValue;
             ResultSet rs = sdb.queryDB(sql);
             if (rs.next()) {
-                System.out.println(rs.getInt("roomID"));
                 rm.setRoomID(rs.getInt("roomID"));
                 rm.setRoomRegion(rs.getString("roomRegion"));
                 rm.setRoomRandomization(rs.getString("roomRandomization"));
@@ -175,5 +176,34 @@ public class RoomDB {
         catch (SQLException | ClassNotFoundException e) {
             throw new GameException("Update for roomType encountered a problem.\n" + e.getMessage());
         }
+
+    }
+
+    public Room updateRoom(int roomID) throws GameException {
+        Room rm = new Room();
+        try {
+            ExitDB exit = new ExitDB();
+            SQLiteDB sdb = new SQLiteDB();
+            String sql = "Select * from Room WHERE roomID = " + roomID;
+            ResultSet rs = sdb.queryDB(sql);
+            if (rs.next()) {
+                rm.setRoomID(rs.getInt("roomID"));
+                rm.setRoomRegion(rs.getString("roomRegion"));
+                rm.setRoomRandomization(rs.getString("roomRandomization"));
+                rm.setRoomType(rs.getString("roomType"));
+                rm.setRoomName(rs.getString("roomName"));
+                rm.setRoomDescription(rs.getString("roomDescription"));
+                rm.setRoomIsVisited(rs.getInt("roomVisited"));
+                rm.setExitList(exit.getExits(roomID));
+            } else {
+                throw new SQLException("Room " + roomID + " not found");
+            }
+            //Close the SQLiteDB connection since SQLite only allows one updater
+            sdb.close();
+        }
+        catch (SQLException | ClassNotFoundException ex) {
+            throw new GameException("RoomID " + roomID + " was not found.");
+        }
+        return rm;
     }
 }

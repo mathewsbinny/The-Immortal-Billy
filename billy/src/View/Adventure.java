@@ -2,7 +2,9 @@ package View;
 
 import Controller.Account;
 import Controller.GameController;
+import Controller.Room;
 import GameExceptions.GameException;
+import Model.RoomDB;
 import Model.SQLiteDB;
 
 import java.sql.SQLException;
@@ -17,6 +19,9 @@ public class Adventure {
         GameController gc = new GameController();
         Adventure adventure = new Adventure();
         adventure.playGame(gc);
+        RoomDB rdb = new RoomDB();
+
+        System.out.println(rdb.getRoomByRoomID(1));
     }
     public void playGame(GameController gc) throws GameException {
         gc.startDB();
