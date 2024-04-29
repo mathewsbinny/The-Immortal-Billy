@@ -8,6 +8,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class: ExitDB
+ * @author Mathews Binny
+ * @version 1.0
+ * Course: ITEC 3860
+ * Written: April 28 2024
+ * This class handles the Exit interaction with the DB.
+ */
+
 public class ExitDB {
     private SQLiteDB sdb = null;
 
