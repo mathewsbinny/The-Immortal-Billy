@@ -49,16 +49,16 @@ public class MonsterDB {
     /**
      * Method: getMonster
      * Purpose: handles db interactions to retrieve a single Monster
-     * @param id
+     * @param roomID
      * @return Monster
      * @throws GameException
      */
-    public Monster getMonster(int id) throws GameException {
+    public Monster getMonster(int roomID) throws GameException {
         Monster mon;
         try {
             SQLiteDB sdb = new SQLiteDB();
             mon = new Monster();
-            String sql = "Select * from Monster WHERE monsterID = " + id;
+            String sql = "Select * from Monster WHERE monsterRoomID = " + roomID;
             ResultSet rs = sdb.queryDB(sql);
             if (rs.next()) {
                 mon.setMonsterID(rs.getInt("monsterNumber"));
@@ -71,14 +71,14 @@ public class MonsterDB {
                 mon.setMonsterBossPhase(rs.getInt("monsterBossPhase"));
                 mon.setMonsterIsDefeated(rs.getInt("monsterIsDefeated"));
             } else {
-                throw new SQLException("Monster " + id + " not found.");
+                throw new SQLException("Monster " + roomID + " not found.");
             }
 
             //Close the SQLiteDB connection since SQLite only allows one updater
             sdb.close();
         }
         catch (SQLException | ClassNotFoundException ex) {
-            throw new GameException("Monster with monster number " + id + " not found");
+            throw new GameException("Monster with monster number " + roomID + " not found");
         }
         return mon;
     }
