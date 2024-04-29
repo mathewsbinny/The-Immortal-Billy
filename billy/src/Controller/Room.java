@@ -1,6 +1,7 @@
 package Controller;
 
 import GameExceptions.GameException;
+import Model.CharacterDB;
 import Model.RoomDB;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class Room {
 
     public Room(){
         rdb = new RoomDB();
+        exitList = new ArrayList<Exit>();
     }
 
     public int getRoomID() {
@@ -92,16 +94,17 @@ public class Room {
     }
 
     public int validateDirection(String command) throws GameException {
-        int newRoomID = 0;
+        int newRoomID = 1;
         boolean found = false;
 
-        for (int i = 0; !found && i < getExitList().size(); i++) {
-            if (getExitList().get(i).getDirection().charAt(0) == command.charAt(0)) {
+        for (int i = 0; !found && i < exitList.size(); i++) {
+            if (exitList.get(i).getDirection().charAt(0) == command.charAt(0)) {
+                newRoomID = exitList.get(i).getExitDestinationID();
                 found = true;
-                newRoomID = getExitList().get(i).getExitDestinationID();
+
             }
         }
-        if (!found) {
+        if (found) {
             throw new GameException("Invalid Direction Entered");
         }
 
@@ -109,13 +112,13 @@ public class Room {
     }
 
     public String display(){
-    return "This method is working";
+    return toString();
 
     }
 
     public void updateRoom(){
         rdb = new RoomDB();
-       // rdb.u
+
     }
 
     public Room retrieveByID(int roomID) throws GameException {
