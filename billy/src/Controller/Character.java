@@ -15,6 +15,7 @@ public class Character {
     private double characterAP;
     private int characterXP;
     private int characterLevel;
+    private String lastUsedName;
 
     public Room getCurrentRoom() {
         return currentRoom;
@@ -125,12 +126,23 @@ public class Character {
         this.characterLevel = characterLevel;
     }
 
+    public String getLastUsedName() {
+        return lastUsedName;
+    }
+
+    public void setLastUsedName(String lastUsedName) {
+        this.lastUsedName = lastUsedName;
+    }
 
     public void updateCharacterCurrentRoom() throws GameException {
         cdb = new CharacterDB();
         cdb.updateCharacterCurrentRoom(this);
     }
 
+    public Character getCharacter() throws GameException {
+        CharacterDB characterDB = new CharacterDB();
+        return characterDB.getCharacterByAccID(accountID);
+    }
 
     /**
      * Method: toString

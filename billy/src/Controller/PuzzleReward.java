@@ -15,6 +15,11 @@ public class PuzzleReward {
         return puzzleRewardDB.getRewardValue(roomID);
     }
 
+    public void updateCharacter(Character character) throws GameException {
+        PuzzleRewardDB puzzleRewardDB = new PuzzleRewardDB();
+        puzzleRewardDB.updateCharacter(character);
+    }
+
     public int getRoomID() {
         return roomID;
     }

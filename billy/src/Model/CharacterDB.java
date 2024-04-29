@@ -212,4 +212,16 @@ public class CharacterDB {
         sdb.close();
         return null;
     }
+
+    public void updateCharacter (int characterID, String usedName) throws GameException {
+        String sql = "UPDATE Character SET lastUsedName = '" + usedName + "' WHERE characterID = '" + characterID + "'";
+        try {
+            SQLiteDB sqLiteDB = new SQLiteDB();
+            sqLiteDB.updateDB(sql);
+            sqLiteDB.close();
+        }
+        catch (SQLException | ClassNotFoundException e) {
+            throw new GameException("Update encountered a problem.\n" + e.getMessage());
+        }
+    }
 }

@@ -19,6 +19,21 @@ public class PuzzleCollider {
         return puzzleDB.getPuzzleCollider(character);
     }
 
+    public void resetPhase(int roomID) throws GameException {
+        PuzzleDB puzzleDB = new PuzzleDB();
+        puzzleDB.resetPhase(roomID);
+    }
+
+    public void updatePhase(Character character) throws GameException {
+        PuzzleDB puzzleDB = new PuzzleDB();
+        puzzleDB.updatePhase(character);
+    }
+
+    public void updatePuzzle(Character character) throws GameException {
+        PuzzleDB puzzleDB = new PuzzleDB();
+        puzzleDB.updatePuzzle(character);
+    }
+
     public int getPuzzleRoomID() {
         return puzzleRoomID;
     }
