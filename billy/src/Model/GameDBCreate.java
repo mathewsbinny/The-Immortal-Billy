@@ -7,6 +7,16 @@ import java.io.FileReader;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+/**
+ * Class: GameDBCreate
+ * @author: Mathews Binny, Jinyi Zhen
+ * @version: 1.0
+ * Course: ITEC 3860
+ * Written: April 28 2024
+ * This class creates the billy.db if it doesn't exist already
+ * Purpose: Creates the DB for Immortal Billy
+ */
+
 public class GameDBCreate {
     SQLiteDB sDB;
     private String dbName;
@@ -19,6 +29,12 @@ public class GameDBCreate {
         this.dbName = "billy.db";
     }
 
+    /**
+     * Method: buildTables
+     * Purpose: Build all tables
+     * @return void
+     * @throws SQLException
+     */
     public void buildTables() throws GameException {
         //buildAccount();
         buildCharacter();
@@ -39,6 +55,12 @@ public class GameDBCreate {
         buildPuzzleChoice();
     }
 
+    /**
+     * Method: buildCharacter
+     * Purpose: Build the Character table and load data
+     * @return void
+     * @throws SQLException
+     */
     public void buildCharacter() throws GameException {
         try{
             sDB = new SQLiteDB(dbName);
@@ -61,6 +83,12 @@ public class GameDBCreate {
         }
     }
 
+    /**
+     * Method: buildRoom
+     * Purpose: Build the Room table and load data
+     * @return void
+     * @throws SQLException
+     */
     public void buildRoom() throws GameException {
         try{
             sDB = new SQLiteDB(dbName);
@@ -82,7 +110,12 @@ public class GameDBCreate {
         }
     }
 
-
+    /**
+     * Method: buildExit
+     * Purpose: Build the Exit table and load data
+     * @return void
+     * @throws SQLException
+     */
     public void buildExit() throws GameException {
         try{
             sDB = new SQLiteDB(dbName);
@@ -104,6 +137,12 @@ public class GameDBCreate {
         }
     }
 
+    /**
+     * Method: buildMonster
+     * Purpose: Build the Monster table and load data
+     * @return void
+     * @throws SQLException
+     */
     public void buildMonster() throws GameException {
         try{
             sDB = new SQLiteDB(dbName);
@@ -125,6 +164,12 @@ public class GameDBCreate {
         }
     }
 
+    /**
+     * Method: buildItem
+     * Purpose: Build the Item table and load data
+     * @return void
+     * @throws SQLException
+     */
     public void buildItem() throws GameException {
         try{
             sDB = new SQLiteDB(dbName);
@@ -146,6 +191,12 @@ public class GameDBCreate {
         }
     }
 
+    /**
+     * Method: buildHelpMenu
+     * Purpose: Build the HelpMenu table and load data
+     * @return void
+     * @throws SQLException
+     */
     public void buildHelpMenu() throws GameException {
         try{
             sDB = new SQLiteDB(dbName);
@@ -167,6 +218,12 @@ public class GameDBCreate {
         }
     }
 
+    /**
+     * Method: buildTracking
+     * Purpose: Build the Tracking table and load data
+     * @return void
+     * @throws SQLException
+     */
     public void buildTracking() throws GameException{
         try{
             sDB = new SQLiteDB(dbName);
@@ -189,6 +246,12 @@ public class GameDBCreate {
 
     }
 
+    /**
+     * Method: buildCharacterAttack
+     * Purpose: Build the CharacterAttack table and load data
+     * @return void
+     * @throws SQLException
+     */
     public void buildCharacterAttack() throws GameException {
         try{
             sDB = new SQLiteDB(dbName);
@@ -210,6 +273,12 @@ public class GameDBCreate {
         }
     }
 
+    /**
+     * Method: buildMonsterAttack
+     * Purpose: Build the MonsterAttack table and load data
+     * @return void
+     * @throws SQLException
+     */
     public void buildMonsterAttack() throws GameException {
         try{
             sDB = new SQLiteDB(dbName);
@@ -231,6 +300,12 @@ public class GameDBCreate {
         }
     }
 
+    /**
+     * Method: buildCharacterItem
+     * Purpose: Build the CharacterItem table and load data
+     * @return void
+     * @throws SQLException
+     */
     public void buildCharacterItem() throws GameException {
         try{
             sDB = new SQLiteDB(dbName);
@@ -253,6 +328,12 @@ public class GameDBCreate {
 
     }
 
+    /**
+     * Method: buildItemRoom
+     * Purpose: Build the ItemRoom table and load data
+     * @return void
+     * @throws SQLException
+     */
     public void buildItemRoom() throws GameException {
         try{
             sDB = new SQLiteDB(dbName);
@@ -275,6 +356,12 @@ public class GameDBCreate {
 
     }
 
+    /**
+     * Method: buildPuzzle
+     * Purpose: Build the Puzzle table and load data
+     * @return void
+     * @throws SQLException
+     */
     public void buildPuzzle() throws GameException {
         try{
             sDB = new SQLiteDB(dbName);
@@ -296,6 +383,12 @@ public class GameDBCreate {
         }
     }
 
+    /**
+     * Method: buildPlayerInput
+     * Purpose: Build the PlayerInput table and load data -- this is for puzzle functionalities
+     * @return void
+     * @throws SQLException
+     */
     public void buildPlayerInput() throws GameException {
         try{
             sDB = new SQLiteDB(dbName);
@@ -317,6 +410,12 @@ public class GameDBCreate {
         }
     }
 
+    /**
+     * Method: buildPuzzleCollidor
+     * Purpose: Build the PuzzleCollider table and load data
+     * @return void
+     * @throws SQLException
+     */
     public void buildPuzzleCollider() throws GameException {
         try{
             sDB = new SQLiteDB(dbName);
@@ -338,6 +437,12 @@ public class GameDBCreate {
         }
     }
 
+    /**
+     * Method: buildPuzzleReward
+     * Purpose: Build the PuzzleReward table and load data
+     * @return void
+     * @throws SQLException
+     */
     public void buildPuzzleReward() throws GameException {
         try{
             sDB = new SQLiteDB(dbName);
@@ -359,6 +464,12 @@ public class GameDBCreate {
         }
     }
 
+    /**
+     * Method: buildPuzzleChoice
+     * Purpose: Build the PuzzleChoice table and load data
+     * @return void
+     * @throws SQLException
+     */
     public void buildPuzzleChoice() throws GameException {
         try{
             sDB = new SQLiteDB(dbName);

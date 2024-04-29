@@ -7,9 +7,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Class: DB.java
+ * @author: Mathews Binny
+ * @version: 1.0
+ * Course: ITEC 3860
+ * Written: April 28 2024
+ * This class controls basic DB functionality
+ * Purpose:Has Query and Update DB
+ */
 
 public abstract class DB {
-    Account account = new Account();
 
     protected String dbName = "billy.db";  //account.buildPasswordCombination(); //Change to make account create DB name
     protected String sJdbc;
