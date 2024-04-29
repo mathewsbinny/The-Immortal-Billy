@@ -199,15 +199,16 @@ public class PuzzleDB {
      * Method: updateInput
      * Purpose: create a new player input use characterID. (only for puzzle "rainbow button")
      */
-    public void createInput(int characterID) throws SQLException, ClassNotFoundException {
-        SQLiteDB sqLiteDB = new SQLiteDB();
+    public void createInput(int characterID) throws GameException {
+        String sql = "INSERT INTO PlayerInput VALUES('" + characterID + "', '')";
         try {
-            sqLiteDB.updateDB("INSERT INTO PlayerInput VALUES('" + characterID + "', '')");
+            SQLiteDB sqLiteDB = new SQLiteDB();
+            sqLiteDB.updateDB(sql);
+            sqLiteDB.close();
         }
-        catch (SQLException e){
-            throw new SQLException("Cant create in the database.");
+        catch (SQLException | ClassNotFoundException e){
+            throw new GameException("Cant create in the database.");
         }
-        sqLiteDB.close();
     }
 
     /**
