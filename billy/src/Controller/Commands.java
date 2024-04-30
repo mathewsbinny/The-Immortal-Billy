@@ -1,6 +1,7 @@
 package Controller;
 
 import GameExceptions.GameException;
+import Model.CharacterDB;
 import Model.ExitDB;
 import Model.RoomDB;
 
@@ -62,18 +63,11 @@ public class Commands {
 
 
     public String move(String cmd) throws GameException {
-        Room room1 = new Room();
-        Character character1 = new Character();
-        Character characterData = character1.getCharacter1();
-        String displayedRoom;
-        RoomDB rdb = new RoomDB();
-        System.out.println(characterData.getCharacterCurrentRoomID() + " currentRoomID");
-        room1.validateDirection(cmd);
-        ExitDB exitDB = new ExitDB();
-        characterData = character1.getCharacter1();
-        room1.setExitList(exitDB.getExits(characterData.getCharacterCurrentRoomID()));
-        System.out.println("Next you can go: " + room1.getExitList());
-        return "";
+        room.setRoomID(validateCommand(cmd));
+        character.setCurrentRoom(room.retrieveByID(validateCommand(cmd)));
+        character.setCharacterCurrentRoomID(validateCommand(cmd));
+        character.updateCharacterCurrentRoom(character);
 
+        return character.getCurrentRoom().display();
     }
 }

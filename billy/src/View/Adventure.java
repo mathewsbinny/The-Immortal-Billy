@@ -18,18 +18,20 @@ public class Adventure {
     public static void main(String[] args) throws GameException {
         GameController gc = new GameController();
         Adventure adventure = new Adventure();
-        adventure.playGame(gc);
-        RoomDB rdb = new RoomDB();
-
-        System.out.println(rdb.getRoomByRoomID(1));
+       adventure.playGame(gc);
+       Room room = new Room();
     }
     public void playGame(GameController gc) throws GameException {
         gc.startDB();
         boolean stopped = true;
-        while(stopped){
+        try {
+            while (stopped) {
 
                 System.out.println("What would you like to do");
                 System.out.println(gc.executeCommand(sc.nextLine()));
+            }
+        }catch(GameException ge){
+            System.out.println(ge.getMessage());
         }
     }
 }
