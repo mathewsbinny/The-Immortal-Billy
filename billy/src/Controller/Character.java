@@ -144,11 +144,6 @@ public class Character {
         return characterDB.getCharacterByAccID(accountID);
     }
 
-    public Character getCharacter1() throws GameException {
-        CharacterDB characterDB = new CharacterDB();
-        return characterDB.getCharacter();
-    }
-
     /**
      * Method: toString
      * Purpose: Returns a String of the Character class

@@ -18,6 +18,4 @@ public class Combat {
         throw new GameException();
     }
 
-
-
 }
