@@ -26,7 +26,7 @@ public class Adventure {
     public void playGame(GameController gc) throws GameException {
         gc.startDB();
         boolean stopped = true;
-        for(int i = 0; i < 4; i++){
+        while(stopped){
 
                 System.out.println("What would you like to do");
                 System.out.println(gc.executeCommand(sc.nextLine()));

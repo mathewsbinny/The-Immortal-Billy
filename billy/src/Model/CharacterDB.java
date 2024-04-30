@@ -9,6 +9,37 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CharacterDB {
+
+    public Character getCharacter() throws GameException {
+        Character character = new Character();
+        try {
+            SQLiteDB sdb = new SQLiteDB();
+            String sql = "Select * from Character";
+            ResultSet rs = sdb.queryDB(sql);
+            if (rs.next()) {
+                character.setAccountID(rs.getInt("accountID"));
+                character.setCharacterCurrentRoomID(rs.getInt("characterCurrentRoom"));
+                character.setCharacterID(rs.getInt("characterID"));
+                character.setCharacterName(rs.getString("characterName"));
+                character.setCharacterCurrentHP(rs.getInt("characterCurrentHP"));
+                character.setCharacterMaxHP(rs.getInt("characterMaxHP"));
+                character.setCharacterMPLevel(rs.getInt("characterMPLevel"));
+                character.setCharacterDP(rs.getInt("characterDP"));
+                character.setCharacterAP(rs.getInt("characterAP"));
+                character.setCharacterXP(rs.getInt("characterXP"));
+                character.setCharacterLevel(rs.getInt("characterLevel"));
+            } else {
+                throw new SQLException("Character for Account not found");
+            }
+            //Close the SQLiteDB connection since SQLite only allows one updater
+            sdb.close();
+        }
+        catch (SQLException | ClassNotFoundException ex) {
+            throw new GameException("Character for was not found.");
+        }
+        return character;
+    }
+
     /**
      * Method: getCharacterByAccID
      * Purpose: Gets a Character based upon the supplied accountID
@@ -57,7 +88,7 @@ public class CharacterDB {
         Character character = new Character();
         try {
             SQLiteDB sdb = new SQLiteDB();
-            String sql = "Select * from Character WHERE accountID = " + characterID;
+            String sql = "Select * from Character WHERE characterID = " + characterID;
             ResultSet rs = sdb.queryDB(sql);
             if (rs.next()) {
                 character.setAccountID(rs.getInt("accountID"));
