@@ -2,6 +2,7 @@ package Controller;
 
 import GameExceptions.GameException;
 import Model.CharacterDB;
+import Model.ExitDB;
 import Model.RoomDB;
 
 import java.util.ArrayList;
@@ -93,25 +94,46 @@ public class Room {
         return roomDB.getRoomByRoomID(roomID);
     }
 
-    public int validateDirection(String command) throws GameException {
-        int newRoomID = 1;
-        boolean found = false;
-
-        for (int i = 0; !found && i < exitList.size(); i++) {
-            if (exitList.get(i).getDirection().charAt(0) == command.charAt(0)) {
-                newRoomID = exitList.get(i).getExitDestinationID();
-                found = true;
-
+    public String validateDirection(String command) throws GameException {
+        command = command.toUpperCase();
+        if (command.equals("F")) {
+            command = "FORWARD";
+        } else if (command.equals("B")) {
+            command = "BACK";
+        }
+        else if(command.equals("N")){
+            command = "NORTH";
+        }
+        else if(command.equals("S")){
+            command = "SOUTH";
+        }
+        else if(command.equals("E")){
+            command = "EAST";
+        }
+        else if(command.equals("W")){
+            command = "WEST";
+        }
+        else if(command.equals("U")){
+            command = "UP";
+        }
+        Character character = new Character();
+        Character characterData = character.getCharacter1();
+        ExitDB exitDB = new ExitDB();
+        exitList = exitDB.getExits(characterData.getCharacterCurrentRoomID());
+        int i = 0;
+        for (Exit direction : exitList) {
+            if (direction.getDirection().equals(command)) {
+                System.out.println("into update currentRoomID");
+                characterData.setCharacterCurrentRoomID(direction.getExitDestinationID());
+                CharacterDB characterDB = new CharacterDB();
+                characterDB.updateCharacterCurrentRoom(characterData);
+                System.out.println(" Moved after roomID is " + direction.getExitDestinationID());
             }
         }
-        if (found) {
-            throw new GameException("Invalid Direction Entered");
-        }
-
-        return newRoomID;
+        return "Invalid Direction Entered";
     }
 
-    public String display(){
+        public String display(){
     return toString();
 
     }

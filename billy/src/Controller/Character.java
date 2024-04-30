@@ -134,14 +134,19 @@ public class Character {
         this.lastUsedName = lastUsedName;
     }
 
-    public void updateCharacterCurrentRoom() throws GameException {
-        cdb = new CharacterDB();
-        cdb.updateCharacterCurrentRoom(this);
+    public void updateCharacterCurrentRoom(Character character) throws GameException {
+        CharacterDB characterDB = new CharacterDB();
+        characterDB.updateCharacterCurrentRoom(character);
     }
 
     public Character getCharacter() throws GameException {
         CharacterDB characterDB = new CharacterDB();
         return characterDB.getCharacterByAccID(accountID);
+    }
+
+    public Character getCharacter1() throws GameException {
+        CharacterDB characterDB = new CharacterDB();
+        return characterDB.getCharacter();
     }
 
     /**
