@@ -39,7 +39,7 @@ The test suite uses JUnit 5. A standalone runner jar is downloaded on first use
 (cached under `resources/libraries/`). Run the tests from `billy/` with:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File run-tests.ps1
+powershell -ExecutionPolicy Bypass -File test/run-tests.ps1
 ```
 
 Tests cover the model (`Player`), persistence (`SaveStore`), content loading

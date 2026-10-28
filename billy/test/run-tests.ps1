@@ -1,7 +1,7 @@
 # Compiles the game and runs the JUnit 5 test suite.
-# Usage: powershell -ExecutionPolicy Bypass -File run-tests.ps1
+# Usage: powershell -ExecutionPolicy Bypass -File test/run-tests.ps1
 $ErrorActionPreference = 'Stop'
-Set-Location $PSScriptRoot
+Set-Location (Split-Path -Parent $PSScriptRoot)  # move to billy/
 
 $junit = 'resources/libraries/junit-platform-console-standalone.jar'
 $junitUrl = 'https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.11.4/junit-platform-console-standalone-1.11.4.jar'
