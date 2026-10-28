@@ -17,10 +17,11 @@ public class Monster {
     private final double dp;
     private final double ap;
     private final int bossPhase;
+    private final Element element;
     private final List<MonsterAttack> attacks = new ArrayList<>();
 
     public Monster(int id, int roomId, String name, String category, double maxHp,
-                   double dp, double ap, int bossPhase) {
+                   double dp, double ap, int bossPhase, Element element) {
         this.id = id;
         this.roomId = roomId;
         this.name = name;
@@ -29,6 +30,7 @@ public class Monster {
         this.dp = dp;
         this.ap = ap;
         this.bossPhase = bossPhase;
+        this.element = element;
     }
 
     public int getId() {
@@ -61,6 +63,10 @@ public class Monster {
 
     public int getBossPhase() {
         return bossPhase;
+    }
+
+    public Element getElement() {
+        return element;
     }
 
     public List<MonsterAttack> getAttacks() {

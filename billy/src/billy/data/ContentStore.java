@@ -2,6 +2,7 @@ package billy.data;
 
 import billy.GameException;
 import billy.model.Attack;
+import billy.model.Element;
 import billy.model.HelpEntry;
 import billy.model.Item;
 import billy.model.Monster;
@@ -129,13 +130,15 @@ public class ContentStore {
                 Monster monster = new Monster(rs.getInt("monsterID"), rs.getInt("monsterRoomID"),
                         rs.getString("monsterName"), rs.getString("monsterCategory"),
                         rs.getDouble("monsterMaxHP"), rs.getDouble("monsterDP"), rs.getDouble("monsterAP"),
-                        rs.getInt("monsterBossPhase"));
+                        rs.getInt("monsterBossPhase"),
+                        monsterElementFor(rs.getInt("monsterRoomID"), rs.getString("monsterName")));
                 monsters.put(monster.getId(), monster);
             }
         }
     }
 
     private void hydrateAttacks(Connection conn) throws SQLException {
+        List<MonsterAttack> globalAttacks = new ArrayList<>();
         try (Statement st = conn.createStatement(); ResultSet rs = st.executeQuery("SELECT * FROM AttackMonster")) {
             while (rs.next()) {
                 MonsterAttack attack = new MonsterAttack(rs.getInt("attackID"), rs.getString("attackName"),
@@ -144,17 +147,59 @@ public class ContentStore {
                 Monster owner = monsters.get(attack.getMonsterId());
                 if (owner != null) {
                     owner.addAttack(attack);
+                } else {
+                    globalAttacks.add(attack);
                 }
+            }
+        }
+        // The generic "Attack" (monsterID NULL) is a basic move every monster can use.
+        for (Monster monster : monsters.values()) {
+            for (MonsterAttack attack : globalAttacks) {
+                monster.addAttack(attack);
             }
         }
         try (Statement st = conn.createStatement(); ResultSet rs = st.executeQuery("SELECT * FROM AttackCharacter")) {
             while (rs.next()) {
                 Attack attack = new Attack(rs.getInt("attackID"), rs.getString("attackName"),
                         rs.getString("attackUIType"), rs.getInt("attackMonsterID"), rs.getInt("attackMPLevel"),
-                        rs.getDouble("attackAddHP"), rs.getDouble("attackAddAP"), rs.getString("attackDescription"));
+                        rs.getDouble("attackAddHP"), rs.getDouble("attackAddAP"), rs.getString("attackDescription"),
+                        attackElementFor(rs.getInt("attackMonsterID")));
                 attacks.add(attack);
             }
         }
+    }
+
+    /** Derives a monster's element from its room region, with throne-boss overrides. */
+    private Element monsterElementFor(int roomId, String name) {
+        Room room = rooms.get(roomId);
+        String region = room == null ? "" : room.getRegion();
+        switch (region.toLowerCase()) {
+            case "earth": return Element.EARTH;
+            case "water": return Element.WATER;
+            case "air": return Element.AIR;
+            case "fire": return Element.FIRE;
+            default: break;
+        }
+        // Throne-room bosses carry their element in their name; the Demon King is neutral.
+        if (name.contains("Earth")) {
+            return Element.EARTH;
+        }
+        if (name.contains("Water")) {
+            return Element.WATER;
+        }
+        if (name.contains("Air")) {
+            return Element.AIR;
+        }
+        if (name.contains("Fire")) {
+            return Element.FIRE;
+        }
+        return Element.PHYSICAL;
+    }
+
+    /** A player attack inherits the element of the monster that teaches it. */
+    private Element attackElementFor(int monsterId) {
+        Monster monster = monsters.get(monsterId);
+        return monster == null ? Element.PHYSICAL : monster.getElement();
     }
 
     private void hydratePuzzles(Connection conn) throws SQLException {

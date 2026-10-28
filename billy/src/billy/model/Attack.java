@@ -14,9 +14,10 @@ public class Attack {
     private final double addHp;   // healing component
     private final double addAp;   // damage component
     private final String description;
+    private final Element element; // element of the attack, derived from its teacher
 
     public Attack(int id, String name, String uiType, int monsterId, int mpLevel,
-                  double addHp, double addAp, String description) {
+                  double addHp, double addAp, String description, Element element) {
         this.id = id;
         this.name = name;
         this.uiType = uiType;
@@ -25,6 +26,7 @@ public class Attack {
         this.addHp = addHp;
         this.addAp = addAp;
         this.description = description;
+        this.element = element;
     }
 
     public int getId() {
@@ -57,6 +59,10 @@ public class Attack {
 
     public String getDescription() {
         return description;
+    }
+
+    public Element getElement() {
+        return element;
     }
 
     @Override
