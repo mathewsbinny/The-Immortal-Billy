@@ -45,7 +45,8 @@ powershell -ExecutionPolicy Bypass -File test/run-tests.ps1
 
 Tests cover the model (`Player`), persistence (`SaveStore`), content loading
 (`ContentStore`), world generation (`World`), turn-based combat
-(`CombatEngine`), and the interactive flows (`MainMenu`, `Game`). Interactive
+(`CombatEngine`) including elemental matchups and status effects, and the
+interactive flows (`MainMenu`, `Game`). Interactive
 components are tested by injecting scripted input through `Console`'s stream
 constructor.
 
@@ -75,7 +76,9 @@ Spells cost MP and carry an element (Fire, Air, Earth, or Water), forming a
 rock-paper-scissors cycle that multiplies damage by 1.5 (strong) or 0.5 (weak).
 Every attack rolls a d20: a natural 20 scores a critical hit (double damage),
 and monsters miss on a roll of 1-3. Elemental hits can also inflict a
-combat-scoped status (Poison, Burn, Frozen, or Dazed). `Run Away` returns you
+combat-scoped status (Poison, Burn, Frozen, or Dazed). The spell menu lists
+each spell's element and expected effect, and the combat display shows active
+statuses with their remaining turns. `Run Away` returns you
 to the previous room. Defeating monsters grants XP and can teach you spells;
 dying returns you to the hub (re-randomizing the districts) with your inventory
 and progress intact.
@@ -95,7 +98,7 @@ billy/
     Main.java            entry point
     Game.java            main game loop + command routing
     GameException.java   custom exception
-    model/               domain objects (Player, Room, Monster, Item, Attack, ...)
+    model/               domain objects (Player, Room, Monster, Item, Attack, Element, Status, StatusTracker, ...)
     data/                Database, ContentStore (static content), SaveStore (accounts/saves)
     world/               World + randomized district generation
     combat/              turn-based CombatEngine
