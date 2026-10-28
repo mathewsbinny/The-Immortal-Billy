@@ -36,7 +36,7 @@ defeated monsters, room, keys) is persisted to `save.db` automatically on
 ## Testing
 
 The test suite uses JUnit 5. A standalone runner jar is downloaded on first use
-(cached under `test-lib/`). Run the tests from `billy/` with:
+(cached under `resources/libraries/`). Run the tests from `billy/` with:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File run-tests.ps1

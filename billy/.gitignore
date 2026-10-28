@@ -32,5 +32,4 @@ bin/
 *.db
 out/
 out-test/
-test-lib/
 *.class

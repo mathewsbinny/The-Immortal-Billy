@@ -3,12 +3,12 @@
 $ErrorActionPreference = 'Stop'
 Set-Location (Split-Path -Parent $PSScriptRoot)  # move to billy/
 
-$junit = 'test-lib/junit-platform-console-standalone.jar'
+$junit = 'resources/libraries/junit-platform-console-standalone.jar'
 $junitUrl = 'https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.11.4/junit-platform-console-standalone-1.11.4.jar'
 $sqlite = 'resources/libraries/sqlite-jdbc-3.43.0.0.jar'
 
 if (-not (Test-Path $junit)) {
-    New-Item -ItemType Directory -Force -Path 'test-lib' | Out-Null
+    New-Item -ItemType Directory -Force -Path 'resources/libraries' | Out-Null
     Write-Host 'Downloading JUnit 5 standalone runner...'
     Invoke-WebRequest -Uri $junitUrl -OutFile $junit -UseBasicParsing
 }
