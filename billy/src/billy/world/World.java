@@ -85,49 +85,80 @@ public class World {
 
     private void buildDistricts(Random random) {
         for (String[] cfg : REGION_CONFIG) {
-            String region = cfg[0];
-            Room gate = content.getRoom(Integer.parseInt(cfg[1]));
-            String direction = cfg[2];
-
-            List<Room> regionRooms = new ArrayList<>();
-            Room miniboss = null;
-            for (Room room : content.getRooms().values()) {
-                if (!region.equalsIgnoreCase(room.getRegion())) {
-                    continue;
-                }
-                regionRooms.add(room);
-                Monster monster = content.findMonsterByRoom(room.getId());
-                if (monster != null && monster.isMiniboss()) {
-                    miniboss = room;
-                }
-            }
-
-            String keyName = null;
-            if (miniboss != null) {
-                for (Item item : content.getItems().values()) {
-                    if (item.isKey() && item.getRoomId() == miniboss.getId()) {
-                        keyName = item.getName();
-                    }
-                }
-            }
-
-            List<Room> interior = new ArrayList<>();
-            for (Room room : regionRooms) {
-                if (room.getId() != gate.getId() && (miniboss == null || room.getId() != miniboss.getId())) {
-                    interior.add(room);
-                }
-            }
-            Collections.shuffle(interior, random);
-
-            List<Room> path = new ArrayList<>();
-            path.add(gate);
-            path.addAll(interior);
-            if (miniboss != null) {
-                path.add(miniboss);
-            }
-
-            districts.add(new District(region, gate, path, miniboss, keyName, direction));
+            districts.add(buildDistrict(cfg[0], Integer.parseInt(cfg[1]), cfg[2], random));
         }
+    }
+
+    private District buildDistrict(String region, int gateId, String direction, Random random) {
+        Room gate = content.getRoom(gateId);
+        List<Room> regionRooms = new ArrayList<>();
+        Room miniboss = null;
+        for (Room room : content.getRooms().values()) {
+            if (!region.equalsIgnoreCase(room.getRegion())) {
+                continue;
+            }
+            regionRooms.add(room);
+            Monster monster = content.findMonsterByRoom(room.getId());
+            if (monster != null && monster.isMiniboss()) {
+                miniboss = room;
+            }
+        }
+
+        String keyName = null;
+        if (miniboss != null) {
+            for (Item item : content.getItems().values()) {
+                if (item.isKey() && item.getRoomId() == miniboss.getId()) {
+                    keyName = item.getName();
+                }
+            }
+        }
+
+        List<Room> interior = new ArrayList<>();
+        for (Room room : regionRooms) {
+            if (room.getId() != gate.getId() && (miniboss == null || room.getId() != miniboss.getId())) {
+                interior.add(room);
+            }
+        }
+        Collections.shuffle(interior, random);
+
+        List<Room> path = new ArrayList<>();
+        path.add(gate);
+        path.addAll(interior);
+        if (miniboss != null) {
+            path.add(miniboss);
+        }
+        return new District(region, gate, path, miniboss, keyName, direction);
+    }
+
+    /** Re-randomizes every district (used at the start of a new life). */
+    public void reshuffleAll(Random random) {
+        districts.clear();
+        buildDistricts(random);
+        exits.clear();
+        buildExits();
+    }
+
+    /** Re-randomizes a single district's interior (used on re-entry from the hub). */
+    public void reshuffleDistrict(int gateRoomId, Random random) {
+        for (int i = 0; i < districts.size(); i++) {
+            District district = districts.get(i);
+            if (district.getGate().getId() == gateRoomId) {
+                districts.set(i, buildDistrict(district.getRegion(), district.getGate().getId(),
+                        district.getHubDirection(), random));
+                break;
+            }
+        }
+        exits.clear();
+        buildExits();
+    }
+
+    public boolean isDistrictGate(int roomId) {
+        for (District district : districts) {
+            if (district.getGate().getId() == roomId) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void buildExits() {

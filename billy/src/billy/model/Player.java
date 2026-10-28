@@ -40,7 +40,8 @@ public class Player {
     private double maxHp = 100;
     private double ap = 25;
     private double dp = 10;
-    private int mp = 1;
+    private int mp = 10;
+    private int maxMp = 10;
     private int xp = 0;
     private int level = 1;
     private int deaths = 0;
@@ -115,6 +116,26 @@ public class Player {
 
     public void setMp(int mp) {
         this.mp = mp;
+    }
+
+    public int getMaxMp() {
+        return maxMp;
+    }
+
+    public void setMaxMp(int maxMp) {
+        this.maxMp = maxMp;
+    }
+
+    public boolean hasMp(int cost) {
+        return mp >= cost;
+    }
+
+    public void spendMp(int cost) {
+        mp = Math.max(0, mp - cost);
+    }
+
+    public void restoreMpToFull() {
+        mp = maxMp;
     }
 
     public int getXp() {
@@ -276,7 +297,8 @@ public class Player {
                 dp += 5;
                 break;
             case MAGIC:
-                mp += 1;
+                maxMp += 5;
+                mp = maxMp;
                 break;
         }
     }

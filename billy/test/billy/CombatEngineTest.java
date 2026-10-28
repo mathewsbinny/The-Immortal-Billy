@@ -58,8 +58,9 @@ class CombatEngineTest {
     void defeatWhenPlayerHpReachesZero() {
         Player player = defaultPlayer();
         player.setHp(5);
-        Monster monster = content.getMonster(1); // hits for 40
-        CombatEngine engine = new CombatEngine(consoleWith("1\n"), content);
+        // Overwhelming monster: the player cannot kill it, and one hit is lethal.
+        Monster monster = new Monster(99, 99, "Overwhelming Beast", "monster", 100000, 0, 1000, 0);
+        CombatEngine engine = new CombatEngine(consoleWith("1\n1\n1\n1\n1\n1\n1\n1\n1\n1\n"), content);
         assertEquals(CombatEngine.Outcome.DEFEAT, engine.fight(player, monster, content.getAttacks()));
         assertTrue(player.getHp() <= 0);
     }
@@ -72,5 +73,6 @@ class CombatEngineTest {
         Monster monster = content.getMonster(9); // Fire Elemental
         CombatEngine engine = new CombatEngine(consoleWith("2\n1\n"), content);
         assertEquals(CombatEngine.Outcome.VICTORY, engine.fight(player, monster, content.getAttacks()));
+        assertEquals(1, player.getMp()); // Fireball costs 4 MP
     }
 }

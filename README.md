@@ -6,7 +6,7 @@ You play Billy, an adventurer who awakens in a central hub with four elemental
 districts branching off it (Earth, Water, Air, Fire). Each district is a
 randomly-ordered chain of puzzle, battle, and special rooms ending in a
 miniboss. Defeat all four minibosses to collect their keys, return to the hub,
-and unlock the Throne Room to face the final boss.
+and unlock the Throne Room to face a five-phase final boss.
 
 ## Requirements
 
@@ -26,9 +26,10 @@ java --enable-native-access=ALL-UNNAMED -cp "out;resources/sqlite-jdbc-3.43.0.0.
 > `--enable-native-access=ALL-UNNAMED` only silences a harmless JDK 24+ warning
 > from the SQLite driver; it is not required on older JDKs.
 
-On login you can create an account or resume an existing save. Progress
-(inventory, equipment, stats, defeated monsters, room, keys) is persisted to
-`save.db` automatically on `QUIT` or `SAVE`.
+After logging in you land in an account menu where you can Play Game, change
+your password, or delete your account. Passwords are stored as SHA-256 hashes.
+Progress (inventory, equipment, stats, defeated monsters, room, keys) is
+persisted to `save.db` automatically on `QUIT` or `SAVE`.
 
 ## Testing
 
@@ -64,12 +65,17 @@ powershell -ExecutionPolicy Bypass -File test/playthrough.ps1
 - `STATS`, `MAP`, `HELP`, `SAVE`, `QUIT`.
 
 Combat is turn-based: `Attack`, `Cast Spell`, `Use Item`, or `Run Away`.
-Defeating monsters grants XP and can teach you spells. Dying returns you to the
-hub with your inventory and progress intact.
+Spells cost MP. Monster attacks are chosen by their authored probability and can
+miss. `Run Away` returns you to the previous room. Defeating monsters grants XP
+and can teach you spells; dying returns you to the hub (re-randomizing the
+districts) with your inventory and progress intact.
 
 Puzzle rooms are solved with special actions, the right item, or the right
 spell; solving grants XP and rewards. Accumulated XP is spent manually via
 `LEVELUP`.
+
+District layouts are re-randomized at the start of each life and whenever you
+re-enter a district from the hub.
 
 ## Project layout
 
@@ -93,11 +99,15 @@ by `ContentStore`. Player state is stored in `save.db` by `SaveStore`.
 
 ## Status
 
-Implemented: accounts/login, save/load, the cross-shaped map with randomized
-district arms, movement, loot pickup, consumables, equipment, turn-based combat,
-spell learning, puzzle rooms (action/item/spell), manual level-ups, miniboss
-key drops, and the final boss / win condition.
+Implemented: accounts/login (hashed passwords + account management), save/load,
+the cross-shaped map with randomized district arms (re-randomized per life and
+on re-entry), movement, loot pickup, consumables, equipment, turn-based combat
+with an MP resource and weighted/missable monster attacks, spell learning,
+puzzle rooms (action/item/spell), manual level-ups, miniboss key drops, and a
+five-phase final boss / win condition. A 51-test suite includes a deterministic
+end-to-end playthrough.
 
-Still to do: balance tuning.
+Balance has had a first tuning pass; further playtesting may suggest more
+adjustments.
 
 

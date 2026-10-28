@@ -4,6 +4,9 @@ import billy.GameException;
 import billy.model.Account;
 import billy.model.Player;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -38,6 +41,7 @@ public class SaveStore {
                     + "ap REAL NOT NULL,"
                     + "dp REAL NOT NULL,"
                     + "mp INTEGER NOT NULL,"
+                    + "max_mp INTEGER NOT NULL DEFAULT 10,"
                     + "xp INTEGER NOT NULL,"
                     + "level INTEGER NOT NULL,"
                     + "deaths INTEGER NOT NULL DEFAULT 0,"
@@ -56,7 +60,7 @@ public class SaveStore {
         try (Connection conn = Database.connect(dbName);
              PreparedStatement ps = conn.prepareStatement(insert)) {
             ps.setString(1, username);
-            ps.setString(2, password);
+            ps.setString(2, hashPassword(password));
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new GameException("That username is already taken.", e);
@@ -81,7 +85,7 @@ public class SaveStore {
         try (Connection conn = Database.connect(dbName);
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, username);
-            ps.setString(2, password);
+            ps.setString(2, hashPassword(password));
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     return new Account(rs.getInt("id"), username, password);
@@ -91,6 +95,47 @@ public class SaveStore {
             throw new GameException("Could not log in: " + e.getMessage(), e);
         }
         return null;
+    }
+
+    private String hashPassword(String password) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+            StringBuilder hex = new StringBuilder();
+            for (byte b : hash) {
+                hex.append(String.format("%02x", b));
+            }
+            return hex.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalStateException("SHA-256 is not available.", e);
+        }
+    }
+
+    public void updatePassword(int accountId, String newPassword) throws GameException {
+        String sql = "UPDATE accounts SET password = ? WHERE id = ?";
+        try (Connection conn = Database.connect(dbName);
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, hashPassword(newPassword));
+            ps.setInt(2, accountId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new GameException("Could not update password: " + e.getMessage(), e);
+        }
+    }
+
+    public void deleteAccount(int accountId) throws GameException {
+        try (Connection conn = Database.connect(dbName)) {
+            try (PreparedStatement ps = conn.prepareStatement("DELETE FROM saves WHERE account_id = ?")) {
+                ps.setInt(1, accountId);
+                ps.executeUpdate();
+            }
+            try (PreparedStatement ps = conn.prepareStatement("DELETE FROM accounts WHERE id = ?")) {
+                ps.setInt(1, accountId);
+                ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new GameException("Could not delete account: " + e.getMessage(), e);
+        }
     }
 
     /** Creates a fresh player for the account (with the starting attack learned). */
@@ -120,6 +165,7 @@ public class SaveStore {
                 player.setAp(rs.getDouble("ap"));
                 player.setDp(rs.getDouble("dp"));
                 player.setMp(rs.getInt("mp"));
+                player.setMaxMp(rs.getInt("max_mp"));
                 player.setXp(rs.getInt("xp"));
                 player.setLevel(rs.getInt("level"));
                 player.setDeaths(rs.getInt("deaths"));
@@ -145,17 +191,17 @@ public class SaveStore {
                 }
             }
             if (exists) {
-                String sql = "UPDATE saves SET player_name=?, room_id=?, hp=?, max_hp=?, ap=?, dp=?, mp=?, xp=?, level=?,"
+                String sql = "UPDATE saves SET player_name=?, room_id=?, hp=?, max_hp=?, ap=?, dp=?, mp=?, max_mp=?, xp=?, level=?,"
                         + " deaths=?, monsters_killed=?, rooms_visited=?, play_time=?, inventory=?, flags=? WHERE account_id=?";
                 try (PreparedStatement ps = conn.prepareStatement(sql)) {
                     bindPlayerFields(ps, player, 1);
-                    ps.setInt(16, player.getAccountId());
+                    ps.setInt(17, player.getAccountId());
                     ps.executeUpdate();
                 }
             } else {
-                String sql = "INSERT INTO saves(account_id, player_name, room_id, hp, max_hp, ap, dp, mp, xp, level,"
+                String sql = "INSERT INTO saves(account_id, player_name, room_id, hp, max_hp, ap, dp, mp, max_mp, xp, level,"
                         + " deaths, monsters_killed, rooms_visited, play_time, inventory, flags)"
-                        + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                        + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                 try (PreparedStatement ps = conn.prepareStatement(sql)) {
                     ps.setInt(1, player.getAccountId());
                     bindPlayerFields(ps, player, 2);
@@ -176,6 +222,7 @@ public class SaveStore {
         ps.setDouble(i++, player.getAp());
         ps.setDouble(i++, player.getDp());
         ps.setInt(i++, player.getMp());
+        ps.setInt(i++, player.getMaxMp());
         ps.setInt(i++, player.getXp());
         ps.setInt(i++, player.getLevel());
         ps.setInt(i++, player.getDeaths());

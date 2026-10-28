@@ -18,6 +18,8 @@ public class CombatEngine {
 
     public enum Outcome { VICTORY, DEFEAT, RAN_AWAY }
 
+    private static final double MISS_CHANCE = 0.15;
+
     private final Console console;
     private final ContentStore content;
     private final Random random;
@@ -72,6 +74,7 @@ public class CombatEngine {
                 if (spell == null) {
                     continue;
                 }
+                player.spendMp(spell.getMpLevel());
                 monsterHp[0] -= Math.max(1, spell.getAddAp() + player.getAp() - monster.getDp());
                 if (spell.getAddHp() > 0) {
                     player.setHp(Math.min(player.getMaxHp(), player.getHp() + spell.getAddHp()));
@@ -82,7 +85,6 @@ public class CombatEngine {
                     continue;
                 }
             } else if (choice.equals("4")) {
-                console.println("You flee back the way you came.");
                 return Outcome.RAN_AWAY;
             } else {
                 console.println("Choose 1-4.");
@@ -90,7 +92,7 @@ public class CombatEngine {
             }
 
             if (monsterHp[0] <= 0) {
-                console.println("You defeated the " + monster.getName() + "!");
+                console.println(monster.getName() + " has been defeated!");
                 return Outcome.VICTORY;
             }
 
@@ -116,7 +118,7 @@ public class CombatEngine {
         console.println("Spells:");
         for (int i = 0; i < spells.size(); i++) {
             Attack spell = spells.get(i);
-            String note = player.getMp() >= spell.getMpLevel() ? "" : " (needs MP " + spell.getMpLevel() + ")";
+            String note = player.hasMp(spell.getMpLevel()) ? "" : " (needs " + spell.getMpLevel() + " MP)";
             console.println("  " + (i + 1) + ". " + spell.getName() + note);
         }
         String input = console.prompt("Spell # (or BACK): ");
@@ -127,8 +129,8 @@ public class CombatEngine {
             int index = Integer.parseInt(input.trim()) - 1;
             if (index >= 0 && index < spells.size()) {
                 Attack spell = spells.get(index);
-                if (player.getMp() < spell.getMpLevel()) {
-                    console.println("Your MP level is too low to cast that.");
+                if (!player.hasMp(spell.getMpLevel())) {
+                    console.println("Not enough MP to cast that.");
                     return null;
                 }
                 return spell;
@@ -168,7 +170,8 @@ public class CombatEngine {
                     player.setHp(Math.min(player.getMaxHp(), player.getHp() + item.getAddHp()));
                     player.setAp(player.getAp() + item.getAddAp());
                     player.setDp(player.getDp() + item.getAddDp());
-                    player.setMp(player.getMp() + item.getAddMp());
+                    player.setMaxMp(player.getMaxMp() + item.getAddMp());
+                    player.setMp(Math.min(player.getMaxMp(), player.getMp() + item.getAddMp()));
                 }
                 player.removeItem(inst.itemId);
                 console.println("You use " + inst.name + ".");
@@ -183,6 +186,10 @@ public class CombatEngine {
     private void monsterTurn(Player player, Monster monster, double[] monsterHp) {
         MonsterAttack attack = pickMonsterAttack(monster);
         if (attack == null) {
+            if (random.nextDouble() < MISS_CHANCE) {
+                console.println("The " + monster.getName() + " attacks... and misses!");
+                return;
+            }
             double dmg = Math.max(1, monster.getAp() - player.getDp());
             player.setHp(player.getHp() - dmg);
             console.println("The " + monster.getName() + " attacks you for " + fmt(dmg) + " damage.");
@@ -191,6 +198,10 @@ public class CombatEngine {
         if (attack.getAddHp() > 0) {
             monsterHp[0] = Math.min(monster.getMaxHp(), monsterHp[0] + attack.getAddHp());
             console.println(attack.getDescription() + " (the " + monster.getName() + " heals)");
+            return;
+        }
+        if (random.nextDouble() < MISS_CHANCE) {
+            console.println("The " + monster.getName() + "'s " + attack.getName() + " misses!");
             return;
         }
         double dmg = Math.max(1, attack.getAddAp() + monster.getAp() - player.getDp());
@@ -203,7 +214,18 @@ public class CombatEngine {
         if (attacks.isEmpty()) {
             return null;
         }
-        return attacks.get(random.nextInt(attacks.size()));
+        double total = 0;
+        for (MonsterAttack attack : attacks) {
+            total += Math.max(0.01, attack.getProbability());
+        }
+        double roll = random.nextDouble() * total;
+        for (MonsterAttack attack : attacks) {
+            roll -= Math.max(0.01, attack.getProbability());
+            if (roll <= 0) {
+                return attack;
+            }
+        }
+        return attacks.get(attacks.size() - 1);
     }
 
     private void status(Player player, Monster monster, double monsterHp) {

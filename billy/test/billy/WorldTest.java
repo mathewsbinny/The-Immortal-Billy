@@ -108,6 +108,21 @@ class WorldTest {
         assertTrue(differs, "expected interior rooms to be shuffled between seeds");
     }
 
+    @Test
+    void reshuffleAllPreservesStructureAndGateDetection() {
+        World world = newWorld(1);
+        world.reshuffleAll(new Random(9));
+        assertEquals(4, world.getDistricts().size());
+        for (World.District district : world.getDistricts()) {
+            assertEquals(district.getGate().getId(), district.getPath().get(0).getId());
+            assertEquals(district.getMinibossRoom().getId(),
+                    district.getPath().get(district.getPath().size() - 1).getId());
+            assertTrue(world.isDistrictGate(district.getGate().getId()));
+        }
+        assertTrue(world.isDistrictGate(2));
+        assertTrue(!world.isDistrictGate(1));
+    }
+
     private List<Integer> roomIds(List<Room> rooms) {
         List<Integer> ids = new ArrayList<>();
         for (Room room : rooms) {

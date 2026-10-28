@@ -13,7 +13,12 @@ import billy.puzzle.PuzzleSystem;
 import billy.ui.Console;
 import billy.world.World;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * The main game loop: renders the current room, reads commands, and routes
@@ -28,7 +33,10 @@ public class Game {
     private final Player player;
     private final CombatEngine combat;
     private final PuzzleSystem puzzles;
+    private final Random random;
+    private final Set<Integer> enteredDistricts = new HashSet<>();
     private final long startTimeNanos = System.nanoTime();
+    private int previousRoomId;
 
     public Game(Console console, SaveStore saveStore, ContentStore content, Player player) {
         this(console, saveStore, content, player, new Random());
@@ -39,9 +47,11 @@ public class Game {
         this.saveStore = saveStore;
         this.content = content;
         this.player = player;
+        this.random = random;
         this.world = new World(content, random);
         this.combat = new CombatEngine(console, content, random);
         this.puzzles = new PuzzleSystem(console, content);
+        this.previousRoomId = world.getHub().getId();
     }
 
     public void run() throws GameException {
@@ -190,6 +200,13 @@ public class Game {
             console.println("You can't go that way.");
             return true;
         }
+        // Re-entry randomization: reshuffle a district when re-entering it from the hub.
+        if (room.getId() == world.getHub().getId() && world.isDistrictGate(exit.getDestinationRoomId())) {
+            if (!enteredDistricts.add(exit.getDestinationRoomId())) {
+                world.reshuffleDistrict(exit.getDestinationRoomId(), random);
+            }
+        }
+        previousRoomId = room.getId();
         player.setCurrentRoomId(exit.getDestinationRoomId());
         return true;
     }
@@ -237,7 +254,7 @@ public class Game {
         console.println("HP:        " + format(player.getHp()) + " / " + format(player.getMaxHp()));
         console.println("Attack:    " + format(player.getAp()));
         console.println("Defense:   " + format(player.getDp()));
-        console.println("MP level:  " + player.getMp());
+        console.println("MP:        " + player.getMp() + " / " + player.getMaxMp());
         console.println("XP:        " + player.getXp() + " / " + player.xpToNextLevel() + " (next level)");
         console.println("Keys:      " + player.countKeys() + " / 4");
         console.println("Monsters:  " + player.getMonstersKilled());
@@ -255,7 +272,7 @@ public class Game {
         console.println("  1. Max Health (+25)");
         console.println("  2. Attack Power (+5)");
         console.println("  3. Defense (+5)");
-        console.println("  4. Magic Proficiency (+1 MP)");
+        console.println("  4. Magic Proficiency (+5 max MP, refills MP)");
         String choice = console.prompt("Choose: ");
         switch (choice == null ? "" : choice.trim()) {
             case "1":
@@ -329,6 +346,10 @@ public class Game {
     }
 
     private void resolveRoom(Room room) {
+        if (room.getId() == world.getThrone().getId()) {
+            fightBossGauntlet();
+            return;
+        }
         Monster monster = content.findMonsterByRoom(room.getId());
         if (!room.isBattle() || monster == null || player.isMonsterDefeated(monster.getId())) {
             return;
@@ -338,7 +359,52 @@ public class Game {
             onVictory(monster);
         } else if (outcome == CombatEngine.Outcome.DEFEAT) {
             onDefeat();
+        } else if (outcome == CombatEngine.Outcome.RAN_AWAY) {
+            flee();
         }
+    }
+
+    private void fightBossGauntlet() {
+        List<Monster> bosses = new ArrayList<>();
+        for (Monster monster : content.getMonsters().values()) {
+            if (monster.getRoomId() == world.getThrone().getId()) {
+                bosses.add(monster);
+            }
+        }
+        bosses.sort(Comparator.comparingInt(Monster::getBossPhase));
+        for (int i = 0; i < bosses.size(); i++) {
+            Monster boss = bosses.get(i);
+            if (player.isMonsterDefeated(boss.getId())) {
+                continue;
+            }
+            CombatEngine.Outcome outcome = combat.fight(player, boss, content.getAttacks());
+            if (outcome == CombatEngine.Outcome.DEFEAT) {
+                onDefeat();
+                return;
+            }
+            if (outcome == CombatEngine.Outcome.RAN_AWAY) {
+                flee();
+                return;
+            }
+            player.markMonsterDefeated(boss.getId());
+            player.setMonstersKilled(player.getMonstersKilled() + 1);
+            awardXp(boss);
+            learnAttacksFromMonster(boss.getId());
+            if (i < bosses.size() - 1) {
+                Monster next = bosses.get(i + 1);
+                console.println("Finally the fight seems to be over...");
+                console.println("The creature stirs... and morphs into " + next.getName()
+                        + " form... You wipe the sweat from your brow and ready yourself to keep fighting...");
+            } else {
+                player.setFlag("game_completed", "true");
+                console.println("The great battle has finally come to an end. The monster careens backwards into a wall and opens up a room filled with unimaginable riches and a portal to the outside...");
+            }
+        }
+    }
+
+    private void flee() {
+        player.setCurrentRoomId(previousRoomId);
+        console.println("You flee back the way you came.");
     }
 
     private void onVictory(Monster monster) {
@@ -353,17 +419,27 @@ public class Game {
                 player.addItem(key);
                 console.println("The " + monster.getName() + " drops a " + keyName + "!");
             }
+            console.println(findDistrictRegion(monster.getRoomId()) + " district has been cleared!");
         }
-        if (monster.isBoss()) {
-            player.setFlag("game_completed", "true");
-            console.println("The Demon King falls! You have completed The Immortal Billy!");
+    }
+
+    private String findDistrictRegion(int minibossRoomId) {
+        for (World.District district : world.getDistricts()) {
+            if (district.getMinibossRoom() != null && district.getMinibossRoom().getId() == minibossRoomId) {
+                return district.getRegion();
+            }
         }
+        return "Unknown";
     }
 
     private void onDefeat() {
         player.setDeaths(player.getDeaths() + 1);
         player.setHp(player.getMaxHp());
+        player.restoreMpToFull();
         player.setCurrentRoomId(world.getHub().getId());
+        previousRoomId = world.getHub().getId();
+        enteredDistricts.clear();
+        world.reshuffleAll(random);
         console.println("You wake in the Central Hub, keeping your belongings and progress.");
     }
 
@@ -438,7 +514,8 @@ public class Game {
         player.setHp(Math.min(player.getMaxHp(), player.getHp() + item.getAddHp()));
         player.setAp(player.getAp() + item.getAddAp());
         player.setDp(player.getDp() + item.getAddDp());
-        player.setMp(player.getMp() + item.getAddMp());
+        player.setMaxMp(player.getMaxMp() + item.getAddMp());
+        player.setMp(Math.min(player.getMaxMp(), player.getMp() + item.getAddMp()));
         player.removeItem(instance.itemId);
         console.println("You use " + item.getName() + ".");
     }
@@ -469,6 +546,8 @@ public class Game {
                     player.setAp(player.getAp() - otherItem.getAddAp());
                     player.setDp(player.getDp() - otherItem.getAddDp());
                     player.setMaxHp(player.getMaxHp() - otherItem.getAddMaxHp());
+                    player.setMaxMp(player.getMaxMp() - otherItem.getAddMp());
+                    player.setMp(Math.min(player.getMp(), player.getMaxMp()));
                 }
                 other.equipped = false;
             }
@@ -477,6 +556,8 @@ public class Game {
         player.setAp(player.getAp() + item.getAddAp());
         player.setDp(player.getDp() + item.getAddDp());
         player.setMaxHp(player.getMaxHp() + item.getAddMaxHp());
+        player.setMaxMp(player.getMaxMp() + item.getAddMp());
+        player.setMp(Math.min(player.getMaxMp(), player.getMp() + item.getAddMp()));
         console.println("You equip " + item.getName() + ".");
     }
 
@@ -495,6 +576,8 @@ public class Game {
             player.setAp(player.getAp() - item.getAddAp());
             player.setDp(player.getDp() - item.getAddDp());
             player.setMaxHp(player.getMaxHp() - item.getAddMaxHp());
+            player.setMaxMp(player.getMaxMp() - item.getAddMp());
+            player.setMp(Math.min(player.getMp(), player.getMaxMp()));
         }
         instance.equipped = false;
         console.println("You unequip " + instance.name + ".");
@@ -514,10 +597,11 @@ public class Game {
             console.println("You haven't learned that spell.");
             return;
         }
-        if (player.getMp() < attack.getMpLevel()) {
-            console.println("Your MP level is too low to cast that.");
+        if (!player.hasMp(attack.getMpLevel())) {
+            console.println("Not enough MP to cast that.");
             return;
         }
+        player.spendMp(attack.getMpLevel());
         if (puzzles.trySpellCast(player, room, attack)) {
             return;
         }
@@ -537,8 +621,7 @@ public class Game {
             if (!player.knowsAttack(attack.getId())) {
                 continue;
             }
-            String note = player.getMp() < attack.getMpLevel() ? " [needs MP " + attack.getMpLevel() + "]" : "";
-            console.println("  - " + attack.getName() + note);
+            console.println("  - " + attack.getName() + " (" + attack.getMpLevel() + " MP)");
             any = true;
         }
         if (!any) {

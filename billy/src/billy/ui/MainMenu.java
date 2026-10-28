@@ -32,16 +32,22 @@ public class MainMenu {
             }
             switch (choice.trim()) {
                 case "1": {
-                    Player player = login();
-                    if (player != null) {
-                        return player;
+                    Account account = login();
+                    if (account != null) {
+                        Player player = accountMenu(account);
+                        if (player != null) {
+                            return player;
+                        }
                     }
                     break;
                 }
                 case "2": {
-                    Player player = createAccount();
-                    if (player != null) {
-                        return player;
+                    Account account = createAccount();
+                    if (account != null) {
+                        Player player = accountMenu(account);
+                        if (player != null) {
+                            return player;
+                        }
                     }
                     break;
                 }
@@ -53,7 +59,7 @@ public class MainMenu {
         }
     }
 
-    private Player login() throws GameException {
+    private Account login() throws GameException {
         String username = console.prompt("Username: ");
         if (username == null) {
             return null;
@@ -67,10 +73,10 @@ public class MainMenu {
             console.println("Invalid username or password.");
             return null;
         }
-        return loadOrCreate(account);
+        return account;
     }
 
-    private Player createAccount() throws GameException {
+    private Account createAccount() throws GameException {
         String username = console.prompt("Choose a username: ");
         if (username == null) {
             return null;
@@ -84,10 +90,8 @@ public class MainMenu {
             return null;
         }
         Account account = saveStore.createAccount(username.trim(), password);
-        Player player = saveStore.newPlayer(account.getId(), username.trim());
-        saveStore.savePlayer(player);
-        console.println("Account created. Welcome, " + player.getName() + "!");
-        return player;
+        console.println("Account created. Welcome, " + account.getUsername() + "!");
+        return account;
     }
 
     private Player loadOrCreate(Account account) throws GameException {
@@ -100,5 +104,69 @@ public class MainMenu {
             console.println("Welcome back, " + player.getName() + "!");
         }
         return player;
+    }
+
+    /** Post-login menu. The game only starts when the player chooses Play Game. */
+    private Player accountMenu(Account account) throws GameException {
+        while (true) {
+            console.println();
+            console.println("Logged in as " + account.getUsername());
+            console.println("1. Play Game");
+            console.println("2. Change Password");
+            console.println("3. Delete Account");
+            console.println("4. Log Out");
+            String choice = console.prompt("Choice: ");
+            if (choice == null) {
+                return null;
+            }
+            switch (choice.trim()) {
+                case "1":
+                    return loadOrCreate(account);
+                case "2":
+                    changePassword(account);
+                    break;
+                case "3":
+                    if (deleteAccount(account)) {
+                        return null;
+                    }
+                    break;
+                case "4":
+                    return null;
+                default:
+                    console.println("Please choose 1, 2, 3, or 4.");
+            }
+        }
+    }
+
+    private void changePassword(Account account) throws GameException {
+        String current = console.prompt("Current password: ");
+        if (current == null) {
+            return;
+        }
+        if (saveStore.authenticate(account.getUsername(), current) == null) {
+            console.println("Incorrect password.");
+            return;
+        }
+        String next = console.prompt("New password (min 4 characters): ");
+        if (next == null) {
+            return;
+        }
+        if (next.length() < 4) {
+            console.println("Password must be at least 4 characters.");
+            return;
+        }
+        saveStore.updatePassword(account.getId(), next);
+        console.println("Password changed.");
+    }
+
+    private boolean deleteAccount(Account account) throws GameException {
+        String confirm = console.prompt("Type DELETE to permanently delete this account and its save: ");
+        if (confirm != null && confirm.trim().equalsIgnoreCase("DELETE")) {
+            saveStore.deleteAccount(account.getId());
+            console.println("Account deleted.");
+            return true;
+        }
+        console.println("Cancelled.");
+        return false;
     }
 }

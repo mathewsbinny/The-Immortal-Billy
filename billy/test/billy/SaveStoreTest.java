@@ -74,6 +74,7 @@ class SaveStoreTest {
         assertEquals(30, loaded.getAp(), 0.001);
         assertEquals(12, loaded.getDp(), 0.001);
         assertEquals(3, loaded.getMp());
+        assertEquals(10, loaded.getMaxMp());
         assertEquals(250, loaded.getXp());
         assertEquals(3, loaded.getLevel());
         assertEquals(2, loaded.getDeaths());
@@ -98,5 +99,25 @@ class SaveStoreTest {
         assertEquals(7, player.getAccountId());
         assertEquals("dave", player.getName());
         assertTrue(player.knowsAttack(1));
+    }
+
+    @Test
+    void updatePasswordChangesLogin() throws Exception {
+        SaveStore store = store();
+        Account account = store.createAccount("erin", "oldpass");
+        store.updatePassword(account.getId(), "newpass");
+        assertNull(store.authenticate("erin", "oldpass"));
+        assertNotNull(store.authenticate("erin", "newpass"));
+    }
+
+    @Test
+    void deleteAccountRemovesAccountAndSave() throws Exception {
+        SaveStore store = store();
+        Account account = store.createAccount("frank", "pass");
+        Player player = store.newPlayer(account.getId(), "frank");
+        store.savePlayer(player);
+        store.deleteAccount(account.getId());
+        assertNull(store.authenticate("frank", "pass"));
+        assertNull(store.loadPlayer(account.getId()));
     }
 }

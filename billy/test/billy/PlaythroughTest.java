@@ -59,6 +59,9 @@ class PlaythroughTest {
             assertTrue(player.isMonsterDefeated(minibossId), "miniboss " + minibossId + " should be defeated");
         }
         assertTrue(player.flagTrue("game_completed"), "final boss should be defeated");
+        for (int bossId = 16; bossId <= 20; bossId++) {
+            assertTrue(player.isMonsterDefeated(bossId), "boss phase " + bossId + " should be defeated");
+        }
         assertTrue(player.getXp() > 0, "the player should have earned XP");
     }
 
@@ -92,7 +95,15 @@ class PlaythroughTest {
             }
         }
         script.append("up\n");  // throne room (four keys collected)
-        script.append("1\n");   // defeat the final boss
+        int bossCount = 0;
+        for (Monster monster : content.getMonsters().values()) {
+            if (monster.getRoomId() == world.getThrone().getId()) {
+                bossCount++;
+            }
+        }
+        for (int i = 0; i < bossCount; i++) {
+            script.append("1\n"); // one punch per boss phase
+        }
         script.append("quit\n");
         return script.toString();
     }

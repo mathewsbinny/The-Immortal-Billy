@@ -19,6 +19,8 @@ class PlayerTest {
         assertEquals(10, player.getDp(), 0.001);
         assertEquals(1, player.getLevel());
         assertEquals(1, player.getCurrentRoomId());
+        assertEquals(10, player.getMp());
+        assertEquals(10, player.getMaxMp());
         assertEquals(0, player.countKeys());
         assertTrue(player.getInventory().isEmpty());
         assertTrue(player.getFlags().isEmpty());
@@ -97,6 +99,19 @@ class PlayerTest {
 
         player.addXp(200);
         player.levelUp(Player.StatChoice.MAGIC);
-        assertEquals(2, player.getMp());
+        assertEquals(15, player.getMaxMp());
+        assertEquals(15, player.getMp());
+    }
+
+    @Test
+    void mpIsSpentAndRestored() {
+        Player player = new Player();
+        assertEquals(10, player.getMp());
+        assertTrue(player.hasMp(4));
+        player.spendMp(4);
+        assertEquals(6, player.getMp());
+        assertFalse(player.hasMp(10));
+        player.restoreMpToFull();
+        assertEquals(10, player.getMp());
     }
 }
