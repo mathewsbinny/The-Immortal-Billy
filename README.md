@@ -11,7 +11,7 @@ and unlock the Throne Room to face the final boss.
 ## Requirements
 
 - JDK 17+ (tested on JDK 26)
-- The bundled SQLite JDBC driver: `sqlite-jdbc-3.43.0.0 copy.jar`
+- The bundled SQLite JDBC driver: `resources/sqlite-jdbc-3.43.0.0 copy.jar`
 
 ## Running
 
@@ -19,8 +19,8 @@ Compile and run from the `billy/` directory:
 
 ```powershell
 cd billy
-javac -encoding UTF-8 -cp "sqlite-jdbc-3.43.0.0 copy.jar" -d out (Get-ChildItem -Recurse src -Filter *.java | ForEach-Object { $_.FullName })
-java --enable-native-access=ALL-UNNAMED -cp "out;sqlite-jdbc-3.43.0.0 copy.jar" billy.Main
+javac -encoding UTF-8 -cp "resources/sqlite-jdbc-3.43.0.0 copy.jar" -d out (Get-ChildItem -Recurse src -Filter *.java | ForEach-Object { $_.FullName })
+java --enable-native-access=ALL-UNNAMED -cp "out;resources/sqlite-jdbc-3.43.0.0 copy.jar" billy.Main
 ```
 
 > `--enable-native-access=ALL-UNNAMED` only silences a harmless JDK 24+ warning

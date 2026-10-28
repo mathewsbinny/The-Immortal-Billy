@@ -5,7 +5,7 @@ Set-Location (Split-Path -Parent $PSScriptRoot)  # move to billy/
 
 $junit = 'test-lib/junit-platform-console-standalone.jar'
 $junitUrl = 'https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.11.4/junit-platform-console-standalone-1.11.4.jar'
-$sqlite = 'sqlite-jdbc-3.43.0.0 copy.jar'
+$sqlite = 'resources/sqlite-jdbc-3.43.0.0 copy.jar'
 
 if (-not (Test-Path $junit)) {
     New-Item -ItemType Directory -Force -Path 'test-lib' | Out-Null
