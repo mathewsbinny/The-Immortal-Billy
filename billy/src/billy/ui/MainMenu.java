@@ -92,24 +92,68 @@ public class MainMenu {
             console.println("Password must be at least 4 characters.");
             return null;
         }
-        Account account = saveStore.createAccount(username.trim(), password);
+        Account account;
+        try {
+            account = saveStore.createAccount(username.trim(), password);
+        } catch (GameException e) {
+            console.println(e.getMessage());
+            return null;
+        }
         console.println("Account created. Welcome, " + account.getUsername() + "!");
         return account;
+    }
+
+    private void listSaveSlots(Account account) throws GameException {
+        for (int slot = 1; slot <= 3; slot++) {
+            Player existing = saveStore.loadPlayer(account.getId(), slot);
+            if (existing == null) {
+                console.println("  " + slot + ". Empty");
+            } else {
+                console.println("  " + slot + ". " + existing.getName()
+                        + " (Level " + existing.getLevel() + ", Room " + existing.getCurrentRoomId() + ")");
+            }
+        }
+    }
+
+    /** Lets the player erase one save slot without deleting the account. */
+    private void deleteSaveSlot(Account account) throws GameException {
+        while (true) {
+            console.println();
+            console.println("Choose a save slot to delete:");
+            listSaveSlots(account);
+            String choice = console.prompt("Slot (1-3) or BACK: ");
+            if (choice == null || choice.trim().equalsIgnoreCase("back")) {
+                return;
+            }
+            try {
+                int slot = Integer.parseInt(choice.trim());
+                if (slot < 1 || slot > 3) {
+                    console.println("Choose 1, 2, or 3.");
+                    continue;
+                }
+                if (saveStore.loadPlayer(account.getId(), slot) == null) {
+                    console.println("That slot is already empty.");
+                    continue;
+                }
+                String confirm = console.prompt("Type DELETE to erase this save slot: ");
+                if (confirm != null && confirm.trim().equalsIgnoreCase("DELETE")) {
+                    saveStore.deleteSave(account.getId(), slot);
+                    console.println("Save slot " + slot + " deleted.");
+                } else {
+                    console.println("Cancelled.");
+                }
+                return;
+            } catch (NumberFormatException ignored) {
+                console.println("Choose 1, 2, or 3.");
+            }
+        }
     }
 
     private Player playGame(Account account) throws GameException {
         while (true) {
             console.println();
             console.println("Choose a save slot:");
-            for (int slot = 1; slot <= 3; slot++) {
-                Player existing = saveStore.loadPlayer(account.getId(), slot);
-                if (existing == null) {
-                    console.println("  " + slot + ". Empty");
-                } else {
-                    console.println("  " + slot + ". " + existing.getName()
-                            + " (Level " + existing.getLevel() + ", Room " + existing.getCurrentRoomId() + ")");
-                }
-            }
+            listSaveSlots(account);
             String choice = console.prompt("Slot (1-3) or BACK: ");
             if (choice == null || choice.trim().equalsIgnoreCase("back")) {
                 return null;
@@ -145,7 +189,8 @@ public class MainMenu {
             console.println("1. Play Game");
             console.println("2. Change Password");
             console.println("3. Delete Account");
-            console.println("4. Log Out");
+            console.println("4. Delete Save Slot");
+            console.println("5. Log Out");
             String choice = console.prompt("Choice: ");
             if (choice == null) {
                 return null;
@@ -162,9 +207,12 @@ public class MainMenu {
                     }
                     break;
                 case "4":
+                    deleteSaveSlot(account);
+                    break;
+                case "5":
                     return null;
                 default:
-                    console.println("Please choose 1, 2, 3, or 4.");
+                    console.println("Please choose 1, 2, 3, 4, or 5.");
             }
         }
     }

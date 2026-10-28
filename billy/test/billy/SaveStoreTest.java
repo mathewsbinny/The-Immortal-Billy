@@ -122,6 +122,23 @@ class SaveStoreTest {
     }
 
     @Test
+    void deleteSaveRemovesOnlyThatSlot() throws Exception {
+        SaveStore store = store();
+        Account account = store.createAccount("hannah", "pass");
+        Player p1 = store.newPlayer(account.getId(), "hannah");
+        p1.setCurrentRoomId(11);
+        store.savePlayer(p1, 1);
+        Player p2 = store.newPlayer(account.getId(), "hannah");
+        p2.setCurrentRoomId(22);
+        store.savePlayer(p2, 2);
+
+        store.deleteSave(account.getId(), 1);
+
+        assertNull(store.loadPlayer(account.getId(), 1));
+        assertNotNull(store.loadPlayer(account.getId(), 2));
+    }
+
+    @Test
     void threeSaveSlotsAreIndependent() throws Exception {
         SaveStore store = store();
         Account account = store.createAccount("gina", "pass");

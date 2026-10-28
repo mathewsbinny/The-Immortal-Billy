@@ -3,7 +3,7 @@ INSERT INTO Item (itemRoomID, itemID, itemName, itemType, itemAddHP, itemAddMaxH
 INSERT INTO Item (itemRoomID, itemID, itemName, itemType, itemAddHP, itemAddMaxHP, itemAddMP, itemAddDP, itemAddAP, itemIsConsumable) VALUES (10, 2, 'Stone Shield', 'Armor', 0, 0, 0, 10, 0, 0);
 INSERT INTO Item (itemRoomID, itemID, itemName, itemType, itemAddHP, itemAddMaxHP, itemAddMP, itemAddDP, itemAddAP, itemIsConsumable) VALUES (6, 3, 'Health Potion', 'Consumable', 100, 100, 0, 0, 0, 1);
 INSERT INTO Item (itemRoomID, itemID, itemName, itemType, itemAddHP, itemAddMaxHP, itemAddMP, itemAddDP, itemAddAP, itemIsConsumable) VALUES (7, 4, 'Stone Pot', 'Consumable', 0, 50, 0, 0, 50, 1);
-INSERT INTO Item (itemRoomID, itemID, itemName, itemType, itemAddHP, itemAddMaxHP, itemAddMP, itemAddDP, itemAddAP, itemIsConsumable) VALUES (7, 5, 'Stone Sword', 'Weapon', 0, 50, 0, 0, 50, 1);
+INSERT INTO Item (itemRoomID, itemID, itemName, itemType, itemAddHP, itemAddMaxHP, itemAddMP, itemAddDP, itemAddAP, itemIsConsumable) VALUES (7, 5, 'Stone Sword', 'Weapon', 0, 50, 0, 0, 50, 0);
 INSERT INTO Item (itemRoomID, itemID, itemName, itemType, itemAddHP, itemAddMaxHP, itemAddMP, itemAddDP, itemAddAP, itemIsConsumable) VALUES (8, 6, 'Rock', 'Weapon', 0, 0, 0, 0, 10, 0);
 INSERT INTO Item (itemRoomID, itemID, itemName, itemType, itemAddHP, itemAddMaxHP, itemAddMP, itemAddDP, itemAddAP, itemIsConsumable) VALUES (3, 7, 'Luminous Pearl', 'Consumable', 0, 20, 0, 0, 20, 1);
 INSERT INTO Item (itemRoomID, itemID, itemName, itemType, itemAddHP, itemAddMaxHP, itemAddMP, itemAddDP, itemAddAP, itemIsConsumable) VALUES (17, 8, 'Ice Daggers', 'Weapon', 0, 0, 0, 0, 20, 0);
@@ -15,7 +15,7 @@ INSERT INTO Item (itemRoomID, itemID, itemName, itemType, itemAddHP, itemAddMaxH
 INSERT INTO Item (itemRoomID, itemID, itemName, itemType, itemAddHP, itemAddMaxHP, itemAddMP, itemAddDP, itemAddAP, itemIsConsumable) VALUES (23, 14, 'Rainbow Cloak', 'Armor', 0, 0, 0, 5, 0, 0);
 INSERT INTO Item (itemRoomID, itemID, itemName, itemType, itemAddHP, itemAddMaxHP, itemAddMP, itemAddDP, itemAddAP, itemIsConsumable) VALUES (20, 15, 'Crosswind Crozier', 'Weapon', 0, 0, 1, 0, 5, 0);
 INSERT INTO Item (itemRoomID, itemID, itemName, itemType, itemAddHP, itemAddMaxHP, itemAddMP, itemAddDP, itemAddAP, itemIsConsumable) VALUES (25, 16, 'Mana Potion', 'Consumable', 0, 0, 1, 0, 5, 1);
-INSERT INTO Item (itemRoomID, itemID, itemName, itemType, itemAddHP, itemAddMaxHP, itemAddMP, itemAddDP, itemAddAP, itemIsConsumable) VALUES (21, 17, 'Feathered Boots', 'Armor', 0, 0, 0, 20, 0, 1);
+INSERT INTO Item (itemRoomID, itemID, itemName, itemType, itemAddHP, itemAddMaxHP, itemAddMP, itemAddDP, itemAddAP, itemIsConsumable) VALUES (21, 17, 'Feathered Boots', 'Armor', 0, 0, 0, 20, 0, 0);
 INSERT INTO Item (itemRoomID, itemID, itemName, itemType, itemAddHP, itemAddMaxHP, itemAddMP, itemAddDP, itemAddAP, itemIsConsumable) VALUES (22, 18, 'Bolt-Blitzing Axe', 'Weapon', 0, 0, 0, 0, 60, 0);
 INSERT INTO Item (itemRoomID, itemID, itemName, itemType, itemAddHP, itemAddMaxHP, itemAddMP, itemAddDP, itemAddAP, itemIsConsumable) VALUES (26, 19, 'Unceasing Mitre', 'Armor', 0, 0, 0, 10, 0, 0);
 INSERT INTO Item (itemRoomID, itemID, itemName, itemType, itemAddHP, itemAddMaxHP, itemAddMP, itemAddDP, itemAddAP, itemIsConsumable) VALUES (25, 20, 'Whistle-Sharp Flute', 'Weapon', 0, 0, 0, 0, 30, 0);

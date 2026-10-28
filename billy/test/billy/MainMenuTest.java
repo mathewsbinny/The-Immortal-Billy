@@ -1,6 +1,7 @@
 package billy;
 
 import billy.data.SaveStore;
+import billy.model.Account;
 import billy.model.Player;
 import billy.ui.Console;
 import billy.ui.MainMenu;
@@ -78,5 +79,31 @@ class MainMenuTest {
         MainMenu menu = new MainMenu(consoleWith("1\ntestuser\npass123\n3\nDELETE\n3\n"), store);
         assertNull(menu.run());
         assertNull(store.authenticate("testuser", "pass123"));
+    }
+
+    @Test
+    void duplicateAccountCreationLetsYouRetry() throws Exception {
+        SaveStore store = new SaveStore(tempDir.resolve("menu7.db").toString());
+        store.createAccount("testuser", "pass123");
+        // "testuser" is taken; the menu should loop and allow a different name.
+        MainMenu menu = new MainMenu(consoleWith("2\ntestuser\npass123\n2\notheruser\npass123\n1\n1\n"), store);
+        Player player = menu.run();
+        assertNotNull(player);
+        assertEquals("otheruser", player.getName());
+    }
+
+    @Test
+    void deleteSaveSlotFlow() throws Exception {
+        SaveStore store = new SaveStore(tempDir.resolve("menu8.db").toString());
+        Account account = store.createAccount("testuser", "pass123");
+
+        // Create a save in slot 1.
+        MainMenu menu = new MainMenu(consoleWith("1\ntestuser\npass123\n1\n1\n"), store);
+        assertNotNull(menu.run());
+
+        // Log in, delete slot 1, then log out.
+        MainMenu menu2 = new MainMenu(consoleWith("1\ntestuser\npass123\n4\n1\nDELETE\n5\n"), store);
+        assertNull(menu2.run());
+        assertNull(store.loadPlayer(account.getId(), 1));
     }
 }

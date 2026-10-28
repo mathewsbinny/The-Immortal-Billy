@@ -140,6 +140,18 @@ public class SaveStore {
         }
     }
 
+    /** Deletes a single save slot for the account, leaving the account intact. */
+    public void deleteSave(int accountId, int slot) throws GameException {
+        try (Connection conn = Database.connect(dbName);
+             PreparedStatement ps = conn.prepareStatement("DELETE FROM saves WHERE account_id = ? AND slot = ?")) {
+            ps.setInt(1, accountId);
+            ps.setInt(2, slot);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new GameException("Could not delete save: " + e.getMessage(), e);
+        }
+    }
+
     /** Creates a fresh player for the account (with the starting attack learned). */
     public Player newPlayer(int accountId, String playerName) {
         Player player = new Player();

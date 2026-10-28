@@ -35,7 +35,7 @@ public class Game {
     private final PuzzleSystem puzzles;
     private final Random random;
     private final Set<Integer> enteredDistricts = new HashSet<>();
-    private final long startTimeNanos = System.nanoTime();
+    private long lastSaveNanos = System.nanoTime();
     private int previousRoomId;
     private boolean returnToMenu = false;
 
@@ -64,6 +64,14 @@ public class Game {
             markVisited(room);
             describeRoom(room);
             resolveRoom(room);
+            // Combat can relocate the player (run away / death). Refresh the view
+            // so the next command targets the room the player is actually in.
+            Room relocated = world.getRoom(player.getCurrentRoomId());
+            if (relocated.getId() != room.getId()) {
+                room = relocated;
+                markVisited(room);
+                describeRoom(room);
+            }
             String input = console.prompt("> ");
             if (input == null) {
                 saveGame();
@@ -332,7 +340,9 @@ public class Game {
     }
 
     private void saveGame() throws GameException {
-        double elapsed = (System.nanoTime() - startTimeNanos) / 1_000_000_000.0;
+        long now = System.nanoTime();
+        double elapsed = (now - lastSaveNanos) / 1_000_000_000.0;
+        lastSaveNanos = now;
         player.setPlayTime(player.getPlayTime() + elapsed);
         player.setRoomsVisited(countVisitedRooms());
         saveStore.savePlayer(player, player.getSaveSlot());
@@ -590,7 +600,6 @@ public class Game {
         player.setDp(player.getDp() + item.getAddDp());
         player.setMaxHp(player.getMaxHp() + item.getAddMaxHp());
         player.setMaxMp(player.getMaxMp() + item.getAddMp());
-        player.setMp(Math.min(player.getMaxMp(), player.getMp() + item.getAddMp()));
         console.println("You equip " + item.getName() + ".");
     }
 

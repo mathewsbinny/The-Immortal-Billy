@@ -27,7 +27,8 @@ java --enable-native-access=ALL-UNNAMED -cp "out;resources/libraries/sqlite-jdbc
 > from the SQLite driver; it is not required on older JDKs.
 
 After logging in you land in an account menu where you can Play Game, change
-your password, or delete your account. Passwords are stored as SHA-256 hashes.
+your password, delete a save slot, or delete your account. Passwords are
+stored as SHA-256 hashes.
 Each account has three save slots, so you can keep three separate playthroughs
 or three snapshots of the same run. Progress (inventory, equipment, stats,
 defeated monsters, room, keys) is persisted to `save.db` automatically on
@@ -70,10 +71,14 @@ powershell -ExecutionPolicy Bypass -File test/playthrough.ps1
 - `EXIT` to save and close the game.
 
 Combat is turn-based: `Attack`, `Cast Spell`, `Use Item`, or `Run Away`.
-Spells cost MP. Monster attacks are chosen by their authored probability and can
-miss. `Run Away` returns you to the previous room. Defeating monsters grants XP
-and can teach you spells; dying returns you to the hub (re-randomizing the
-districts) with your inventory and progress intact.
+Spells cost MP and carry an element (Fire, Air, Earth, or Water), forming a
+rock-paper-scissors cycle that multiplies damage by 1.5 (strong) or 0.5 (weak).
+Every attack rolls a d20: a natural 20 scores a critical hit (double damage),
+and monsters miss on a roll of 1-3. Elemental hits can also inflict a
+combat-scoped status (Poison, Burn, Frozen, or Dazed). `Run Away` returns you
+to the previous room. Defeating monsters grants XP and can teach you spells;
+dying returns you to the hub (re-randomizing the districts) with your inventory
+and progress intact.
 
 Puzzle rooms are solved with special actions, the right item, or the right
 spell; solving grants XP and rewards. Accumulated XP is spent manually via
@@ -108,10 +113,11 @@ by `ContentStore`. Player state is stored in `save.db` by `SaveStore`.
 Implemented: accounts/login (hashed passwords + account management), three save
 slots per account, save/load, the cross-shaped map with randomized district arms
 (re-randomized per life and on re-entry), movement, loot pickup, consumables,
-equipment, turn-based combat with an MP resource and weighted/missable monster
-attacks, spell learning, puzzle rooms (action/item/spell), manual level-ups,
-miniboss key drops, and a five-phase final boss / win condition. A 52-test suite
-includes a deterministic end-to-end playthrough.
+equipment, turn-based combat with an MP resource, elemental rock-paper-scissors,
+d20 critical hits, combat status effects, weighted/missable monster attacks,
+spell learning, puzzle rooms (action/item/spell), manual level-ups, per-slot
+save deletion, miniboss key drops, and a five-phase final boss / win condition.
+A 65-test suite includes a deterministic end-to-end playthrough.
 
 Balance has had a first tuning pass; further playtesting may suggest more
 adjustments.
