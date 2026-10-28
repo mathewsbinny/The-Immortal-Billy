@@ -1,48 +1,103 @@
 # The Immortal Billy
-## Table of Contents
-1. Introduction
-2. Commands
-3. Navigation
-4. Items & Inventory Management
-5. Solving Puzzles
-6. Special Actions
-7. Combat
-## Introduction
-“The Immortal Billy” is a text-based rogue-like game consisting of 4 regions, each characterized by earth, fire, water, and air, respectively. In total, 34 rooms exist. There are seven rooms per region, one mini-boss room per region, and one culminating boss room. As a player advances, they must overcome puzzles and monsters that progressively become more difficult. The game's objective is to successfully reach and defeat the boss room. To do so, the player must navigate through randomly generated dungeon rooms and collect 4 keys. Players respawns are permitted, and the player will begin again in the 'Central Hub' if they are defeated in battle. Acquired items in the player inventory, spells, and player stats will be persistently saved.
-## Commands
-### Standard UI
-* Move Forward
-* Move Backward
-* Cast Spell
-* Open Inventory
-* Search For Items
-* Display Character
-* Level Up
-* Special Action
-* Help Menu
-* Exit Game
-### Battle UI
-* Attack
-* Cast Spell
-* Open Inventory
-* Run Away
-* Help Menu
-* Exit
-## Navigation
-### Central Hub
-This is the central room of the dungeon where the player begins. They are prompted with options regarding which of the Elemental Districts they want to traverse to. After clearing the districts, the player can return to the _Central Hub_ and use the Keys they loot in order to unlock the gate to the Elemental Throne Room. If the character dies at any point of time, they will respawn in the _Central Hub_, but retain their inventories and progress.
-* NORTH - Fire District
-* SOUTH - Earth District
-* EAST - Water District
-* WEST - Air District
-* UP - Throne Room of the Elementals
 
-Besides the Central Hub where the player is prompted with entering any one of the four cardinal directions, the only way to navigate through the game map is by typing FORWARD or BACKWARD.
-## Items & Inventory Management
-## Solving Puzzles
-## Special Actions
-## Combat
-### Monsters
-### Mini-Bosses
-### Final Boss
+A text-based roguelike adventure written in Java with a SQLite save backend.
+
+You play Billy, an adventurer who awakens in a central hub with four elemental
+districts branching off it (Earth, Water, Air, Fire). Each district is a
+randomly-ordered chain of puzzle, battle, and special rooms ending in a
+miniboss. Defeat all four minibosses to collect their keys, return to the hub,
+and unlock the Throne Room to face the final boss.
+
+## Requirements
+
+- JDK 17+ (tested on JDK 26)
+- The bundled SQLite JDBC driver: `sqlite-jdbc-3.43.0.0 copy.jar`
+
+## Running
+
+Compile and run from the `billy/` directory:
+
+```powershell
+cd billy
+javac -encoding UTF-8 -cp "sqlite-jdbc-3.43.0.0 copy.jar" -d out (Get-ChildItem -Recurse src -Filter *.java | ForEach-Object { $_.FullName })
+java --enable-native-access=ALL-UNNAMED -cp "out;sqlite-jdbc-3.43.0.0 copy.jar" billy.Main
+```
+
+> `--enable-native-access=ALL-UNNAMED` only silences a harmless JDK 24+ warning
+> from the SQLite driver; it is not required on older JDKs.
+
+On login you can create an account or resume an existing save. Progress
+(inventory, equipment, stats, defeated monsters, room, keys) is persisted to
+`save.db` automatically on `QUIT` or `SAVE`.
+
+## Testing
+
+The test suite uses JUnit 5. A standalone runner jar is downloaded on first use
+(cached under `test-lib/`). Run the tests from `billy/` with:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File run-tests.ps1
+```
+
+Tests cover the model (`Player`), persistence (`SaveStore`), content loading
+(`ContentStore`), world generation (`World`), turn-based combat
+(`CombatEngine`), and the interactive flows (`MainMenu`, `Game`). Interactive
+components are tested by injecting scripted input through `Console`'s stream
+constructor.
+
+A deterministic end-to-end playthrough (all four districts, the four keys, and
+the final boss) runs with:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File test/playthrough.ps1
+```
+
+## Gameplay
+
+- Move with `NORTH/SOUTH/EAST/WEST/UP` (in the hub) and `FORWARD/BACK` (in a
+  district). Single letters (`n`, `s`, `e`, `w`, `u`, `f`, `b`) also work.
+- `SEARCH` (or `TAKE`) a room to pick up loot.
+- `USE <item>`, `EQUIP <item>`, `UNEQUIP <item>`, `INVENTORY`.
+- `SPECIAL` (or `ACTION`) to see a puzzle room's available actions.
+- `CAST <spell>` to cast a known spell outside combat (and solve spell puzzles).
+- `LEVELUP` to spend XP on a stat (Max HP / Attack / Defense / Magic).
+- `STATS`, `MAP`, `HELP`, `SAVE`, `QUIT`.
+
+Combat is turn-based: `Attack`, `Cast Spell`, `Use Item`, or `Run Away`.
+Defeating monsters grants XP and can teach you spells. Dying returns you to the
+hub with your inventory and progress intact.
+
+Puzzle rooms are solved with special actions, the right item, or the right
+spell; solving grants XP and rewards. Accumulated XP is spent manually via
+`LEVELUP`.
+
+## Project layout
+
+```
+billy/
+  src/billy/
+    Main.java            entry point
+    Game.java            main game loop + command routing
+    GameException.java   custom exception
+    model/               domain objects (Player, Room, Monster, Item, Attack, ...)
+    data/                Database, ContentStore (static content), SaveStore (accounts/saves)
+    world/               World + randomized district generation
+    combat/              turn-based CombatEngine
+    ui/                  Console I/O and the login MainMenu
+  resources/*.txt        authored content (rooms, monsters, items, attacks, puzzles, help)
+  legacy/                the original (broken) implementation, preserved for reference
+```
+
+Static content lives in `resources/*.txt` as SQL and is loaded once into memory
+by `ContentStore`. Player state is stored in `save.db` by `SaveStore`.
+
+## Status
+
+Implemented: accounts/login, save/load, the cross-shaped map with randomized
+district arms, movement, loot pickup, consumables, equipment, turn-based combat,
+spell learning, puzzle rooms (action/item/spell), manual level-ups, miniboss
+key drops, and the final boss / win condition.
+
+Still to do: balance tuning.
+
 

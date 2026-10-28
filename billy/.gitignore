@@ -27,3 +27,10 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### Game runtime artifacts ###
+*.db
+out/
+out-test/
+test-lib/
+*.class
