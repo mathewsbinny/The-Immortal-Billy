@@ -196,8 +196,13 @@ public class MainMenu {
                 return null;
             }
             switch (choice.trim()) {
-                case "1":
-                    return playGame(account);
+                case "1": {
+                    Player selected = playGame(account);
+                    if (selected != null) {
+                        return selected;
+                    }
+                    break;
+                }
                 case "2":
                     changePassword(account);
                     break;

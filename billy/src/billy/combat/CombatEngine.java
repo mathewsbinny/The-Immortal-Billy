@@ -62,7 +62,7 @@ public class CombatEngine {
         console.println(monster.getName() + " attacks!");
 
         while (true) {
-            // Player's turn: tick statuses, then act (unless frozen).
+            // Player's turn: tick statuses once, then act (unless frozen).
             boolean playerFrozen = tickStatuses(player, monster, monsterHp, playerStatuses, true);
             if (player.getHp() <= 0) {
                 console.println("You have been defeated...");
@@ -71,42 +71,49 @@ public class CombatEngine {
             if (playerFrozen) {
                 console.println("You are frozen solid and cannot act!");
             } else {
-                status(player, monster, monsterHp[0]);
-                console.println("  1. Attack");
-                console.println("  2. Cast Spell");
-                console.println("  3. Use Item");
-                console.println("  4. Run Away");
-                String choice = console.prompt("Action: ");
-                if (choice == null) {
-                    return Outcome.DEFEAT;
-                }
-                choice = choice.trim();
+                // Keep prompting until the player commits to a valid action, so
+                // cancelled or invalid input never re-ticks status effects.
+                boolean acted = false;
+                while (!acted) {
+                    status(player, monster, monsterHp[0]);
+                    console.println("  1. Attack");
+                    console.println("  2. Cast Spell");
+                    console.println("  3. Use Item");
+                    console.println("  4. Run Away");
+                    String choice = console.prompt("Action: ");
+                    if (choice == null) {
+                        return Outcome.DEFEAT;
+                    }
+                    choice = choice.trim();
 
-                if (choice.equals("1")) {
-                    playerAttack(player, monster, monsterHp, punch, playerStatuses, monsterStatuses);
-                } else if (choice.equals("2")) {
-                    if (spells.isEmpty()) {
-                        console.println("You have no battle spells yet.");
-                        continue;
+                    if (choice.equals("1")) {
+                        playerAttack(player, monster, monsterHp, punch, playerStatuses, monsterStatuses);
+                        acted = true;
+                    } else if (choice.equals("2")) {
+                        if (spells.isEmpty()) {
+                            console.println("You have no battle spells yet.");
+                            continue;
+                        }
+                        Attack spell = chooseSpell(spells, player);
+                        if (spell == null) {
+                            continue;
+                        }
+                        player.spendMp(spell.getMpLevel());
+                        playerAttack(player, monster, monsterHp, spell, playerStatuses, monsterStatuses);
+                        if (spell.getAddHp() > 0) {
+                            player.setHp(Math.min(player.getMaxHp(), player.getHp() + spell.getAddHp()));
+                        }
+                        acted = true;
+                    } else if (choice.equals("3")) {
+                        if (!useItem(player)) {
+                            continue;
+                        }
+                        acted = true;
+                    } else if (choice.equals("4")) {
+                        return Outcome.RAN_AWAY;
+                    } else {
+                        console.println("Choose 1-4.");
                     }
-                    Attack spell = chooseSpell(spells, player);
-                    if (spell == null) {
-                        continue;
-                    }
-                    player.spendMp(spell.getMpLevel());
-                    playerAttack(player, monster, monsterHp, spell, playerStatuses, monsterStatuses);
-                    if (spell.getAddHp() > 0) {
-                        player.setHp(Math.min(player.getMaxHp(), player.getHp() + spell.getAddHp()));
-                    }
-                } else if (choice.equals("3")) {
-                    if (!useItem(player)) {
-                        continue;
-                    }
-                } else if (choice.equals("4")) {
-                    return Outcome.RAN_AWAY;
-                } else {
-                    console.println("Choose 1-4.");
-                    continue;
                 }
 
                 if (monsterHp[0] <= 0) {
@@ -124,7 +131,7 @@ public class CombatEngine {
             if (monsterFrozen) {
                 console.println("The " + monster.getName() + " is frozen solid!");
             } else {
-                monsterTurn(player, monster, monsterHp, playerStatuses);
+                monsterTurn(player, monster, monsterHp, playerStatuses, monsterStatuses);
             }
 
             if (player.getHp() <= 0) {
@@ -303,10 +310,10 @@ public class CombatEngine {
     }
 
     private void monsterTurn(Player player, Monster monster, double[] monsterHp,
-                             Map<Status, Integer> playerStatuses) {
+                             Map<Status, Integer> playerStatuses, Map<Status, Integer> monsterStatuses) {
         MonsterAttack attack = pickMonsterAttack(monster);
         if (attack == null) {
-            basicMonsterAttack(player, monster, playerStatuses);
+            basicMonsterAttack(player, monster, playerStatuses, monsterStatuses);
             return;
         }
 
@@ -330,10 +337,11 @@ public class CombatEngine {
         if (crit) {
             damage *= 2;
         }
-        if (playerStatuses.containsKey(Status.DAZED)) {
+        // Debuffs on the monster weaken the monster's own outgoing damage.
+        if (monsterStatuses.containsKey(Status.DAZED)) {
             damage *= Status.DAZED.getAttackModifier();
         }
-        if (playerStatuses.containsKey(Status.BURN)) {
+        if (monsterStatuses.containsKey(Status.BURN)) {
             damage *= Status.BURN.getAttackModifier();
         }
         damage = Math.max(1, damage);
@@ -343,7 +351,8 @@ public class CombatEngine {
         applyStatusToPlayer(player, monster.getElement(), playerStatuses, crit);
     }
 
-    private void basicMonsterAttack(Player player, Monster monster, Map<Status, Integer> playerStatuses) {
+    private void basicMonsterAttack(Player player, Monster monster,
+                                    Map<Status, Integer> playerStatuses, Map<Status, Integer> monsterStatuses) {
         int roll = random.nextInt(20) + 1;
         if (roll <= MISS_MAX_ROLL) {
             console.println("The " + monster.getName() + " attacks... and misses!");
@@ -353,6 +362,13 @@ public class CombatEngine {
         double damage = Math.max(1, monster.getAp() - player.getDp());
         if (crit) {
             damage *= 2;
+        }
+        // Debuffs on the monster weaken the monster's own outgoing damage.
+        if (monsterStatuses.containsKey(Status.DAZED)) {
+            damage *= Status.DAZED.getAttackModifier();
+        }
+        if (monsterStatuses.containsKey(Status.BURN)) {
+            damage *= Status.BURN.getAttackModifier();
         }
         damage = Math.max(1, damage);
         player.setHp(player.getHp() - damage);

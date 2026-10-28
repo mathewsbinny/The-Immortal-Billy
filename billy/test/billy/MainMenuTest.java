@@ -106,4 +106,15 @@ class MainMenuTest {
         assertNull(menu2.run());
         assertNull(store.loadPlayer(account.getId(), 1));
     }
+
+    @Test
+    void backFromPlayGameReturnsToAccountMenu() throws Exception {
+        SaveStore store = new SaveStore(tempDir.resolve("menu9.db").toString());
+        store.createAccount("testuser", "pass123");
+        // Log in, open Play Game, back out of the slot picker, then re-open and pick slot 1.
+        MainMenu menu = new MainMenu(consoleWith("1\ntestuser\npass123\n1\nback\n1\n1\n"), store);
+        Player player = menu.run();
+        assertNotNull(player);
+        assertEquals("testuser", player.getName());
+    }
 }

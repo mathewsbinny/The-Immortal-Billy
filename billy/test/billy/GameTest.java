@@ -77,4 +77,19 @@ class GameTest {
         Game game = new Game(consoleWith("exit\n"), store, content, player);
         assertFalse(game.run());
     }
+
+    @Test
+    void unequippingHealthGearClampsHpToMax() throws Exception {
+        SaveStore store = new SaveStore(tempDir.resolve("game7.db").toString());
+        Player player = store.newPlayer(1, "tester");
+        // Stone Sword grants +50 max HP; simulate the equipped-and-overhealed state.
+        player.addItem(content.findItemByName("Stone Sword"), true);
+        player.setMaxHp(150);
+        player.setHp(150);
+
+        new Game(consoleWith("unequip stone sword\nquit\n"), store, content, player).run();
+
+        assertEquals(100, player.getMaxHp(), 0.001);
+        assertEquals(100, player.getHp(), 0.001);
+    }
 }

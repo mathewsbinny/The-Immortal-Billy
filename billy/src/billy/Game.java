@@ -589,6 +589,7 @@ public class Game {
                     player.setAp(player.getAp() - otherItem.getAddAp());
                     player.setDp(player.getDp() - otherItem.getAddDp());
                     player.setMaxHp(player.getMaxHp() - otherItem.getAddMaxHp());
+                    player.setHp(Math.min(player.getHp(), player.getMaxHp()));
                     player.setMaxMp(player.getMaxMp() - otherItem.getAddMp());
                     player.setMp(Math.min(player.getMp(), player.getMaxMp()));
                 }
@@ -618,6 +619,7 @@ public class Game {
             player.setAp(player.getAp() - item.getAddAp());
             player.setDp(player.getDp() - item.getAddDp());
             player.setMaxHp(player.getMaxHp() - item.getAddMaxHp());
+            player.setHp(Math.min(player.getHp(), player.getMaxHp()));
             player.setMaxMp(player.getMaxMp() - item.getAddMp());
             player.setMp(Math.min(player.getMp(), player.getMaxMp()));
         }
