@@ -2,6 +2,7 @@ package billy;
 
 import billy.data.ContentStore;
 import billy.data.SaveStore;
+import billy.model.Account;
 import billy.model.Player;
 import billy.ui.Console;
 import billy.ui.MainMenu;
@@ -18,14 +19,25 @@ public class Main {
             ContentStore content = ContentStore.load();
             MainMenu menu = new MainMenu(console, saveStore);
 
-            Player player = menu.run();
-            if (player == null) {
-                console.println("Goodbye!");
-                return;
+            while (true) {
+                Account account = menu.loginOrCreate();
+                if (account == null) {
+                    console.println("Goodbye!");
+                    return;
+                }
+                while (true) {
+                    Player player = menu.accountMenu(account);
+                    if (player == null) {
+                        break;
+                    }
+                    Game game = new Game(console, saveStore, content, player);
+                    boolean returnToMenu = game.run();
+                    if (!returnToMenu) {
+                        console.println("Thanks for playing!");
+                        return;
+                    }
+                }
             }
-
-            new Game(console, saveStore, content, player).run();
-            console.println("Thanks for playing!");
         } catch (GameException e) {
             System.err.println("Error: " + e.getMessage());
         }

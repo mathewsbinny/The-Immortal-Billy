@@ -18,8 +18,17 @@ public class MainMenu {
         this.saveStore = saveStore;
     }
 
-    /** Runs the menu; returns the player to play as, or null to quit. */
+    /** Convenience: logs in (or creates an account) and runs one account-menu session. */
     public Player run() throws GameException {
+        Account account = loginOrCreate();
+        if (account == null) {
+            return null;
+        }
+        return accountMenu(account);
+    }
+
+    /** Shows the login / create / quit menu. Returns the account, or null to quit. */
+    public Account loginOrCreate() throws GameException {
         console.println("=== THE IMMORTAL BILLY ===");
         while (true) {
             console.println();
@@ -34,20 +43,14 @@ public class MainMenu {
                 case "1": {
                     Account account = login();
                     if (account != null) {
-                        Player player = accountMenu(account);
-                        if (player != null) {
-                            return player;
-                        }
+                        return account;
                     }
                     break;
                 }
                 case "2": {
                     Account account = createAccount();
                     if (account != null) {
-                        Player player = accountMenu(account);
-                        if (player != null) {
-                            return player;
-                        }
+                        return account;
                     }
                     break;
                 }
@@ -135,7 +138,7 @@ public class MainMenu {
     }
 
     /** Post-login menu. The game only starts when the player chooses Play Game. */
-    private Player accountMenu(Account account) throws GameException {
+    public Player accountMenu(Account account) throws GameException {
         while (true) {
             console.println();
             console.println("Logged in as " + account.getUsername());

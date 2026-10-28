@@ -64,8 +64,10 @@ powershell -ExecutionPolicy Bypass -File test/playthrough.ps1
 - `SPECIAL` (or `ACTION`) to see a puzzle room's available actions.
 - `CAST <spell>` to cast a known spell outside combat (and solve spell puzzles).
 - `LEVELUP` to spend XP on a stat (Max HP / Attack / Defense / Magic).
-- `STATS`, `MAP`, `HELP`, `QUIT`.
+- `STATS`, `MAP`, `HELP`.
 - `SAVE` to write your progress to a save slot (1-3).
+- `QUIT` to save and return to the main menu.
+- `EXIT` to save and close the game.
 
 Combat is turn-based: `Attack`, `Cast Spell`, `Use Item`, or `Run Away`.
 Spells cost MP. Monster attacks are chosen by their authored probability and can

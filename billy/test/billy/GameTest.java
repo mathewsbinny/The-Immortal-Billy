@@ -15,7 +15,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GameTest {
 
@@ -58,5 +60,21 @@ class GameTest {
         new Game(consoleWith("levelup\n1\nquit\n"), store, content, player).run();
         assertEquals(2, player.getLevel());
         assertEquals(125, player.getMaxHp(), 0.001);
+    }
+
+    @Test
+    void quitReturnsToMenu() throws Exception {
+        SaveStore store = new SaveStore(tempDir.resolve("game5.db").toString());
+        Player player = store.newPlayer(1, "tester");
+        Game game = new Game(consoleWith("quit\n"), store, content, player);
+        assertTrue(game.run());
+    }
+
+    @Test
+    void exitExitsProgram() throws Exception {
+        SaveStore store = new SaveStore(tempDir.resolve("game6.db").toString());
+        Player player = store.newPlayer(1, "tester");
+        Game game = new Game(consoleWith("exit\n"), store, content, player);
+        assertFalse(game.run());
     }
 }

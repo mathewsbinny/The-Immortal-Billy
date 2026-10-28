@@ -37,6 +37,7 @@ public class Game {
     private final Set<Integer> enteredDistricts = new HashSet<>();
     private final long startTimeNanos = System.nanoTime();
     private int previousRoomId;
+    private boolean returnToMenu = false;
 
     public Game(Console console, SaveStore saveStore, ContentStore content, Player player) {
         this(console, saveStore, content, player, new Random());
@@ -54,7 +55,7 @@ public class Game {
         this.previousRoomId = world.getHub().getId();
     }
 
-    public void run() throws GameException {
+    public boolean run() throws GameException {
         console.println();
         console.println("Welcome, " + player.getName() + "! Type HELP for a list of commands.");
         boolean running = true;
@@ -66,13 +67,14 @@ public class Game {
             String input = console.prompt("> ");
             if (input == null) {
                 saveGame();
-                return;
+                return false;
             }
             running = handle(input.trim(), room);
             if (player.getHp() <= 0) {
                 onDefeat();
             }
         }
+        return returnToMenu;
     }
 
     private void describeRoom(Room room) {
@@ -166,8 +168,13 @@ public class Game {
                 doSave();
                 return true;
             case "quit":
-            case "exit":
             case "q":
+            case "menu":
+                saveGame();
+                returnToMenu = true;
+                console.println("Game saved. Returning to the main menu.");
+                return false;
+            case "exit":
                 saveGame();
                 console.println("Game saved. Goodbye!");
                 return false;
@@ -243,7 +250,8 @@ public class Game {
         console.println("  INVENTORY - show carried items");
         console.println("  MAP - show the known layout");
         console.println("  SAVE - save to a save slot (1-3)");
-        console.println("  QUIT - save and exit");
+        console.println("  QUIT - save and return to the main menu");
+        console.println("  EXIT - save and close the game");
     }
 
     private void showStats() {
