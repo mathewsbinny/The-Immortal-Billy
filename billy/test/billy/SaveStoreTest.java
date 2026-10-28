@@ -64,9 +64,9 @@ class SaveStoreTest {
         player.addItem(new Item(26, 12, "Earth Key", "Key", 0, 0, 0, 0, 0, false));
         player.learnAttack(7);
         player.markMonsterDefeated(1);
-        store.savePlayer(player);
+        store.savePlayer(player, 1);
 
-        Player loaded = store.loadPlayer(account.getId());
+        Player loaded = store.loadPlayer(account.getId(), 1);
         assertNotNull(loaded);
         assertEquals("carol", loaded.getName());
         assertEquals(42, loaded.getHp(), 0.001);
@@ -89,7 +89,7 @@ class SaveStoreTest {
     @Test
     void loadMissingSaveReturnsNull() throws Exception {
         SaveStore store = store();
-        assertNull(store.loadPlayer(12345));
+        assertNull(store.loadPlayer(12345, 1));
     }
 
     @Test
@@ -115,9 +115,33 @@ class SaveStoreTest {
         SaveStore store = store();
         Account account = store.createAccount("frank", "pass");
         Player player = store.newPlayer(account.getId(), "frank");
-        store.savePlayer(player);
+        store.savePlayer(player, 1);
         store.deleteAccount(account.getId());
         assertNull(store.authenticate("frank", "pass"));
-        assertNull(store.loadPlayer(account.getId()));
+        assertNull(store.loadPlayer(account.getId(), 1));
+    }
+
+    @Test
+    void threeSaveSlotsAreIndependent() throws Exception {
+        SaveStore store = store();
+        Account account = store.createAccount("gina", "pass");
+
+        Player p1 = store.newPlayer(account.getId(), "gina");
+        p1.setCurrentRoomId(10);
+        store.savePlayer(p1, 1);
+
+        Player p2 = store.newPlayer(account.getId(), "gina");
+        p2.setCurrentRoomId(20);
+        p2.setLevel(5);
+        store.savePlayer(p2, 2);
+
+        Player p3 = store.newPlayer(account.getId(), "gina");
+        p3.setCurrentRoomId(30);
+        store.savePlayer(p3, 3);
+
+        assertEquals(10, store.loadPlayer(account.getId(), 1).getCurrentRoomId());
+        assertEquals(20, store.loadPlayer(account.getId(), 2).getCurrentRoomId());
+        assertEquals(5, store.loadPlayer(account.getId(), 2).getLevel());
+        assertEquals(30, store.loadPlayer(account.getId(), 3).getCurrentRoomId());
     }
 }

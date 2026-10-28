@@ -94,16 +94,44 @@ public class MainMenu {
         return account;
     }
 
-    private Player loadOrCreate(Account account) throws GameException {
-        Player player = saveStore.loadPlayer(account.getId());
-        if (player == null) {
-            player = saveStore.newPlayer(account.getId(), account.getUsername());
-            saveStore.savePlayer(player);
-            console.println("No save found; a new adventure begins.");
-        } else {
-            console.println("Welcome back, " + player.getName() + "!");
+    private Player playGame(Account account) throws GameException {
+        while (true) {
+            console.println();
+            console.println("Choose a save slot:");
+            for (int slot = 1; slot <= 3; slot++) {
+                Player existing = saveStore.loadPlayer(account.getId(), slot);
+                if (existing == null) {
+                    console.println("  " + slot + ". Empty");
+                } else {
+                    console.println("  " + slot + ". " + existing.getName()
+                            + " (Level " + existing.getLevel() + ", Room " + existing.getCurrentRoomId() + ")");
+                }
+            }
+            String choice = console.prompt("Slot (1-3) or BACK: ");
+            if (choice == null || choice.trim().equalsIgnoreCase("back")) {
+                return null;
+            }
+            try {
+                int slot = Integer.parseInt(choice.trim());
+                if (slot < 1 || slot > 3) {
+                    console.println("Choose 1, 2, or 3.");
+                    continue;
+                }
+                Player player = saveStore.loadPlayer(account.getId(), slot);
+                if (player == null) {
+                    player = saveStore.newPlayer(account.getId(), account.getUsername());
+                    player.setSaveSlot(slot);
+                    saveStore.savePlayer(player, slot);
+                    console.println("New adventure started in slot " + slot + ".");
+                } else {
+                    player.setSaveSlot(slot);
+                    console.println("Welcome back, " + player.getName() + "! (slot " + slot + ")");
+                }
+                return player;
+            } catch (NumberFormatException ignored) {
+                console.println("Choose 1, 2, or 3.");
+            }
         }
-        return player;
     }
 
     /** Post-login menu. The game only starts when the player chooses Play Game. */
@@ -121,7 +149,7 @@ public class MainMenu {
             }
             switch (choice.trim()) {
                 case "1":
-                    return loadOrCreate(account);
+                    return playGame(account);
                 case "2":
                     changePassword(account);
                     break;

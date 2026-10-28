@@ -39,7 +39,7 @@ class GameTest {
         SaveStore store = new SaveStore(tempDir.resolve("game.db").toString());
         Player player = store.newPlayer(1, "tester");
         new Game(consoleWith("quit\n"), store, content, player).run();
-        assertNotNull(store.loadPlayer(1));
+        assertNotNull(store.loadPlayer(1, 1));
     }
 
     @Test
@@ -47,7 +47,7 @@ class GameTest {
         SaveStore store = new SaveStore(tempDir.resolve("game2.db").toString());
         Player player = store.newPlayer(1, "tester");
         new Game(consoleWith("gibberish\n\nquit\n"), store, content, player).run();
-        assertNotNull(store.loadPlayer(1));
+        assertNotNull(store.loadPlayer(1, 1));
     }
 
     @Test

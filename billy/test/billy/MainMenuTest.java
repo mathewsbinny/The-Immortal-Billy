@@ -30,7 +30,7 @@ class MainMenuTest {
     @Test
     void createAccountReturnsPlayer() throws Exception {
         SaveStore store = new SaveStore(tempDir.resolve("menu.db").toString());
-        MainMenu menu = new MainMenu(consoleWith("2\ntestuser\npass123\n1\n"), store);
+        MainMenu menu = new MainMenu(consoleWith("2\ntestuser\npass123\n1\n1\n"), store);
         Player player = menu.run();
         assertNotNull(player);
         assertEquals("testuser", player.getName());
@@ -40,7 +40,7 @@ class MainMenuTest {
     void loginReturnsExistingPlayer() throws Exception {
         SaveStore store = new SaveStore(tempDir.resolve("menu2.db").toString());
         store.createAccount("testuser", "pass123");
-        MainMenu menu = new MainMenu(consoleWith("1\ntestuser\npass123\n1\n"), store);
+        MainMenu menu = new MainMenu(consoleWith("1\ntestuser\npass123\n1\n1\n"), store);
         Player player = menu.run();
         assertNotNull(player);
         assertEquals("testuser", player.getName());
@@ -65,7 +65,7 @@ class MainMenuTest {
     void changePasswordFlow() throws Exception {
         SaveStore store = new SaveStore(tempDir.resolve("menu5.db").toString());
         store.createAccount("testuser", "pass123");
-        MainMenu menu = new MainMenu(consoleWith("1\ntestuser\npass123\n2\npass123\nnewpass\n1\n"), store);
+        MainMenu menu = new MainMenu(consoleWith("1\ntestuser\npass123\n2\npass123\nnewpass\n1\n1\n"), store);
         assertNotNull(menu.run());
         assertNull(store.authenticate("testuser", "pass123"));
         assertNotNull(store.authenticate("testuser", "newpass"));

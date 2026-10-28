@@ -11,7 +11,7 @@ and unlock the Throne Room to face a five-phase final boss.
 ## Requirements
 
 - JDK 17+ (tested on JDK 26)
-- The bundled SQLite JDBC driver: `resources/sqlite-jdbc-3.43.0.0.jar`
+- The bundled SQLite JDBC driver: `resources/libraries/sqlite-jdbc-3.43.0.0.jar`
 
 ## Running
 
@@ -19,8 +19,8 @@ Compile and run from the `billy/` directory:
 
 ```powershell
 cd billy
-javac -encoding UTF-8 -cp "resources/sqlite-jdbc-3.43.0.0.jar" -d out (Get-ChildItem -Recurse src -Filter *.java | ForEach-Object { $_.FullName })
-java --enable-native-access=ALL-UNNAMED -cp "out;resources/sqlite-jdbc-3.43.0.0.jar" billy.Main
+javac -encoding UTF-8 -cp "resources/libraries/sqlite-jdbc-3.43.0.0.jar" -d out (Get-ChildItem -Recurse src -Filter *.java | ForEach-Object { $_.FullName })
+java --enable-native-access=ALL-UNNAMED -cp "out;resources/libraries/sqlite-jdbc-3.43.0.0.jar" billy.Main
 ```
 
 > `--enable-native-access=ALL-UNNAMED` only silences a harmless JDK 24+ warning
@@ -28,8 +28,10 @@ java --enable-native-access=ALL-UNNAMED -cp "out;resources/sqlite-jdbc-3.43.0.0.
 
 After logging in you land in an account menu where you can Play Game, change
 your password, or delete your account. Passwords are stored as SHA-256 hashes.
-Progress (inventory, equipment, stats, defeated monsters, room, keys) is
-persisted to `save.db` automatically on `QUIT` or `SAVE`.
+Each account has three save slots, so you can keep three separate playthroughs
+or three snapshots of the same run. Progress (inventory, equipment, stats,
+defeated monsters, room, keys) is persisted to `save.db` automatically on
+`QUIT` or `SAVE`.
 
 ## Testing
 
@@ -62,7 +64,8 @@ powershell -ExecutionPolicy Bypass -File test/playthrough.ps1
 - `SPECIAL` (or `ACTION`) to see a puzzle room's available actions.
 - `CAST <spell>` to cast a known spell outside combat (and solve spell puzzles).
 - `LEVELUP` to spend XP on a stat (Max HP / Attack / Defense / Magic).
-- `STATS`, `MAP`, `HELP`, `SAVE`, `QUIT`.
+- `STATS`, `MAP`, `HELP`, `QUIT`.
+- `SAVE` to write your progress to a save slot (1-3).
 
 Combat is turn-based: `Attack`, `Cast Spell`, `Use Item`, or `Run Away`.
 Spells cost MP. Monster attacks are chosen by their authored probability and can
@@ -99,13 +102,13 @@ by `ContentStore`. Player state is stored in `save.db` by `SaveStore`.
 
 ## Status
 
-Implemented: accounts/login (hashed passwords + account management), save/load,
-the cross-shaped map with randomized district arms (re-randomized per life and
-on re-entry), movement, loot pickup, consumables, equipment, turn-based combat
-with an MP resource and weighted/missable monster attacks, spell learning,
-puzzle rooms (action/item/spell), manual level-ups, miniboss key drops, and a
-five-phase final boss / win condition. A 51-test suite includes a deterministic
-end-to-end playthrough.
+Implemented: accounts/login (hashed passwords + account management), three save
+slots per account, save/load, the cross-shaped map with randomized district arms
+(re-randomized per life and on re-entry), movement, loot pickup, consumables,
+equipment, turn-based combat with an MP resource and weighted/missable monster
+attacks, spell learning, puzzle rooms (action/item/spell), manual level-ups,
+miniboss key drops, and a five-phase final boss / win condition. A 52-test suite
+includes a deterministic end-to-end playthrough.
 
 Balance has had a first tuning pass; further playtesting may suggest more
 adjustments.

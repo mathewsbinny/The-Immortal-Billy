@@ -34,6 +34,7 @@ public class SaveStore {
             st.executeUpdate("CREATE TABLE IF NOT EXISTS saves("
                     + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "account_id INTEGER NOT NULL,"
+                    + "slot INTEGER NOT NULL,"
                     + "player_name TEXT NOT NULL,"
                     + "room_id INTEGER NOT NULL DEFAULT 1,"
                     + "hp REAL NOT NULL,"
@@ -49,7 +50,8 @@ public class SaveStore {
                     + "rooms_visited INTEGER NOT NULL DEFAULT 0,"
                     + "play_time REAL NOT NULL DEFAULT 0,"
                     + "inventory TEXT NOT NULL DEFAULT '',"
-                    + "flags TEXT NOT NULL DEFAULT '')");
+                    + "flags TEXT NOT NULL DEFAULT '',"
+                    + "UNIQUE(account_id, slot))");
         } catch (SQLException e) {
             throw new GameException("Could not initialize save database: " + e.getMessage(), e);
         }
@@ -147,17 +149,19 @@ public class SaveStore {
         return player;
     }
 
-    public Player loadPlayer(int accountId) throws GameException {
-        String sql = "SELECT * FROM saves WHERE account_id = ?";
+    public Player loadPlayer(int accountId, int slot) throws GameException {
+        String sql = "SELECT * FROM saves WHERE account_id = ? AND slot = ?";
         try (Connection conn = Database.connect(dbName);
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, accountId);
+            ps.setInt(2, slot);
             try (ResultSet rs = ps.executeQuery()) {
                 if (!rs.next()) {
                     return null;
                 }
                 Player player = new Player();
                 player.setAccountId(accountId);
+                player.setSaveSlot(slot);
                 player.setName(rs.getString("player_name"));
                 player.setCurrentRoomId(rs.getInt("room_id"));
                 player.setHp(rs.getDouble("hp"));
@@ -181,30 +185,33 @@ public class SaveStore {
         }
     }
 
-    public void savePlayer(Player player) throws GameException {
+    public void savePlayer(Player player, int slot) throws GameException {
         try (Connection conn = Database.connect(dbName)) {
             boolean exists = false;
-            try (PreparedStatement ps = conn.prepareStatement("SELECT id FROM saves WHERE account_id = ?")) {
+            try (PreparedStatement ps = conn.prepareStatement("SELECT id FROM saves WHERE account_id = ? AND slot = ?")) {
                 ps.setInt(1, player.getAccountId());
+                ps.setInt(2, slot);
                 try (ResultSet rs = ps.executeQuery()) {
                     exists = rs.next();
                 }
             }
             if (exists) {
                 String sql = "UPDATE saves SET player_name=?, room_id=?, hp=?, max_hp=?, ap=?, dp=?, mp=?, max_mp=?, xp=?, level=?,"
-                        + " deaths=?, monsters_killed=?, rooms_visited=?, play_time=?, inventory=?, flags=? WHERE account_id=?";
+                        + " deaths=?, monsters_killed=?, rooms_visited=?, play_time=?, inventory=?, flags=? WHERE account_id=? AND slot=?";
                 try (PreparedStatement ps = conn.prepareStatement(sql)) {
                     bindPlayerFields(ps, player, 1);
                     ps.setInt(17, player.getAccountId());
+                    ps.setInt(18, slot);
                     ps.executeUpdate();
                 }
             } else {
-                String sql = "INSERT INTO saves(account_id, player_name, room_id, hp, max_hp, ap, dp, mp, max_mp, xp, level,"
+                String sql = "INSERT INTO saves(account_id, slot, player_name, room_id, hp, max_hp, ap, dp, mp, max_mp, xp, level,"
                         + " deaths, monsters_killed, rooms_visited, play_time, inventory, flags)"
-                        + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                        + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                 try (PreparedStatement ps = conn.prepareStatement(sql)) {
                     ps.setInt(1, player.getAccountId());
-                    bindPlayerFields(ps, player, 2);
+                    ps.setInt(2, slot);
+                    bindPlayerFields(ps, player, 3);
                     ps.executeUpdate();
                 }
             }

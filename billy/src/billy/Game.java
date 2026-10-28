@@ -163,8 +163,7 @@ public class Game {
             case "l":
                 return true;
             case "save":
-                saveGame();
-                console.println("Game saved.");
+                doSave();
                 return true;
             case "quit":
             case "exit":
@@ -243,7 +242,7 @@ public class Game {
         console.println("  STATS - show your character");
         console.println("  INVENTORY - show carried items");
         console.println("  MAP - show the known layout");
-        console.println("  SAVE - save and continue");
+        console.println("  SAVE - save to a save slot (1-3)");
         console.println("  QUIT - save and exit");
     }
 
@@ -328,7 +327,33 @@ public class Game {
         double elapsed = (System.nanoTime() - startTimeNanos) / 1_000_000_000.0;
         player.setPlayTime(player.getPlayTime() + elapsed);
         player.setRoomsVisited(countVisitedRooms());
-        saveStore.savePlayer(player);
+        saveStore.savePlayer(player, player.getSaveSlot());
+    }
+
+    private void doSave() throws GameException {
+        console.println("Save to which slot? (1, 2, or 3; current: " + player.getSaveSlot() + ")");
+        String input = console.prompt("Slot: ");
+        if (input == null) {
+            return;
+        }
+        String choice = input.trim();
+        if (choice.isEmpty()) {
+            saveGame();
+            console.println("Game saved to slot " + player.getSaveSlot() + ".");
+            return;
+        }
+        try {
+            int slot = Integer.parseInt(choice);
+            if (slot < 1 || slot > 3) {
+                console.println("Choose 1, 2, or 3.");
+                return;
+            }
+            player.setSaveSlot(slot);
+            saveGame();
+            console.println("Game saved to slot " + slot + ".");
+        } catch (NumberFormatException ignored) {
+            console.println("Choose 1, 2, or 3.");
+        }
     }
 
     private int countVisitedRooms() {

@@ -34,6 +34,7 @@ public class Player {
     }
 
     private int accountId;
+    private int saveSlot = 1;
     private String name = "Billy";
     private int currentRoomId = 1;
     private double hp = 100;
@@ -58,6 +59,14 @@ public class Player {
 
     public void setAccountId(int accountId) {
         this.accountId = accountId;
+    }
+
+    public int getSaveSlot() {
+        return saveSlot;
+    }
+
+    public void setSaveSlot(int saveSlot) {
+        this.saveSlot = saveSlot;
     }
 
     public String getName() {
