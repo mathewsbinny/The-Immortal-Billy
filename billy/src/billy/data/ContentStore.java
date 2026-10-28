@@ -44,9 +44,9 @@ public class ContentStore {
 
     /** Loads content, resolving the resources directory relative to the working dir. */
     public static ContentStore load() throws GameException {
-        String dir = "resources";
-        if (!new File(dir).isDirectory() && new File("billy/resources").isDirectory()) {
-            dir = "billy/resources";
+        String dir = "resources/content";
+        if (!new File(dir).isDirectory() && new File("billy/resources/content").isDirectory()) {
+            dir = "billy/resources/content";
         }
         return load(dir);
     }

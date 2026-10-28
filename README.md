@@ -95,8 +95,9 @@ billy/
     world/               World + randomized district generation
     combat/              turn-based CombatEngine
     ui/                  Console I/O and the login MainMenu
-  resources/*.txt        authored content (rooms, monsters, items, attacks, puzzles, help)
-  legacy/                the original (broken) implementation, preserved for reference
+  resources/content/*.txt  authored content (rooms, monsters, items, attacks, puzzles, help)
+  resources/libraries/     the SQLite JDBC driver
+  legacy/                  the original (broken) implementation, preserved for reference
 ```
 
 Static content lives in `resources/*.txt` as SQL and is loaded once into memory
