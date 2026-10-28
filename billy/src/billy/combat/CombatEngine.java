@@ -7,12 +7,11 @@ import billy.model.Monster;
 import billy.model.MonsterAttack;
 import billy.model.Player;
 import billy.model.Status;
+import billy.model.StatusTracker;
 import billy.ui.Console;
 
 import java.util.ArrayList;
-import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 /**
@@ -53,8 +52,8 @@ public class CombatEngine {
             punch = new Attack(1, "Punch", "Battle", 0, 1, 0, 20, "You throw a punch.", Element.PHYSICAL);
         }
 
-        Map<Status, Integer> playerStatuses = new EnumMap<>(Status.class);
-        Map<Status, Integer> monsterStatuses = new EnumMap<>(Status.class);
+        StatusTracker playerStatuses = new StatusTracker();
+        StatusTracker monsterStatuses = new StatusTracker();
 
         final double[] monsterHp = {monster.getMaxHp()};
         console.println();
@@ -75,7 +74,7 @@ public class CombatEngine {
                 // cancelled or invalid input never re-ticks status effects.
                 boolean acted = false;
                 while (!acted) {
-                    status(player, monster, monsterHp[0]);
+                    status(player, monster, monsterHp[0], playerStatuses, monsterStatuses);
                     console.println("  1. Attack");
                     console.println("  2. Cast Spell");
                     console.println("  3. Use Item");
@@ -121,6 +120,7 @@ public class CombatEngine {
                     return Outcome.VICTORY;
                 }
             }
+            playerStatuses.expire();
 
             // Monster's turn.
             boolean monsterFrozen = tickStatuses(player, monster, monsterHp, monsterStatuses, false);
@@ -133,6 +133,7 @@ public class CombatEngine {
             } else {
                 monsterTurn(player, monster, monsterHp, playerStatuses, monsterStatuses);
             }
+            monsterStatuses.expire();
 
             if (player.getHp() <= 0) {
                 console.println("You have been defeated...");
@@ -142,7 +143,7 @@ public class CombatEngine {
     }
 
     private void playerAttack(Player player, Monster monster, double[] monsterHp, Attack attack,
-                              Map<Status, Integer> playerStatuses, Map<Status, Integer> monsterStatuses) {
+                              StatusTracker playerStatuses, StatusTracker monsterStatuses) {
         int roll = random.nextInt(20) + 1;
         boolean crit = roll == CRIT_ROLL;
         double multiplier = attack.getElement().multiplierVs(monster.getElement());
@@ -150,12 +151,7 @@ public class CombatEngine {
         if (crit) {
             damage *= 2;
         }
-        if (playerStatuses.containsKey(Status.DAZED)) {
-            damage *= Status.DAZED.getAttackModifier();
-        }
-        if (playerStatuses.containsKey(Status.BURN)) {
-            damage *= Status.BURN.getAttackModifier();
-        }
+        damage *= playerStatuses.damageMultiplier();
         damage = Math.max(1, damage);
         monsterHp[0] -= damage;
 
@@ -173,62 +169,58 @@ public class CombatEngine {
         applyStatusToMonster(monster, attack.getElement(), monsterStatuses, crit);
     }
 
-    private void applyStatusToMonster(Monster monster, Element element, Map<Status, Integer> target, boolean crit) {
+    private void applyStatusToMonster(Monster monster, Element element, StatusTracker target, boolean crit) {
         Status status = element.status();
         if (status == null) {
             return;
         }
         if (crit || random.nextInt(100) < STATUS_CHANCE_PERCENT) {
-            target.put(status, status.getDuration());
+            target.apply(status);
             console.println("The " + monster.getName() + " is " + status.getLabel() + "!");
         }
     }
 
-    private void applyStatusToPlayer(Player player, Element element, Map<Status, Integer> target, boolean crit) {
+    private void applyStatusToPlayer(Player player, Element element, StatusTracker target, boolean crit) {
         Status status = element.status();
         if (status == null) {
             return;
         }
         if (crit || random.nextInt(100) < STATUS_CHANCE_PERCENT) {
-            target.put(status, status.getDuration());
+            target.apply(status);
             console.println("You are " + status.getLabel() + "!");
         }
     }
 
     /**
-     * Applies damage-over-time effects and decrements ailment durations.
-     * Returns true when the entity was frozen at the start of the turn and
-     * must skip it.
+     * Applies damage-over-time effects for the given combatant. Returns true
+     * when the combatant is frozen and must skip its turn. Durations are
+     * decremented separately via {@link StatusTracker#expire()} after the
+     * combatant acts, so a status of duration N is in effect for N turns.
      */
     private boolean tickStatuses(Player player, Monster monster, double[] monsterHp,
-                                 Map<Status, Integer> statuses, boolean isPlayer) {
-        boolean frozen = statuses.containsKey(Status.FROZEN);
+                                 StatusTracker statuses, boolean isPlayer) {
         double maxHp = isPlayer ? player.getMaxHp() : monster.getMaxHp();
-        for (Status dot : new Status[]{Status.POISON, Status.BURN}) {
-            if (statuses.containsKey(dot) && dot.getDamagePerTurn() > 0) {
-                double dmg = maxHp * dot.getDamagePerTurn();
-                if (isPlayer) {
-                    player.setHp(player.getHp() - dmg);
-                    console.println("You take " + fmt(dmg) + " damage from " + dot.name().toLowerCase() + ".");
-                } else {
-                    monsterHp[0] -= dmg;
-                    console.println("The " + monster.getName() + " takes " + fmt(dmg)
-                            + " damage from " + dot.name().toLowerCase() + ".");
-                }
-            }
-        }
-        for (Status status : Status.values()) {
-            Integer turns = statuses.get(status);
-            if (turns == null) {
-                continue;
-            }
-            if (turns <= 1) {
-                statuses.remove(status);
+        if (statuses.has(Status.POISON)) {
+            double dmg = maxHp * Status.POISON.getDamagePerTurn();
+            if (isPlayer) {
+                player.setHp(player.getHp() - dmg);
+                console.println("You take " + fmt(dmg) + " damage from poison.");
             } else {
-                statuses.put(status, turns - 1);
+                monsterHp[0] -= dmg;
+                console.println("The " + monster.getName() + " takes " + fmt(dmg) + " damage from poison.");
             }
         }
-        return frozen;
+        if (statuses.has(Status.BURN)) {
+            double dmg = maxHp * Status.BURN.getDamagePerTurn();
+            if (isPlayer) {
+                player.setHp(player.getHp() - dmg);
+                console.println("You take " + fmt(dmg) + " damage from burning.");
+            } else {
+                monsterHp[0] -= dmg;
+                console.println("The " + monster.getName() + " takes " + fmt(dmg) + " damage from burning.");
+            }
+        }
+        return statuses.isFrozen();
     }
 
     private Attack findAttack(List<Attack> attacks, int id) {
@@ -245,7 +237,7 @@ public class CombatEngine {
         for (int i = 0; i < spells.size(); i++) {
             Attack spell = spells.get(i);
             String note = player.hasMp(spell.getMpLevel()) ? "" : " (needs " + spell.getMpLevel() + " MP)";
-            console.println("  " + (i + 1) + ". " + spell.getName() + note);
+            console.println("  " + (i + 1) + ". " + spell.getName() + spellEffect(spell) + note);
         }
         String input = console.prompt("Spell # (or BACK): ");
         if (input == null || input.equalsIgnoreCase("back")) {
@@ -265,6 +257,29 @@ public class CombatEngine {
         }
         console.println("Invalid spell.");
         return null;
+    }
+
+    /** Concise combat description of a spell's element and expected effect. */
+    private String spellEffect(Attack spell) {
+        StringBuilder effect = new StringBuilder();
+        if (spell.getAddAp() > 0) {
+            if (spell.getElement() != Element.PHYSICAL) {
+                effect.append(" [").append(elementName(spell.getElement())).append("]");
+            }
+            effect.append(" ").append(fmt(spell.getAddAp())).append(" damage");
+        }
+        if (spell.getAddHp() > 0) {
+            if (effect.length() > 0) {
+                effect.append(",");
+            }
+            effect.append(" heals ").append(fmt(spell.getAddHp()));
+        }
+        return effect.toString();
+    }
+
+    private String elementName(Element element) {
+        String name = element.name();
+        return name.charAt(0) + name.substring(1).toLowerCase();
     }
 
     private boolean useItem(Player player) {
@@ -310,7 +325,7 @@ public class CombatEngine {
     }
 
     private void monsterTurn(Player player, Monster monster, double[] monsterHp,
-                             Map<Status, Integer> playerStatuses, Map<Status, Integer> monsterStatuses) {
+                             StatusTracker playerStatuses, StatusTracker monsterStatuses) {
         MonsterAttack attack = pickMonsterAttack(monster);
         if (attack == null) {
             basicMonsterAttack(player, monster, playerStatuses, monsterStatuses);
@@ -338,12 +353,7 @@ public class CombatEngine {
             damage *= 2;
         }
         // Debuffs on the monster weaken the monster's own outgoing damage.
-        if (monsterStatuses.containsKey(Status.DAZED)) {
-            damage *= Status.DAZED.getAttackModifier();
-        }
-        if (monsterStatuses.containsKey(Status.BURN)) {
-            damage *= Status.BURN.getAttackModifier();
-        }
+        damage *= monsterStatuses.damageMultiplier();
         damage = Math.max(1, damage);
         player.setHp(player.getHp() - damage);
         console.println(attack.getDescription() + " (" + fmt(damage) + " damage)"
@@ -352,7 +362,7 @@ public class CombatEngine {
     }
 
     private void basicMonsterAttack(Player player, Monster monster,
-                                    Map<Status, Integer> playerStatuses, Map<Status, Integer> monsterStatuses) {
+                                    StatusTracker playerStatuses, StatusTracker monsterStatuses) {
         int roll = random.nextInt(20) + 1;
         if (roll <= MISS_MAX_ROLL) {
             console.println("The " + monster.getName() + " attacks... and misses!");
@@ -364,12 +374,7 @@ public class CombatEngine {
             damage *= 2;
         }
         // Debuffs on the monster weaken the monster's own outgoing damage.
-        if (monsterStatuses.containsKey(Status.DAZED)) {
-            damage *= Status.DAZED.getAttackModifier();
-        }
-        if (monsterStatuses.containsKey(Status.BURN)) {
-            damage *= Status.BURN.getAttackModifier();
-        }
+        damage *= monsterStatuses.damageMultiplier();
         damage = Math.max(1, damage);
         player.setHp(player.getHp() - damage);
         console.println("The " + monster.getName() + " attacks you for " + fmt(damage) + " damage."
@@ -396,10 +401,24 @@ public class CombatEngine {
         return attacks.get(attacks.size() - 1);
     }
 
-    private void status(Player player, Monster monster, double monsterHp) {
+    private void status(Player player, Monster monster, double monsterHp,
+                        StatusTracker playerStatuses, StatusTracker monsterStatuses) {
         console.println();
         console.println("You: " + fmt(player.getHp()) + "/" + fmt(player.getMaxHp()) + " HP | "
                 + monster.getName() + ": " + fmt(Math.max(0, monsterHp)) + "/" + fmt(monster.getMaxHp()) + " HP");
+        printStatuses("You", playerStatuses);
+        printStatuses(monster.getName(), monsterStatuses);
+    }
+
+    private void printStatuses(String subject, StatusTracker tracker) {
+        String verb = "You".equals(subject) ? " are " : " is ";
+        for (Status status : Status.values()) {
+            int remaining = tracker.remaining(status);
+            if (remaining > 0) {
+                console.println(subject + verb + status.getLabel().toLowerCase()
+                        + " (" + remaining + " turn" + (remaining == 1 ? "" : "s") + " remaining).");
+            }
+        }
     }
 
     private String fmt(double value) {

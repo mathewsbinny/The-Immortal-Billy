@@ -117,7 +117,7 @@ equipment, turn-based combat with an MP resource, elemental rock-paper-scissors,
 d20 critical hits, combat status effects, weighted/missable monster attacks,
 spell learning, puzzle rooms (action/item/spell), manual level-ups, per-slot
 save deletion, miniboss key drops, and a five-phase final boss / win condition.
-A 65-test suite includes a deterministic end-to-end playthrough.
+A 73-test suite includes a deterministic end-to-end playthrough.
 
 Balance has had a first tuning pass; further playtesting may suggest more
 adjustments.
